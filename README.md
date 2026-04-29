@@ -160,31 +160,6 @@ app/
 - **Payments**: GCash/Maya (0962 790 5910) | PayPal/Google Pay (rommeld216@gmail.com)
 - **Socials**: GitHub `Kichiro23`, LinkedIn, Instagram `@drei_sanity`, Facebook, Discord, Telegram
 
-## Master Prompt (For AI Context)
-
-```
-You are working on the Ctrl + Create platform — a premium creative commissions
-and digital solutions website operated by Rommel Andrei De Leon.
-
-KEY FACTS:
-- Solo operator (use "I", never "we")
-- Currency: PHP auto-detected via timezone (1 USD = ₱57)
-- Payments: GCash/Maya (0962 790 5910), PayPal/Google Pay (rommeld216@gmail.com)
-- Chatbot: OpenRouter API (claude-3.5-sonnet), system prompt covers all services
-- Stack: React 19 + TypeScript + Vite frontend, tRPC + Hono + Drizzle + MySQL backend
-- 13 pages, 50+ services, 4 membership tiers, 4 website packages
-- All UI is pill-shaped: navbar rounded-full, cards rounded-3xl, buttons rounded-full
-- Design language: glassmorphism, Apple-level precision, dark/light mode
-
-WHEN MODIFYING CODE:
-1. Maintain "I" language in all user-facing copy
-2. Use existing CSS variable system (var(--text-primary), var(--accent-blue), etc.)
-3. Keep pill-shaped UI conventions consistent
-4. Add PaymentMethods component to any new pricing/service pages
-5. Ensure cross-page links connect relevant sections
-6. Respect the solo-operator brand identity
-7. Test npm run build from app/ before declaring done
-```
 
 ## License
 
