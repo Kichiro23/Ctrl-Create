@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { env } from "../api/lib/env";
+import { env } from "../server/lib/env";
 
 let cached = (global as any).mongoose;
 
