@@ -613,6 +613,8 @@ export const templateCategories = [
   "Academic Commissions",
 ] as const;
 
+export type TemplateCategoryFilter = typeof templateCategories[number];
+
 export const websiteSubcategories = [
   "All",
   "POS & Retail",

@@ -7,7 +7,7 @@ import CurrencyToggle from "@/components/CurrencyToggle";
 import {
   Check, ChevronDown, Globe, Code, Palette, PenTool,
   Crown, Zap, ShieldCheck, ArrowRight, Layers, Video, Megaphone, BookOpen, MonitorSmartphone,
-  GraduationCap, FileText, Sparkles,
+  GraduationCap,
 } from "lucide-react";
 
 function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {

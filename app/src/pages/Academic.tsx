@@ -14,8 +14,7 @@ import {
   Code,
   Smartphone,
   Database,
-  Clock,
-  ShieldCheck,
+
   Send,
   Sparkles,
   Type,

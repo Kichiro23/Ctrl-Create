@@ -16,7 +16,7 @@ import {
   Package,
   Users,
   ShoppingBag,
-  ChevronDown,
+
 } from "lucide-react";
 
 type Tab = "messages" | "memberships" | "orders";
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody>
                       {messages.map((msg) => (
-                        <tr key={msg.id} className="border-b transition-colors" style={{ borderColor: "var(--border-subtle)" }}>
+                        <tr key={msg._id} className="border-b transition-colors" style={{ borderColor: "var(--border-subtle)" }}>
                           <td className="px-4 py-3">
                             {msg.readStatus === "unread" ? (
                               <span className="flex items-center gap-1 text-xs font-medium" style={{ color: "var(--error)" }}><Mail size={14} /> Unread</span>
@@ -237,7 +237,7 @@ export default function AdminDashboard() {
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-1">
                               <button
-                                onClick={() => updateMessageStatus.mutate({ id: msg.id, readStatus: msg.readStatus === "unread" ? "read" : "unread" })}
+                                onClick={() => updateMessageStatus.mutate({ id: msg._id, readStatus: msg.readStatus === "unread" ? "read" : "unread" })}
                                 className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-[var(--bg-surface-solid)]"
                                 style={{ color: "var(--text-secondary)" }}
                                 title={msg.readStatus === "unread" ? "Mark as read" : "Mark as unread"}
@@ -245,7 +245,7 @@ export default function AdminDashboard() {
                                 {msg.readStatus === "unread" ? <Eye size={14} /> : <EyeOff size={14} />}
                               </button>
                               <button
-                                onClick={() => { if (confirm("Delete this message?")) deleteMessage.mutate({ id: msg.id }); }}
+                                onClick={() => { if (confirm("Delete this message?")) deleteMessage.mutate({ id: msg._id }); }}
                                 className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-red-50"
                                 style={{ color: "var(--error)" }}
                                 title="Delete"
@@ -305,7 +305,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody>
                       {memberships.map((m) => (
-                        <tr key={m.id} className="border-b transition-colors" style={{ borderColor: "var(--border-subtle)" }}>
+                        <tr key={m._id} className="border-b transition-colors" style={{ borderColor: "var(--border-subtle)" }}>
                           <td className="px-4 py-3">
                             <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${
                               m.status === "active" ? "bg-green-100 text-green-700" :
@@ -324,7 +324,7 @@ export default function AdminDashboard() {
                             <div className="flex items-center gap-1">
                               <select
                                 value={m.status}
-                                onChange={(e) => updateMembershipStatus.mutate({ id: m.id, status: e.target.value as any })}
+                                onChange={(e) => updateMembershipStatus.mutate({ id: m._id, status: e.target.value as any })}
                                 className="rounded-lg border px-2 py-1 text-xs"
                                 style={{ borderColor: "var(--border-subtle)", color: "var(--text-primary)", background: "var(--bg-surface-solid)" }}
                               >
@@ -334,7 +334,7 @@ export default function AdminDashboard() {
                                 <option value="cancelled">Cancelled</option>
                               </select>
                               <button
-                                onClick={() => { if (confirm("Delete this membership?")) deleteMembership.mutate({ id: m.id }); }}
+                                onClick={() => { if (confirm("Delete this membership?")) deleteMembership.mutate({ id: m._id }); }}
                                 className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-red-50"
                                 style={{ color: "var(--error)" }}
                                 title="Delete"
@@ -395,7 +395,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody>
                       {orders.map((o) => (
-                        <tr key={o.id} className="border-b transition-colors" style={{ borderColor: "var(--border-subtle)" }}>
+                        <tr key={o._id} className="border-b transition-colors" style={{ borderColor: "var(--border-subtle)" }}>
                           <td className="px-4 py-3">
                             <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${
                               o.status === "paid" || o.status === "fulfilled" ? "bg-green-100 text-green-700" :
@@ -414,7 +414,7 @@ export default function AdminDashboard() {
                             <div className="flex items-center gap-1">
                               <select
                                 value={o.status}
-                                onChange={(e) => updateOrderStatus.mutate({ id: o.id, status: e.target.value as any })}
+                                onChange={(e) => updateOrderStatus.mutate({ id: o._id, status: e.target.value as any })}
                                 className="rounded-lg border px-2 py-1 text-xs"
                                 style={{ borderColor: "var(--border-subtle)", color: "var(--text-primary)", background: "var(--bg-surface-solid)" }}
                               >
@@ -424,7 +424,7 @@ export default function AdminDashboard() {
                                 <option value="cancelled">Cancelled</option>
                               </select>
                               <button
-                                onClick={() => { if (confirm("Delete this order?")) deleteOrder.mutate({ id: o.id }); }}
+                                onClick={() => { if (confirm("Delete this order?")) deleteOrder.mutate({ id: o._id }); }}
                                 className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-red-50"
                                 style={{ color: "var(--error)" }}
                                 title="Delete"

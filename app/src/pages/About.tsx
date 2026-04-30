@@ -4,7 +4,6 @@ import {
   Code, Database, Cloud, Shield, Palette, Wrench, Briefcase, GraduationCap, Award,
   MapPin, Mail, Phone, Clock, Globe, Cpu, Layers, Zap, CheckCircle2, ExternalLink,
   Linkedin, Instagram, Facebook, Github, MessageCircle, Send, BookOpen, PenTool, Presentation,
-  ShoppingCart, FileText, Sparkles, Megaphone, Car,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
 

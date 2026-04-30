@@ -90,7 +90,7 @@ export default function Portfolio() {
     ...templateProjects,
     ...academicProjects,
     ...confidentialProjects,
-    ...(dbProjects || []),
+    ...(dbProjects || []).map((p) => ({ ...p, id: p._id, link: p.link || undefined })),
   ];
 
   const filtered = activeCategory === "All"
@@ -169,7 +169,7 @@ export default function Portfolio() {
                   >
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <img
-                        src={project.imageUrl || `/portfolio-${(project.id % 8) + 1}.jpg`}
+                        src={project.imageUrl || `/images/portfolio/portfolio-${(typeof project.id === 'number' ? project.id : 1) % 8 + 1}.jpg`}
                         alt={project.title}
                         className={`h-full w-full object-cover transition-transform duration-500 ${project.category === "Confidential" ? "scale-100 blur-sm" : "group-hover:scale-105"}`}
                         loading="lazy"
@@ -198,10 +198,10 @@ export default function Portfolio() {
                           </div>
                         </div>
                       )}
-                      {project.link && project.category !== "Confidential" && (
+                      {(project as any).link && project.category !== "Confidential" && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40 max-md:bg-black/40">
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-md:opacity-100">
-                            <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black max-md:text-xs max-md:px-3 max-md:py-1.5">
+                            <a href={(project as any).link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black max-md:text-xs max-md:px-3 max-md:py-1.5">
                               Visit Site <ExternalLink size={14} />
                             </a>
                           </div>

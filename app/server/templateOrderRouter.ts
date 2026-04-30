@@ -31,7 +31,7 @@ export const templateOrderRouter = createRouter({
   updateStatus: adminQuery
     .input(
       z.object({
-        id: z.number(),
+        id: z.union([z.string(), z.number()]),
         status: z.enum(["pending", "paid", "fulfilled", "cancelled"]),
       }),
     )
@@ -41,7 +41,7 @@ export const templateOrderRouter = createRouter({
     }),
 
   delete: adminQuery
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.union([z.string(), z.number()]) }))
     .mutation(async ({ input }) => {
       await deleteTemplateOrder(input.id);
       return { success: true };

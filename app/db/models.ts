@@ -80,9 +80,9 @@ export const ChatMessage = mongoose.models.ChatMessage || mongoose.model("ChatMe
 export const Membership = mongoose.models.Membership || mongoose.model("Membership", membershipSchema);
 export const TemplateOrder = mongoose.models.TemplateOrder || mongoose.model("TemplateOrder", templateOrderSchema);
 
-export type IUser = mongoose.InferSchemaType<typeof userSchema>;
-export type IMessage = mongoose.InferSchemaType<typeof messageSchema>;
-export type IProject = mongoose.InferSchemaType<typeof projectSchema>;
-export type IChatMessage = mongoose.InferSchemaType<typeof chatMessageSchema>;
-export type IMembership = mongoose.InferSchemaType<typeof membershipSchema>;
-export type ITemplateOrder = mongoose.InferSchemaType<typeof templateOrderSchema>;
+export type IUser = mongoose.InferSchemaType<typeof userSchema> & { _id: string };
+export type IMessage = mongoose.InferSchemaType<typeof messageSchema> & { _id: string };
+export type IProject = mongoose.InferSchemaType<typeof projectSchema> & { _id: string };
+export type IChatMessage = mongoose.InferSchemaType<typeof chatMessageSchema> & { _id: string };
+export type IMembership = mongoose.InferSchemaType<typeof membershipSchema> & { _id: string };
+export type ITemplateOrder = mongoose.InferSchemaType<typeof templateOrderSchema> & { _id: string };

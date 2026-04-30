@@ -46,7 +46,7 @@ export const messageRouter = createRouter({
   updateStatus: adminQuery
     .input(
       z.object({
-        id: z.number(),
+        id: z.union([z.string(), z.number()]),
         readStatus: z.enum(["read", "unread"]),
       }),
     )
@@ -56,7 +56,7 @@ export const messageRouter = createRouter({
     }),
 
   delete: adminQuery
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.union([z.string(), z.number()]) }))
     .mutation(async ({ input }) => {
       await deleteMessage(input.id);
       return { success: true };

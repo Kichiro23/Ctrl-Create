@@ -54,7 +54,7 @@ export default function SearchBar({ placeholder = "Search...", value, onChange, 
 export function useDebouncedSearch<T>(items: T[], searchFn: (item: T, query: string) => boolean, delay = 300) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<T[]>(items);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);

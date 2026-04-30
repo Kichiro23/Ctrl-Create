@@ -30,7 +30,7 @@ export const membershipRouter = createRouter({
   updateStatus: adminQuery
     .input(
       z.object({
-        id: z.number(),
+        id: z.union([z.string(), z.number()]),
         status: z.enum(["pending", "active", "expired", "cancelled"]),
       }),
     )
@@ -40,7 +40,7 @@ export const membershipRouter = createRouter({
     }),
 
   delete: adminQuery
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.union([z.string(), z.number()]) }))
     .mutation(async ({ input }) => {
       await deleteMembership(input.id);
       return { success: true };

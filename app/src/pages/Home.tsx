@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
-import { trpc } from "@/providers/trpc";
 import { useCurrency } from "@/hooks/useCurrency";
 import PaymentTooltip from "@/components/PaymentTooltip";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -10,15 +9,8 @@ import {
   Check,
   ArrowRight,
   Clock,
-  Smartphone,
   Calendar,
-  MessageCircle,
-  Search,
-  PenTool,
-  Hammer,
-  Rocket,
   MonitorSmartphone,
-  Image,
   Mic,
   TrendingUp,
   Crown,
@@ -26,15 +18,8 @@ import {
   GraduationCap,
   Clapperboard,
   Palette,
-  ExternalLink,
   ShieldCheck,
-  Zap,
-  Globe,
   Layers,
-  Code,
-  Database,
-  Briefcase,
-  Users,
   Building2,
   Star,
 } from "lucide-react";
@@ -85,7 +70,6 @@ function CountUp({ end, suffix = "" }: { end: number; suffix?: string }) {
 
   useEffect(() => {
     if (!isInView) return;
-    let start = 0;
     const duration = 1500;
     const startTime = performance.now();
     const animate = (now: number) => {
@@ -106,43 +90,6 @@ const services = [
   { icon: Palette, name: "Graphic Design", description: "Branding, logos, UI/UX, marketing collateral, and visual identities.", color: "#AF52DE", link: "/services" },
   { icon: Mic, name: "Voice Overs", description: "Clear, professional narration for explainers, commercials, and academic content.", color: "#34C759", link: "/services" },
   { icon: TrendingUp, name: "Social Media Growth", description: "Authentic audience building, content strategy, and paid advertising.", color: "#FF2D55", link: "/services" },
-];
-
-const packages = [
-  {
-    name: "Basic",
-    pricePHP: 8500,
-    priceUSD: 147,
-    timeline: "7–10 days",
-    description: "Essential Online Presence",
-    features: ["Single page with 4 sections", "Mobile-responsive design", "Basic SEO setup", "1 major revision", "3 minor revisions"],
-    popular: false,
-  },
-  {
-    name: "Standard",
-    pricePHP: 14200,
-    priceUSD: 245,
-    timeline: "10–15 days",
-    description: "Professional Polish",
-    features: ["Everything in Basic", "Custom layouts & animations", "Contact form integration", "Google Analytics", "2 major revisions", "5 minor revisions"],
-    popular: true,
-  },
-  {
-    name: "Premium",
-    pricePHP: 39800,
-    priceUSD: 686,
-    timeline: "40–60 days",
-    description: "Complete Digital Solution",
-    features: ["Everything in Standard", "Brand color & typography system", "Backend / Booking / Ecommerce", "CMS integration", "Unlimited revisions", "Priority support"],
-    popular: false,
-  },
-];
-
-const processSteps = [
-  { number: "01", title: "Discovery & Planning", description: "I learn your business, audience, and goals. A short kick-off call and concise brief.", icon: Search },
-  { number: "02", title: "Design & Direction", description: "I craft the layout, palette, and visual identity. You approve before any code is written.", icon: PenTool },
-  { number: "03", title: "Development", description: "Clean, hand-written code. Fast, responsive, SEO-ready. Every revision included.", icon: Hammer },
-  { number: "04", title: "Launch & Support", description: "I deploy, hand over credentials, and stay available post-launch.", icon: Rocket },
 ];
 
 const stats = [
@@ -217,8 +164,6 @@ function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: numb
 }
 
 export default function Home() {
-  const { data: featuredProjects } = trpc.project.featured.useQuery();
-
   const featuredWebsiteTemplates = websiteTemplates.slice(0, 4);
   const featuredAcademicTemplates = academicTemplates.slice(0, 4);
 
