@@ -402,7 +402,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PriceDisplay pricePHP={16999} priceUSD={293} />
+                  <PriceDisplay pricePHP={9500} priceUSD={164} />
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>Gold Tier · 3 months · up to 8% off</p>
                 </div>
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">
@@ -429,7 +429,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PriceDisplay pricePHP={4999} priceUSD={86} />
+                  <PriceDisplay pricePHP={3200} priceUSD={55} />
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>Dean&apos;s Lister · Monthly · up to 10% off</p>
                 </div>
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">

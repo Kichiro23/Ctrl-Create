@@ -7,13 +7,13 @@ import {
 
 const FALLBACK_RESPONSES = [
   "I'm happy to help! Could you share more details about what you need?",
-  "Great question! I offer website development starting at ₱8,500, academic writing from ₱3,500 per chapter, and video editing. What are you looking for?",
+  "Great question! I offer website development starting at ₱7,500, academic writing from ₱4,500 per chapter, and video editing. What are you looking for?",
   "Thanks for reaching out! I typically respond to detailed inquiries within 24 hours. You can also use the contact form for a faster quote.",
   "I'd love to assist with that. For the fastest response, try the contact form at /contact with your project details.",
-  "For pricing, website packages start at ₱8,500 (Starter), ₱14,200 (Business), and ₱28,500 (Pro). Academic chapters are ₱3,500 each. Want a custom quote?",
-  "I can build your capstone system with full documentation! Packages start at ₱18,000 including the web app, ERD, user manual, and defense slides.",
-  "Need thesis help? I cover all chapters (1–5), SPSS analysis, defense PPT, and Turnitin reports. Full thesis package is ₱15,000.",
-  "Memberships are great for ongoing work! Website memberships start at ₱3,999/month. Academic memberships start at ₱2,499/month with discounts on every service.",
+  "For pricing, website packages start at ₱7,500 (Starter), ₱18,000 (Business), and ₱35,000 (Pro). Academic chapters are ₱4,500 each. Want a custom quote?",
+  "I can build your capstone system with full documentation! Packages start at ₱15,000 including the web app, ERD, user manual, and defense slides.",
+  "Need thesis help? I cover all chapters (1–5), SPSS analysis, defense PPT, and Turnitin reports. Full thesis package is ₱18,000.",
+  "Memberships are great for ongoing work! Website memberships start at ₱2,500/month. Academic memberships start at ₱1,800/month with discounts on every service.",
   "I accept GCash, Maya, PayPal, and Google Pay. All payments are secured and I provide official receipts for every transaction.",
   "Rush delivery is available for most services! Just let me know your deadline and I'll check my schedule.",
   "For a free consultation, email me at rommeld216@gmail.com or use the contact form. I reply within 1–2 hours during business hours.",

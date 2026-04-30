@@ -131,9 +131,9 @@ const devServices = [
 const pricingTiers = [
   {
     name: "Academic Package",
-    pricePHP: 4000,
-    priceUSD: 69,
-    originalPricePHP: 5000,
+    pricePHP: 6500,
+    priceUSD: 112,
+    originalPricePHP: 8500,
     timeline: "7–10 business days",
     features: [
       "Up to 5 pages",
@@ -147,9 +147,9 @@ const pricingTiers = [
   },
   {
     name: "Thesis Chapter",
-    pricePHP: 2500,
-    priceUSD: 43,
-    originalPricePHP: 3500,
+    pricePHP: 4500,
+    priceUSD: 78,
+    originalPricePHP: 6000,
     timeline: "3–5 days per chapter",
     features: [
       "Single chapter (Ch 1–5)",
@@ -162,9 +162,9 @@ const pricingTiers = [
   },
   {
     name: "Full Thesis",
-    pricePHP: 12000,
-    priceUSD: 207,
-    originalPricePHP: 15000,
+    pricePHP: 18000,
+    priceUSD: 310,
+    originalPricePHP: 25000,
     timeline: "2–4 weeks",
     features: [
       "Chapters 1–5 complete",
@@ -178,9 +178,9 @@ const pricingTiers = [
   },
   {
     name: "SPSS / Data Analysis",
-    pricePHP: 2500,
-    priceUSD: 43,
-    originalPricePHP: 3500,
+    pricePHP: 4500,
+    priceUSD: 78,
+    originalPricePHP: 6000,
     timeline: "2–3 days",
     features: [
       "Descriptive & inferential stats",
@@ -193,9 +193,9 @@ const pricingTiers = [
   },
   {
     name: "Defense PPT + Script",
-    pricePHP: 1800,
-    priceUSD: 31,
-    originalPricePHP: 2500,
+    pricePHP: 3500,
+    priceUSD: 60,
+    originalPricePHP: 5000,
     timeline: "1–2 days",
     features: [
       "Professional academic template",
@@ -208,9 +208,9 @@ const pricingTiers = [
   },
   {
     name: "Research Paper",
-    pricePHP: 4000,
-    priceUSD: 69,
-    originalPricePHP: 5500,
+    pricePHP: 6500,
+    priceUSD: 112,
+    originalPricePHP: 9000,
     timeline: "5–7 days",
     features: [
       "Full research paper (5–10 pages)",
@@ -481,8 +481,8 @@ export default function Academic() {
             <div className="glass-card mx-auto max-w-2xl rounded-3xl p-6 text-center">
               <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Additional Charges</p>
               <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-sm" style={{ color: "var(--text-secondary)" }}>
-                <span>Per Module: <strong>₱700</strong></span>
-                <span>Per Minor Revision: <strong>₱200</strong></span>
+                <span>Per Module: <strong>₱500</strong></span>
+                <span>Per Minor Revision: <strong>₱150</strong></span>
                 <span>Rush Delivery: DM for quote</span>
               </div>
             </div>

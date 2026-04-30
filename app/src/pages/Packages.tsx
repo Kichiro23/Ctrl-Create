@@ -212,21 +212,21 @@ const academicPackages: Package[] = [
 ];
 
 const addonPackages = [
-  { name: "Logo Design", priceUSD: 52, pricePHP: 3000, icon: Palette, description: "Unique logo with brand guidelines" },
-  { name: "Branding Kit", priceUSD: 78, pricePHP: 4500, icon: Layers, description: "Color palette, typography, business cards, social templates" },
-  { name: "Promo Video", priceUSD: 95, pricePHP: 5500, icon: Video, description: "60-second promotional video with motion graphics" },
-  { name: "Social Media Pack", priceUSD: 43, pricePHP: 2500, icon: Megaphone, description: "30 posts + stories for Instagram/Facebook" },
-  { name: "SEO Package", priceUSD: 103, pricePHP: 6000, icon: Globe, description: "Keyword research, on-page SEO, monthly report (3 months)" },
-  { name: "Content Writing", priceUSD: 26, pricePHP: 1500, icon: PenTool, description: "Professional web copy per page" },
-  { name: "Academic System", priceUSD: 242, pricePHP: 14000, icon: BookOpen, description: "Capstone defense system with defense-ready documentation" },
-  { name: "Mobile App (PWA)", priceUSD: 155, pricePHP: 8999, icon: MonitorSmartphone, description: "Progressive Web App with offline support" },
+  { name: "Logo Design", priceUSD: 43, pricePHP: 2500, icon: Palette, description: "Unique logo with brand guidelines" },
+  { name: "Branding Kit", priceUSD: 60, pricePHP: 3500, icon: Layers, description: "Color palette, typography, business cards, social templates" },
+  { name: "Promo Video", priceUSD: 78, pricePHP: 4500, icon: Video, description: "60-second promotional video with motion graphics" },
+  { name: "Social Media Pack", priceUSD: 34, pricePHP: 2000, icon: Megaphone, description: "30 posts + stories for Instagram/Facebook" },
+  { name: "SEO Package", priceUSD: 86, pricePHP: 5000, icon: Globe, description: "Keyword research, on-page SEO, monthly report (3 months)" },
+  { name: "Content Writing", priceUSD: 21, pricePHP: 1200, icon: PenTool, description: "Professional web copy per page" },
+  { name: "Academic System", priceUSD: 207, pricePHP: 12000, icon: BookOpen, description: "Capstone defense system with defense-ready documentation" },
+  { name: "Mobile App (PWA)", priceUSD: 129, pricePHP: 7500, icon: MonitorSmartphone, description: "Progressive Web App with offline support" },
 ];
 
 const membershipTiers = [
-  { name: "Bronze", pricePHP: 2999, priceUSD: 52, duration: "1 month", discount: "5%", color: "#C9A96E", icon: ShieldCheck, features: ["Discount on every service", "Free consultation call", "Monthly check-in", "1 revision per project", "Free social media banner"] },
-  { name: "Silver", pricePHP: 5999, priceUSD: 103, duration: "2 months", discount: "6%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "Priority queue", "2 free social media posts", "Extended revision scope", "Free basic SEO audit"] },
-  { name: "Gold", pricePHP: 12999, priceUSD: 224, duration: "3 months", discount: "8%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance", "Free Google Business setup"] },
-  { name: "Diamond", pricePHP: 22500, priceUSD: 388, duration: "4 months", discount: "10%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "Full brand development", "Unlimited consultations", "3 months maintenance", "Exclusive perks & first access", "Free logo design"] },
+  { name: "Bronze", pricePHP: 2500, priceUSD: 43, duration: "1 month", discount: "5%", color: "#C9A96E", icon: ShieldCheck, features: ["Discount on every service", "Free consultation call", "Monthly check-in", "1 revision per project", "Free social media banner"] },
+  { name: "Silver", pricePHP: 4500, priceUSD: 78, duration: "2 months", discount: "6%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "Priority queue", "2 free social media posts", "Extended revision scope", "Free basic SEO audit"] },
+  { name: "Gold", pricePHP: 9500, priceUSD: 164, duration: "3 months", discount: "8%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance", "Free Google Business setup"] },
+  { name: "Diamond", pricePHP: 16000, priceUSD: 276, duration: "4 months", discount: "10%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "Full brand development", "Unlimited consultations", "3 months maintenance", "Exclusive perks & first access", "Free logo design"] },
 ];
 
 export default function Packages() {
