@@ -175,6 +175,10 @@ export default function Templates() {
         </div>
       </section>
 
+      <p className="mx-auto mb-2 max-w-xl text-center text-xs" style={{ color: "var(--text-muted)" }}>
+        Prices shown are starting rates. Final cost may increase based on customization, integrations, and specific requirements.
+      </p>
+
       {/* Templates Grid */}
       <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">

@@ -307,6 +307,9 @@ export default function Packages() {
             <h2>{activeTab === "website" ? "Website Commission Packages" : "Academic Support Memberships"}</h2>
             <p>{activeTab === "website" ? "Choose the scope that fits your business or academic needs." : "Consistent academic help with monthly allowances and discounts."}</p>
           </div>
+          <p className="mx-auto mb-8 max-w-xl text-center text-xs" style={{ color: "var(--text-muted)" }}>
+            Prices shown are starting rates. Final cost may increase based on project scope and specific requirements.
+          </p>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {currentPackages.map((pkg) => (

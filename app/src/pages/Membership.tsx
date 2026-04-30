@@ -353,6 +353,9 @@ export default function Membership() {
               </button>
             </div>
           </AnimatedSection>
+          <p className="mx-auto mb-6 max-w-xl text-center text-xs" style={{ color: "var(--text-muted)" }}>
+            Prices shown are starting rates. Final cost may increase based on add-ons, complexity, and specific requirements.
+          </p>
 
           {/* Tier Selector */}
           <AnimatedSection className="mb-8">

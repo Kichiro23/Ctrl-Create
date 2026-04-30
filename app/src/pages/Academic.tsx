@@ -438,6 +438,9 @@ export default function Academic() {
             <h2>Student-Friendly Rates</h2>
             <p>Competitive pricing with flexible payment options. GCash, Maya, PayPal, and Bank Transfer accepted.</p>
           </AnimatedSection>
+          <p className="mx-auto mb-10 max-w-xl text-center text-xs" style={{ color: "var(--text-muted)" }}>
+            Prices shown are starting rates. Final cost may increase based on word count, complexity, urgency, and specific requirements.
+          </p>
 
           <StaggerContainer className="grid gap-6 md:grid-cols-3">
             {pricingTiers.map((pkg) => (
