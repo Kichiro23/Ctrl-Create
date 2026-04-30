@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+﻿import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 
@@ -22,8 +22,8 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <SEO
-        title="Login | Ctrl + Create"
-        description="Admin login for Ctrl + Create."
+        title="Login | Cylux Code"
+        description="Admin login for Cylux Code."
         pathname="/login"
         noindex
       />

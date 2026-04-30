@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+﻿import { useState, useRef } from "react";
 import { Link } from "react-router";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
@@ -238,7 +238,7 @@ const academicTiers: Tier[] = [
 ];
 
 const membershipActions = [
-  { icon: ClipboardList, title: "Apply for Membership", description: "Create a new Ctrl + Create membership" },
+  { icon: ClipboardList, title: "Apply for Membership", description: "Create a new Cylux Code membership" },
   { icon: UserPlus, title: "Add a Supplementary", description: "Add a loved one to existing membership" },
   { icon: RefreshCw, title: "Renew Membership", description: "Extend your membership and continue growing" },
   { icon: CreditCard, title: "I Have Pre-Registered", description: "Complete your membership application process" },
@@ -295,8 +295,8 @@ export default function Membership() {
   return (
     <div>
       <SEO
-        title="Membership Tiers | Bronze Silver Gold Diamond | Ctrl + Create"
-        description="Join Ctrl + Create membership for exclusive discounts, priority support, free consultations, and monthly creative services. Website Building and Academic Support programs."
+        title="Membership Tiers | Bronze Silver Gold Diamond | Cylux Code"
+        description="Join Cylux Code membership for exclusive discounts, priority support, free consultations, and monthly creative services. Website Building and Academic Support programs."
         pathname="/membership"
         keywords="web design membership Philippines, creative agency membership, academic support subscription, freelance developer retainer"
       />
@@ -472,7 +472,7 @@ export default function Membership() {
             <div className="glass-card rounded-3xl p-8 text-center md:p-10">
               <CreditCard size={32} className="mx-auto" style={{ color: "var(--accent-blue)" }} />
               <h3 className="mt-4 text-xl font-bold" style={{ color: "var(--text-primary)" }}>
-                Apply for a Ctrl + Create Membership Card
+                Apply for a Cylux Code Membership Card
               </h3>
               <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 Powered by Partner Banks — No annual fees

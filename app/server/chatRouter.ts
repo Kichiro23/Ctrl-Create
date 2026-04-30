@@ -1,9 +1,9 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 import { createRouter, publicQuery } from "./middleware";
 import { connectDb } from "./queries/connection";
 import { ChatMessage } from "../db/models";
 
-const SYSTEM_PROMPT = `You are the Ctrl + Create assistant — a knowledgeable, friendly AI for a one-man creative studio based in the Philippines. Help visitors with questions about services, pricing, thesis help, web development, and commissions.
+const SYSTEM_PROMPT = `You are the Cylux Code assistant — a knowledgeable, friendly AI for a one-man creative studio based in the Philippines. Help visitors with questions about services, pricing, thesis help, web development, and commissions.
 
 Key service details:
 - Website Commissions: ₱6,500 Starter · ₱11,500 Business · ₱22,500 Pro · ₱32,500 Enterprise
@@ -86,7 +86,7 @@ export const chatRouter = createRouter({
               "Content-Type": "application/json",
               Authorization: `Bearer ${apiKey}`,
               "HTTP-Referer": process.env.VITE_APP_URL || "https://ctrl-create-srvcs.vercel.app",
-              "X-Title": "Ctrl + Create Assistant",
+              "X-Title": "Cylux Code Assistant",
             },
             body: JSON.stringify({
               model,

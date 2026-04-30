@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+﻿import { Link } from "react-router";
 import { FileText, Mail, ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -6,8 +6,8 @@ export default function TermsOfService() {
   return (
     <div className="px-4 pb-12 pt-28 md:px-6 lg:px-8">
       <SEO
-        title="Terms of Service | Ctrl + Create"
-        description="Terms of service for Ctrl + Create. Agreement for using our website, services, and commissions."
+        title="Terms of Service | Cylux Code"
+        description="Terms of service for Cylux Code. Agreement for using our website, services, and commissions."
         pathname="/terms-of-service"
       />
       <div className="mx-auto max-w-[800px]">
@@ -27,14 +27,14 @@ export default function TermsOfService() {
           <section className="glass-card rounded-3xl p-6 md:p-8">
             <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>1. Acceptance of Terms</h2>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              By accessing or using Ctrl + Create services, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
+              By accessing or using Cylux Code services, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
             </p>
           </section>
 
           <section className="glass-card rounded-3xl p-6 md:p-8">
             <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>2. Services Offered</h2>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Ctrl + Create provides digital services including but not limited to:
+              Cylux Code provides digital services including but not limited to:
             </p>
             <ul className="mt-2 space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <li>• Website development and design</li>
@@ -100,7 +100,7 @@ export default function TermsOfService() {
           <section className="glass-card rounded-3xl p-6 md:p-8">
             <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>9. Limitation of Liability</h2>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Ctrl + Create shall not be liable for any indirect, incidental, or consequential damages arising from the use of our services. Our total liability shall not exceed the amount paid for the specific service in question.
+              Cylux Code shall not be liable for any indirect, incidental, or consequential damages arising from the use of our services. Our total liability shall not exceed the amount paid for the specific service in question.
             </p>
           </section>
 

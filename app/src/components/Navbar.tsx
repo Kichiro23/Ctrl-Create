@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
@@ -86,9 +86,9 @@ export default function Navbar() {
             }}
           >
             <Link to="/" className="flex items-center gap-2 pl-2">
-              <img src="/images/assets/logo-cc.png" alt="Ctrl + Create" className="h-10 w-10 object-contain" />
+              <img src="/images/assets/logo-cc.png" alt="Cylux Code" className="h-10 w-10 object-contain" />
               <span className="text-sm font-semibold hidden sm:inline" style={{ color: "var(--text-primary)" }}>
-                Ctrl + Create
+                Cylux Code
               </span>
             </Link>
 

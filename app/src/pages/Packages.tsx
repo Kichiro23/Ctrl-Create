@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -239,7 +239,7 @@ export default function Packages() {
   return (
     <div>
       <SEO
-        title="Website & Academic Packages | Transparent Pricing | Ctrl + Create"
+        title="Website & Academic Packages | Transparent Pricing | Cylux Code"
         description="Transparent pricing for website development and academic support. Starter to Enterprise website packages. Scholar to Valedictorian academic memberships."
         pathname="/packages"
         keywords="website package Philippines, website design price Philippines, academic membership, thesis package, web development pricing"
@@ -388,7 +388,7 @@ export default function Packages() {
         <div className="mx-auto max-w-[1200px]">
           <div className="section-heading mb-8">
             <span className="eyebrow">Membership</span>
-            <h2>Ctrl + Create Membership</h2>
+            <h2>Cylux Code Membership</h2>
             <p>Unlock recurring discounts, priority support, and exclusive perks.</p>
           </div>
 

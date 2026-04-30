@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router";
 import { trpc } from "@/providers/trpc";
 import PaymentTooltip from "@/components/PaymentTooltip";
@@ -107,7 +107,7 @@ export default function Contact() {
   return (
     <div>
       <SEO
-        title="Contact | Get a Free Quote | Ctrl + Create"
+        title="Contact | Get a Free Quote | Cylux Code"
         description="Get in touch for a free consultation. Website development, thesis help, graphic design, video editing, and more. Response within 24 hours. Based in Malolos, Bulacan, Philippines."
         pathname="/contact"
         keywords="hire web developer Philippines, freelance developer contact, thesis help contact, get a quote website"

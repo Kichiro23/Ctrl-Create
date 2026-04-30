@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+﻿import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -171,7 +171,7 @@ export default function Home() {
   return (
     <div>
       <SEO
-        title="Ctrl + Create | Premium Creative Commissions & Digital Solutions Philippines"
+        title="Cylux Code | Premium Creative Commissions & Digital Solutions Philippines"
         description="Freelance full stack developer & creative professional based in the Philippines. Website development, thesis/academic help, graphic design, video editing, and AI automation."
         pathname="/"
         keywords="website developer Philippines, thesis help Philippines, academic writer, freelance web developer, graphic design Philippines, video editing, React developer, SPSS analysis, capstone project help"
@@ -179,7 +179,7 @@ export default function Home() {
           {
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "Ctrl + Create",
+            name: "Cylux Code",
             url: "https://ctrl-create-srvcs.vercel.app",
             logo: "https://ctrl-create-srvcs.vercel.app/images/assets/logo-cc.png",
             description: "Premium creative commissions and digital solutions crafted with precision.",
@@ -211,7 +211,7 @@ export default function Home() {
           {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: "Ctrl + Create",
+            name: "Cylux Code",
             url: "https://ctrl-create-srvcs.vercel.app",
             potentialAction: {
               "@type": "SearchAction",
@@ -222,7 +222,7 @@ export default function Home() {
           {
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
-            name: "Ctrl + Create",
+            name: "Cylux Code",
             description: "Website development, academic writing, graphic design, video editing, and AI automation services.",
             areaServed: {
               "@type": "Country",
@@ -230,7 +230,7 @@ export default function Home() {
             },
             provider: {
               "@type": "Organization",
-              name: "Ctrl + Create",
+              name: "Cylux Code",
             },
             serviceType: ["Website Development", "Academic Writing", "Graphic Design", "Video Editing", "AI Automation"],
           },
@@ -246,11 +246,11 @@ export default function Home() {
 
         <div className="mx-auto max-w-[800px] text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <img src="/images/assets/logo-cc.png" alt="Ctrl + Create" className="mx-auto h-36 w-36 object-contain md:h-48 md:w-48" />
+            <img src="/images/assets/logo-cc.png" alt="Cylux Code" className="mx-auto h-36 w-36 object-contain md:h-48 md:w-48" />
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="mt-3 text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl" style={{ color: "var(--text-primary)" }}>
-            Ctrl + Create
+            Cylux Code
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mx-auto mt-2 max-w-lg text-lg leading-relaxed md:text-xl" style={{ color: "var(--text-secondary)" }}>
@@ -385,7 +385,7 @@ export default function Home() {
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Membership</span>
             <h2>Unlock More Value</h2>
-            <p>Sign up and become a Ctrl + Create member today.</p>
+            <p>Sign up and become a Cylux Code member today.</p>
           </AnimatedSection>
 
           <AnimatedSection>

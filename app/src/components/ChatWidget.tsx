@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+﻿import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/providers/trpc";
 import {
   MessageCircle, X, Send, User, Bot, Loader2, WifiOff,
@@ -24,7 +24,7 @@ export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string; liked?: boolean | null }[]>([
-    { role: "assistant", content: "Hi! I'm the Ctrl + Create assistant. How can I help you today?" },
+    { role: "assistant", content: "Hi! I'm the Cylux Code assistant. How can I help you today?" },
   ]);
   const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
@@ -138,7 +138,7 @@ export default function ChatWidget() {
               <Bot size={18} style={{ color: "var(--accent-blue)" }} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Ctrl + Create Assistant</p>
+              <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Cylux Code Assistant</p>
               <p className="text-xs flex items-center gap-1" style={{ color: "var(--text-muted)" }}>
                 {isOffline ? <><WifiOff size={10} /> Offline</> : sendMutation.isPending ? <><Loader2 size={10} className="animate-spin" /> Thinking...</> : "Online — powered by AI"}
               </p>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+﻿import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
@@ -268,7 +268,7 @@ export default function Academic() {
   return (
     <div>
       <SEO
-        title="Academic Writing & Thesis Help Philippines | Ctrl + Create"
+        title="Academic Writing & Thesis Help Philippines | Cylux Code"
         description="Professional academic support for Filipino students: thesis chapters, SPSS analysis, defense PPT, essays, research papers, and capstone systems. Turnitin-ready output with fast turnaround."
         pathname="/academic"
         keywords="thesis help Philippines, academic writer Philippines, SPSS analysis, thesis chapter writing, defense PPT, research paper help, capstone project"

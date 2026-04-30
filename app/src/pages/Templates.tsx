@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -124,7 +124,7 @@ export default function Templates() {
   return (
     <div>
       <SEO
-        title="Website Templates & Academic Commissions | Ctrl + Create"
+        title="Website Templates & Academic Commissions | Cylux Code"
         description="Ready-made website templates for businesses and academic commissions for students. POS systems, barangay portals, school management, thesis packages, and more."
         pathname="/templates"
         keywords="website templates Philippines, POS system template, barangay portal template, school management system, thesis commission, academic commission"

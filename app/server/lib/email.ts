@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+﻿import { Resend } from "resend";
 import { env } from "./env";
 
 const resend = env.resendApiKey ? new Resend(env.resendApiKey) : null;
@@ -20,11 +20,11 @@ export async function sendContactNotification(data: {
 
   try {
     await resend.emails.send({
-      from: "Ctrl + Create <onboarding@resend.dev>",
+      from: "Cylux Code <onboarding@resend.dev>",
       to: env.ownerEmail,
       subject: `New Contact Form Submission from ${data.name}`,
       html: `
-        <h2>New message from Ctrl + Create contact form</h2>
+        <h2>New message from Cylux Code contact form</h2>
         <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
         <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
         ${data.phone ? `<p><strong>Phone:</strong> ${escapeHtml(data.phone)}</p>` : ""}

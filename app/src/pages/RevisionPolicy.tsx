@@ -1,4 +1,4 @@
-import { useRef } from "react";
+﻿import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { AlertTriangle, LayoutTemplate, Type, CheckCircle2 } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -37,7 +37,7 @@ export default function RevisionPolicy() {
   return (
     <div>
       <SEO
-        title="Revision Policy | Ctrl + Create"
+        title="Revision Policy | Cylux Code"
         description="Our revision policy: major revisions, minor revisions, and out-of-scope changes. Clear guidelines for website and creative project modifications."
         pathname="/revision-policy"
       />

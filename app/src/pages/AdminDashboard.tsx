@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { trpc } from "@/providers/trpc";
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen px-4 pb-12 pt-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
       <SEO
-        title="Admin Dashboard | Ctrl + Create"
+        title="Admin Dashboard | Cylux Code"
         description="Admin dashboard for managing messages, memberships, and template orders."
         pathname="/admin"
         noindex

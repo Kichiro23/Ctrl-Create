@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+﻿import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router";
 import SEO from "@/components/SEO";
@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <SEO
-        title="Page Not Found | Ctrl + Create"
+        title="Page Not Found | Cylux Code"
         description="The page you are looking for does not exist. Browse our services, templates, or contact us."
         noindex
       />

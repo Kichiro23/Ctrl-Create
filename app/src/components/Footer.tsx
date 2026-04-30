@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+﻿import { Link } from "react-router";
 import { Github, Instagram, Linkedin, Facebook, MessageCircle, Send } from "lucide-react";
 
 export default function Footer() {
@@ -9,9 +9,9 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-left">
           {/* Brand */}
           <div className="flex items-center gap-3">
-            <img src="/images/assets/logo-cc.png" alt="Ctrl + Create" className="h-10 w-10 object-contain" />
+            <img src="/images/assets/logo-cc.png" alt="Cylux Code" className="h-10 w-10 object-contain" />
             <span className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
-              Ctrl + Create
+              Cylux Code
             </span>
           </div>
 

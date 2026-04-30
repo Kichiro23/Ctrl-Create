@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+﻿import { Link } from "react-router";
 import { Shield, Mail, ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -6,8 +6,8 @@ export default function PrivacyPolicy() {
   return (
     <div className="px-4 pb-12 pt-28 md:px-6 lg:px-8">
       <SEO
-        title="Privacy Policy | Ctrl + Create"
-        description="Ctrl + Create privacy policy. How we collect, use, and protect your personal information."
+        title="Privacy Policy | Cylux Code"
+        description="Cylux Code privacy policy. How we collect, use, and protect your personal information."
         pathname="/privacy-policy"
       />
       <div className="mx-auto max-w-[800px]">
@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
           <section className="glass-card rounded-3xl p-6 md:p-8">
             <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>1. Introduction</h2>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Ctrl + Create ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and services.
+              Cylux Code ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and services.
             </p>
           </section>
 

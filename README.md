@@ -1,4 +1,4 @@
-# Ctrl + Create
+﻿# Cylux Code
 
 > **Premium creative commissions & digital solutions crafted with precision.**
 >
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Ctrl + Create is a solo-operated creative agency platform offering end-to-end services: website development, academic writing, graphic design, video editing, social media management, AI automation, and more. The platform features a modern React frontend, a tRPC/Hono API backend, MongoDB via Mongoose, Resend email notifications, an AI-powered chatbot via OpenRouter, and full SEO optimization for Google searchability.
+Cylux Code is a solo-operated creative agency platform offering end-to-end services: website development, academic writing, graphic design, video editing, social media management, AI automation, and more. The platform features a modern React frontend, a tRPC/Hono API backend, MongoDB via Mongoose, Resend email notifications, an AI-powered chatbot via OpenRouter, and full SEO optimization for Google searchability.
 
 ## Tech Stack
 
@@ -229,7 +229,7 @@ app/
 
 ## Brand Guidelines
 
-- **Brand**: Ctrl + Create
+- **Brand**: Cylux Code
 - **Tagline**: "Where Vision Meets Precision"
 - **Operator**: Rommel Andrei De Leon (solo — use "I" not "we")
 - **Experience**: 5+ years
@@ -239,4 +239,4 @@ app/
 
 ## License
 
-Private. All rights reserved. Ctrl + Create © 2025 Rommel Andrei De Leon.
+Private. All rights reserved. Cylux Code © 2025 Rommel Andrei De Leon.

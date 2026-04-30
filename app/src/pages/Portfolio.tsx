@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+﻿import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
 import { trpc } from "@/providers/trpc";
@@ -101,8 +101,8 @@ export default function Portfolio() {
   return (
     <div>
       <SEO
-        title="Portfolio | Projects by Ctrl + Create"
-        description="Selected work from Ctrl + Create: personal projects, website templates, academic commissions, and confidential client work. Built with React, Next.js, TypeScript, and Tailwind CSS."
+        title="Portfolio | Projects by Cylux Code"
+        description="Selected work from Cylux Code: personal projects, website templates, academic commissions, and confidential client work. Built with React, Next.js, TypeScript, and Tailwind CSS."
         pathname="/portfolio"
         keywords="web developer portfolio Philippines, React projects, Next.js portfolio, full stack developer projects"
       />

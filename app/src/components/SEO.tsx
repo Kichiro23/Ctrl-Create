@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+﻿import { Helmet } from "react-helmet-async";
 
 interface SEOProps {
   title: string;
@@ -11,7 +11,7 @@ interface SEOProps {
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const SITE_NAME = "Ctrl + Create";
+const SITE_NAME = "Cylux Code";
 const DEFAULT_IMAGE = "/images/assets/og-image.jpg";
 const SITE_URL = typeof window !== "undefined" ? window.location.origin : "https://ctrl-create-srvcs.vercel.app";
 
