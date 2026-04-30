@@ -37,9 +37,9 @@ interface Package {
 const websitePackages: Package[] = [
   {
     name: "Starter",
-    priceUSD: 149,
-    pricePHP: 8500,
-    originalPricePHP: 12000,
+    priceUSD: 129,
+    pricePHP: 7500,
+    originalPricePHP: 10000,
     timeline: "7–10 days",
     description: "Single-page presence with clean design",
     features: [
@@ -60,9 +60,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Business",
-    priceUSD: 430,
-    pricePHP: 25000,
-    originalPricePHP: 35000,
+    priceUSD: 310,
+    pricePHP: 18000,
+    originalPricePHP: 25000,
     timeline: "10–15 days",
     description: "Professional multi-page website",
     features: [
@@ -83,9 +83,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Pro",
-    priceUSD: 1000,
-    pricePHP: 58000,
-    originalPricePHP: 80000,
+    priceUSD: 603,
+    pricePHP: 35000,
+    originalPricePHP: 50000,
     timeline: "20–30 days",
     description: "Full-scale site with backend features",
     features: [
@@ -109,9 +109,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Enterprise",
-    priceUSD: 2069,
-    pricePHP: 120000,
-    originalPricePHP: 165000,
+    priceUSD: 1121,
+    pricePHP: 65000,
+    originalPricePHP: 85000,
     timeline: "40–60 days",
     description: "Complete digital transformation",
     features: [
@@ -212,12 +212,12 @@ const academicPackages: Package[] = [
 ];
 
 const addonPackages = [
-  { name: "Logo Design", priceUSD: 78, pricePHP: 4500, icon: Palette, description: "Unique logo with brand guidelines" },
-  { name: "Branding Kit", priceUSD: 121, pricePHP: 6999, icon: Layers, description: "Color palette, typography, business cards, social templates" },
-  { name: "Promo Video", priceUSD: 155, pricePHP: 8999, icon: Video, description: "60-second promotional video with motion graphics" },
-  { name: "Social Media Pack", priceUSD: 60, pricePHP: 3499, icon: Megaphone, description: "30 posts + stories for Instagram/Facebook" },
-  { name: "SEO Package", priceUSD: 155, pricePHP: 8999, icon: Globe, description: "Keyword research, on-page SEO, monthly report (3 months)" },
-  { name: "Content Writing", priceUSD: 38, pricePHP: 2200, icon: PenTool, description: "Professional web copy per page" },
+  { name: "Logo Design", priceUSD: 52, pricePHP: 3000, icon: Palette, description: "Unique logo with brand guidelines" },
+  { name: "Branding Kit", priceUSD: 78, pricePHP: 4500, icon: Layers, description: "Color palette, typography, business cards, social templates" },
+  { name: "Promo Video", priceUSD: 95, pricePHP: 5500, icon: Video, description: "60-second promotional video with motion graphics" },
+  { name: "Social Media Pack", priceUSD: 43, pricePHP: 2500, icon: Megaphone, description: "30 posts + stories for Instagram/Facebook" },
+  { name: "SEO Package", priceUSD: 103, pricePHP: 6000, icon: Globe, description: "Keyword research, on-page SEO, monthly report (3 months)" },
+  { name: "Content Writing", priceUSD: 26, pricePHP: 1500, icon: PenTool, description: "Professional web copy per page" },
   { name: "Academic System", priceUSD: 242, pricePHP: 14000, icon: BookOpen, description: "Capstone defense system with defense-ready documentation" },
   { name: "Mobile App (PWA)", priceUSD: 155, pricePHP: 8999, icon: MonitorSmartphone, description: "Progressive Web App with offline support" },
 ];

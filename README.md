@@ -68,10 +68,10 @@ Complete papers, individual chapters, data analysis, presentations, defense prep
 **Individual Plans**
 | Tier | Price | Duration | Discount |
 |------|-------|----------|----------|
-| Bronze | ₱3,999 | 1 month | 5% |
-| Silver | ₱8,000 | 2 months | 6% |
-| Gold | ₱16,999 | 3 months | 8% |
-| Diamond | ₱30,000 | 4 months | 10% |
+| Bronze | ₱2,500 | 1 month | 5% |
+| Silver | ₱4,500 | 2 months | 6% |
+| Gold | ₱9,500 | 3 months | 8% |
+| Diamond | ₱16,000 | 4 months | 10% |
 
 **Business Plans**
 | Tier | Price | Duration | Discount |
@@ -84,10 +84,10 @@ Complete papers, individual chapters, data analysis, presentations, defense prep
 ### Website Packages
 | Package | Price (PHP) | Price (USD) | Timeline | Scope |
 |---------|-------------|-------------|----------|-------|
-| Starter | ₱8,500 | $149 | 7–10 days | Single page, 4–5 sections |
-| Business | ₱25,000 | $430 | 10–15 days | Multi-page, analytics, forms |
-| Pro | ₱58,000 | $1,000 | 20–30 days | Booking, auth, dashboard |
-| Enterprise | ₱120,000 | $2,069 | 40–60 days | E-commerce, unlimited pages |
+| Starter | ₱7,500 | $129 | 7–10 days | Single page, 4–5 sections |
+| Business | ₱18,000 | $310 | 10–15 days | Multi-page, analytics, forms |
+| Pro | ₱35,000 | $603 | 20–30 days | Booking, auth, dashboard |
+| Enterprise | ₱65,000 | $1,121 | 40–60 days | E-commerce, unlimited pages |
 
 ## SEO
 
