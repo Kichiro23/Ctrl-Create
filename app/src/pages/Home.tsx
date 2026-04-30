@@ -3,7 +3,8 @@ import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import { trpc } from "@/providers/trpc";
 import { useCurrency } from "@/hooks/useCurrency";
-import PaymentMethods from "@/components/PaymentMethods";
+import PaymentTooltip from "@/components/PaymentTooltip";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import {
   ChevronDown,
   Check,
@@ -30,7 +31,15 @@ import {
   Zap,
   Globe,
   Layers,
+  Code,
+  Database,
+  Briefcase,
+  Users,
+  Building2,
+  Star,
 } from "lucide-react";
+import { websiteTemplates, academicTemplates } from "@/data/templates";
+import Template3DCard from "@/components/Template3DCard";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -102,8 +111,8 @@ const services = [
 const packages = [
   {
     name: "Basic",
-    priceUSD: 149,
     pricePHP: 8500,
+    priceUSD: 147,
     timeline: "7–10 days",
     description: "Essential Online Presence",
     features: ["Single page with 4 sections", "Mobile-responsive design", "Basic SEO setup", "1 major revision", "3 minor revisions"],
@@ -111,8 +120,8 @@ const packages = [
   },
   {
     name: "Standard",
-    priceUSD: 249,
     pricePHP: 14200,
+    priceUSD: 245,
     timeline: "10–15 days",
     description: "Professional Polish",
     features: ["Everything in Basic", "Custom layouts & animations", "Contact form integration", "Google Analytics", "2 major revisions", "5 minor revisions"],
@@ -120,8 +129,8 @@ const packages = [
   },
   {
     name: "Premium",
-    priceUSD: 699,
     pricePHP: 39800,
+    priceUSD: 686,
     timeline: "40–60 days",
     description: "Complete Digital Solution",
     features: ["Everything in Standard", "Brand color & typography system", "Backend / Booking / Ecommerce", "CMS integration", "Unlimited revisions", "Priority support"],
@@ -138,72 +147,126 @@ const processSteps = [
 
 const stats = [
   { value: 5, suffix: "+", label: "Years Experience", icon: Clock },
-  { value: 50, suffix: "+", label: "Projects Delivered", icon: Layers },
-  { value: 12, suffix: "+", label: "Websites Built", icon: MonitorSmartphone },
+  { value: 100, suffix: "+", label: "Projects Delivered", icon: Layers },
+  { value: 25, suffix: "+", label: "Websites Built", icon: MonitorSmartphone },
   { value: 100, suffix: "%", label: "Client Satisfaction", icon: ShieldCheck },
+  { value: 50, suffix: "+", label: "Students Helped", icon: GraduationCap },
+  { value: 12, suffix: "+", label: "Industries Served", icon: Building2 },
 ];
 
 const testimonials = [
-  { quote: "Ctrl + Create delivered our salon website in just 8 days. The design is stunning and we already got 3 bookings from it.", name: "Maria Santos", role: "Owner, Aurora Beauty Lounge" },
-  { quote: "I needed a capstone portfolio for my IT defense. They understood exactly what I needed and the site looked professional.", name: "Juan Dela Cruz", role: "BSIT Graduate" },
-  { quote: "The brand identity they created for our spa completely elevated our presence. Every detail was thoughtfully crafted.", name: "Anna Chen", role: "Founder, Arcadia Wellness" },
+  {
+    quote: "Ang ganda ng website na ginawa para sa barangay namin. Ngayon hindi na kami nagkakagulo sa pag-issue ng clearance. Highly recommended!",
+    name: "Joselito Reyes",
+    role: "Barangay Kagawad, Quezon City",
+    rating: 5,
+  },
+  {
+    quote: "My full thesis Ch 1-5 was delivered in 3 weeks. The SPSS analysis was spot-on and my panel approved it on the first defense. Salamat po!",
+    name: "Angelica De Guzman",
+    role: "BS Psychology, PUP",
+    rating: 5,
+  },
+  {
+    quote: "We needed a POS system for our water refilling station. Clean interface, easy to use, and our delivery tracking improved instantly. Worth every peso.",
+    name: "Mark Anthony Cruz",
+    role: "Owner, AquaPure Refilling Station",
+    rating: 5,
+  },
+  {
+    quote: "Nag-panic ako kasi 1 week na lang defense ko, wala pa akong Chapter 2. Pero sinagutan nila agad at natapos in 4 days. Pasado ako!",
+    name: "Kimberly Ann Bautista",
+    role: "BSED Major in English, UST",
+    rating: 5,
+  },
+  {
+    quote: "The e-learning platform they built for our school is incredible. Teachers can now upload modules and students can track progress. Very professional work.",
+    name: "Dr. Roberto Villanueva",
+    role: "School Administrator, Cavite",
+    rating: 5,
+  },
+  {
+    quote: "Nagpagawa ako ng business plan para sa feasibility study namin. Ang galing ng financial projections — parang may MBA na gumawa. Sulit na sulit.",
+    name: "Darlene Mae Sarmiento",
+    role: "BSBA Entrepreneurship, DLSU",
+    rating: 5,
+  },
+  {
+    quote: "Our cooperative management system is finally digitized. Member tracking, loan applications, and dividend computation are all automated now. Life-changing.",
+    name: "Ernesto Dimaculangan",
+    role: "Chairman, Samahang Magbubukid Cooperative",
+    rating: 5,
+  },
+  {
+    quote: "Ang bilis mag-reply at sobrang patient kahit madaming revisions. Yung defense PPT ko ang ganda ng design, nagustuhan ng buong panel. Thank you po!",
+    name: "Jasmine Marie Toledo",
+    role: "BS Nursing, Cebu Doctors' University",
+    rating: 5,
+  },
 ];
 
-const templateTeasers = [
-  { name: "POS Restaurant", price: 7999, image: "/portfolio-1.jpg" },
-  { name: "Resort Reservation", price: 9999, image: "/portfolio-3.jpg" },
-  { name: "Car Rental Dashboard", price: 9999, image: "/portfolio-4.jpg" },
-  { name: "Staycation System", price: 8999, image: "/portfolio-5.jpg" },
-];
+function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
+  const { formatPriceFull } = useCurrency();
+  const { primary, secondary } = formatPriceFull(pricePHP, priceUSD);
+  return (
+    <div className="flex items-baseline gap-2">
+      <span className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>{primary}</span>
+      <span className="text-sm" style={{ color: "var(--text-muted)" }}>{secondary}</span>
+    </div>
+  );
+}
 
 export default function Home() {
   const { data: featuredProjects } = trpc.project.featured.useQuery();
-  const { formatPrice } = useCurrency();
+
+  const featuredWebsiteTemplates = websiteTemplates.slice(0, 4);
+  const featuredAcademicTemplates = academicTemplates.slice(0, 4);
 
   return (
     <div>
       {/* Hero */}
-      <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden px-4">
+      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
+        <AnimatedBackground />
         <div className="absolute inset-0 -z-10">
-          <img src="/hero-bg.jpg" alt="" className="h-full w-full object-cover opacity-60 dark:opacity-30" />
+          <img src="/images/assets/hero-bg.jpg" alt="" className="h-full w-full object-cover opacity-40 dark:opacity-20" />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, var(--bg-primary) 100%)" }} />
         </div>
 
         <div className="mx-auto max-w-[800px] text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <img src="/logo-cc.png" alt="Ctrl + Create" className="mx-auto h-24 w-24 object-contain md:h-32 md:w-32" />
+            <img src="/images/assets/logo-cc.png" alt="Ctrl + Create" className="mx-auto h-36 w-36 object-contain md:h-48 md:w-48" />
           </motion.div>
 
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="mt-6 text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl" style={{ color: "var(--text-primary)" }}>
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="mt-3 text-5xl font-extrabold tracking-tight md:text-7xl lg:text-8xl" style={{ color: "var(--text-primary)" }}>
             Ctrl + Create
           </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mx-auto mt-4 max-w-lg text-lg leading-relaxed md:text-xl" style={{ color: "var(--text-secondary)" }}>
-            Premium creative commissions & digital solutions crafted with precision.
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mx-auto mt-2 max-w-lg text-lg leading-relaxed md:text-xl" style={{ color: "var(--text-secondary)" }}>
+            Premium creative commissions & digital solutions crafted with precision. Based in the Philippines, serving students and businesses worldwide.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="mt-5 flex flex-wrap items-center justify-center gap-4">
             <Link to="/services" className="btn-primary rounded-full">Explore Services</Link>
             <Link to="/templates" className="btn-secondary rounded-full">View Templates</Link>
             <Link to="/contact" className="btn-secondary rounded-full">Get in Touch</Link>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-3 text-sm italic" style={{ color: "var(--text-muted)" }}>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-6 text-sm italic" style={{ color: "var(--text-muted)" }}>
             "Where Vision Meets Precision"
           </motion.p>
         </div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="absolute bottom-6 left-1/2 -translate-x-1/2">
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} style={{ color: "var(--text-muted)" }}>
-            <ChevronDown size={24} />
+            <ChevronDown size={20} />
           </motion.div>
         </motion.div>
       </section>
 
       {/* Stats Bar */}
-      <section className="border-y px-4 py-12 md:px-6 lg:px-8" style={{ borderColor: "var(--border-subtle)" }}>
+      <section id="stats" className="border-y px-4 py-14 md:px-6 lg:px-8" style={{ borderColor: "var(--border-subtle)" }}>
         <div className="mx-auto max-w-[1200px]">
-          <StaggerContainer className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerContainer className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {stats.map((stat) => (
               <motion.div key={stat.label} variants={itemVariants} className="flex items-center justify-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "var(--bg-surface-solid)", border: "1px solid var(--border-subtle)" }}>
@@ -222,7 +285,7 @@ export default function Home() {
       </section>
 
       {/* Services Grid */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section id="services" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">What I Do</span>
@@ -248,7 +311,7 @@ export default function Home() {
       </section>
 
       {/* Academic CTA */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection>
             <div className="glass-card mx-auto max-w-3xl rounded-3xl p-8 text-center md:p-10">
@@ -266,41 +329,46 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Templates */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      {/* Featured Website Templates */}
+      <section id="templates" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Marketplace</span>
+            <span className="eyebrow">Website Templates</span>
             <h2>Ready-Made Systems</h2>
-            <p>Explore ready-to-use systems and buy instantly.</p>
+            <p>Launch faster with professional templates for every industry.</p>
           </AnimatedSection>
 
-          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {templateTeasers.map((t) => (
-              <motion.div key={t.name} variants={itemVariants} className="glass-card group overflow-hidden rounded-3xl">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={t.image} alt={t.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-                  <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/40" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">Quick Preview</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{t.name}</h3>
-                  <p className="mt-1 text-sm font-bold" style={{ color: "var(--accent-blue)" }}>₱{t.price.toLocaleString()}</p>
-                </div>
-              </motion.div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredWebsiteTemplates.map((t, i) => (
+              <Template3DCard key={t.id} template={t} index={i} />
             ))}
-          </StaggerContainer>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Academic Commissions */}
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+        <div className="mx-auto max-w-[1200px]">
+          <AnimatedSection className="section-heading mb-16">
+            <span className="eyebrow">Academic Commissions</span>
+            <h2>Student-Friendly Packages</h2>
+            <p>From essays to full theses — quality academic support at fair prices.</p>
+          </AnimatedSection>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredAcademicTemplates.map((t, i) => (
+              <Template3DCard key={t.id} template={t} index={i} />
+            ))}
+          </div>
 
           <div className="mt-10 text-center">
-            <Link to="/templates" className="btn-secondary rounded-full">Browse All Templates <ArrowRight size={16} className="ml-2" /></Link>
+            <Link to="/templates" className="btn-secondary rounded-full">Browse All Templates & Commissions <ArrowRight size={16} className="ml-2" /></Link>
           </div>
         </div>
       </section>
 
       {/* Membership Teaser */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section id="membership" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Membership</span>
@@ -309,139 +377,67 @@ export default function Home() {
           </AnimatedSection>
 
           <AnimatedSection>
-            <div className="glass-card mx-auto max-w-2xl overflow-hidden rounded-3xl p-8 md:p-10">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: "rgba(255, 149, 0, 0.15)" }}>
-                  <Crown size={24} style={{ color: "#FF9500" }} />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>Gold — ₱16,999 / $298</h3>
-                  <p className="text-sm" style={{ color: "var(--text-muted)" }}>3 months · up to 8% off every service</p>
-                </div>
-              </div>
-              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-                {["Priority support", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance"].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    <Check size={14} style={{ color: "#FF9500" }} />{item}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-8 flex items-center gap-3">
-                <Link to="/membership" className="btn-primary flex-1 rounded-full text-center">View Membership Tiers</Link>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1200px]">
-          <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Process</span>
-            <h2>How It Works</h2>
-            <p>A focused four-step process. No technical knowledge required — just your vision.</p>
-          </AnimatedSection>
-
-          <div className="relative">
-            <div className="absolute top-[60px] left-0 right-0 hidden h-px lg:block" style={{ background: "var(--border-subtle)" }} />
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {processSteps.map((step) => (
-                <AnimatedSection key={step.number}>
-                  <div className="glass-card rounded-3xl p-6 text-center md:text-left">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white" style={{ background: "var(--accent-blue)" }}>
-                      {step.number}
-                    </div>
-                    <step.icon size={20} className="mt-4 hidden md:block" style={{ color: "var(--accent-blue)" }} />
-                    <h3 className="mt-3 text-base font-semibold" style={{ color: "var(--text-primary)" }}>{step.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{step.description}</p>
+            <div className="grid gap-6 md:grid-cols-2">
+              {/* Website Building Membership */}
+              <div className="glass-card mx-auto w-full max-w-xl overflow-hidden rounded-3xl p-8 md:p-10">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: "rgba(255, 149, 0, 0.15)" }}>
+                    <Crown size={24} style={{ color: "#FF9500" }} />
                   </div>
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Packages */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
-        <div className="mx-auto max-w-[1200px]">
-          <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Website Pricing</span>
-            <h2>Pick Your Package</h2>
-            <p>Professional website commissions for businesses, portfolios, and academic defense.</p>
-          </AnimatedSection>
-
-          <StaggerContainer className="grid gap-6 md:grid-cols-3">
-            {packages.map((pkg) => (
-              <motion.div key={pkg.name} variants={itemVariants} className={`glass-card relative rounded-3xl p-6 md:p-8 ${pkg.popular ? "ring-1 ring-[var(--accent-blue)]" : ""}`}>
-                {pkg.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ background: "var(--accent-blue)" }}>Most Popular</span>
-                )}
-                <h3 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>{pkg.name}</h3>
-                <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>{pkg.description}</p>
-                <div className="mt-4">
-                  <span className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>{formatPrice(pkg.priceUSD, pkg.pricePHP)}</span>
-                  <span className="ml-1 text-sm" style={{ color: "var(--text-muted)" }}>starting</span>
+                  <div>
+                    <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>Website Building</h3>
+                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>For businesses & professionals</p>
+                  </div>
                 </div>
-                <p className="mt-1 text-xs" style={{ color: "var(--text-muted)" }}>{pkg.timeline}</p>
-                <ul className="mt-6 space-y-3">
-                  {pkg.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <Check size={16} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
-                      <span style={{ color: "var(--text-secondary)" }}>{feature}</span>
+                <div className="mt-4">
+                  <PriceDisplay pricePHP={16999} priceUSD={293} />
+                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>Gold Tier · 3 months · up to 8% off</p>
+                </div>
+                <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+                  {["Priority support", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance"].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                      <Check size={14} style={{ color: "#FF9500" }} />{item}
                     </li>
                   ))}
                 </ul>
-                <Link to="/contact" className={`mt-6 block w-full rounded-full py-3 text-center text-sm font-semibold transition-all ${pkg.popular ? "btn-primary" : "btn-secondary"}`}>
-                  Select {pkg.name}
-                </Link>
-              </motion.div>
-            ))}
-          </StaggerContainer>
+                <div className="mt-8 flex items-center gap-3">
+                  <Link to="/membership" className="btn-primary flex-1 rounded-full text-center">View Membership Tiers</Link>
+                </div>
+              </div>
 
-          <AnimatedSection className="mt-10 text-center">
-            <Link to="/packages" className="btn-secondary rounded-full">View Full Pricing Details <ArrowRight size={16} className="ml-2" /></Link>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Portfolio Showcase */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[1200px]">
-          <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Portfolio</span>
-            <h2>Selected Work</h2>
-            <p>Personal projects, templates, and confidential client work.</p>
-          </AnimatedSection>
-
-          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {(featuredProjects || []).slice(0, 6).map((project) => (
-              <motion.div key={project.id} variants={itemVariants} className="glass-card group overflow-hidden rounded-3xl">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={project.imageUrl || "/portfolio-1.jpg"} alt={project.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/40" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">View Project</span>
+              {/* Academic Support Membership */}
+              <div className="glass-card mx-auto w-full max-w-xl overflow-hidden rounded-3xl p-8 md:p-10">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: "rgba(52, 199, 89, 0.15)" }}>
+                    <GraduationCap size={24} style={{ color: "#34C759" }} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>Academic Support</h3>
+                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>For students & researchers</p>
                   </div>
                 </div>
-                <div className="p-5">
-                  <span className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--accent-blue)" }}>{project.category}</span>
-                  <h3 className="mt-1 text-base font-semibold" style={{ color: "var(--text-primary)" }}>{project.title}</h3>
-                  <p className="mt-1 line-clamp-2 text-sm" style={{ color: "var(--text-secondary)" }}>{project.description}</p>
+                <div className="mt-4">
+                  <PriceDisplay pricePHP={4999} priceUSD={86} />
+                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>Dean&apos;s Lister · Monthly · up to 10% off</p>
                 </div>
-              </motion.div>
-            ))}
-          </StaggerContainer>
-
-          <div className="mt-10 text-center">
-            <Link to="/portfolio" className="btn-secondary rounded-full">View All Projects <ArrowRight size={16} className="ml-2" /></Link>
-          </div>
+                <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+                  {["5 papers/assignments per month", "2 consultation calls", "1 free defense PPT", "10% discount on thesis", "Priority support", "Rush delivery"].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                      <Check size={14} style={{ color: "#34C759" }} />{item}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8 flex items-center gap-3">
+                  <Link to="/membership" className="btn-primary flex-1 rounded-full text-center" style={{ background: "#34C759" }}>View Academic Tiers</Link>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section id="testimonials" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Testimonials</span>
@@ -449,12 +445,16 @@ export default function Home() {
             <p>Real feedback from real clients I've worked with.</p>
           </AnimatedSection>
 
-          <StaggerContainer className="grid gap-6 md:grid-cols-3">
+          <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {testimonials.map((t) => (
-              <motion.div key={t.name} variants={itemVariants} className="glass-card rounded-3xl p-6 md:p-8">
-                <MessageCircle size={24} style={{ color: "var(--accent-blue)" }} className="mb-4" />
+              <motion.div key={t.name} variants={itemVariants} className="glass-card rounded-3xl p-5 md:p-6">
+                <div className="mb-3 flex items-center gap-0.5">
+                  {Array.from({ length: t.rating }).map((_, i) => (
+                    <Star key={i} size={14} fill="#FF9500" style={{ color: "#FF9500" }} />
+                  ))}
+                </div>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>"{t.quote}"</p>
-                <div className="mt-6 border-t pt-4" style={{ borderColor: "var(--border-subtle)" }}>
+                <div className="mt-5 border-t pt-4" style={{ borderColor: "var(--border-subtle)" }}>
                   <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{t.name}</p>
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>{t.role}</p>
                 </div>
@@ -465,7 +465,7 @@ export default function Home() {
       </section>
 
       {/* Contact CTA */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section id="contact" className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Want a Site Like These?</h2>
@@ -478,7 +478,7 @@ export default function Home() {
             </div>
             <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>No commitment required · Free consultation · Response within 24 hours</p>
             <div className="mt-6 flex justify-center">
-              <PaymentMethods layout="badges" />
+              <PaymentTooltip layout="badges" />
             </div>
           </AnimatedSection>
         </div>

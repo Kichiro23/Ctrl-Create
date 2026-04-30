@@ -1,24 +1,16 @@
-import { getDb } from "./connection";
-import { projects } from "@db/schema";
-import { eq, desc } from "drizzle-orm";
+import { connectDb } from "./connection";
+import { Project } from "../../db/models";
+import type { IProject } from "../../db/models";
 
-export async function findAllProjects(category?: string) {
-  if (category) {
-    return getDb().query.projects.findMany({
-      where: eq(projects.category, category),
-      orderBy: desc(projects.createdAt),
-    });
-  }
-  return getDb().query.projects.findMany({
-    orderBy: desc(projects.createdAt),
-  });
+export async function findAllProjects(category?: string): Promise<IProject[]> {
+  await connectDb();
+  const filter = category ? { category } : {};
+  return Project.find(filter).sort({ createdAt: -1 }).lean();
 }
 
-export async function findFeaturedProjects() {
-  return getDb().query.projects.findMany({
-    where: eq(projects.featured, true),
-    orderBy: desc(projects.createdAt),
-  });
+export async function findFeaturedProjects(): Promise<IProject[]> {
+  await connectDb();
+  return Project.find({ featured: true }).sort({ createdAt: -1 }).lean();
 }
 
 export async function createProject(data: {
@@ -28,7 +20,8 @@ export async function createProject(data: {
   imageUrl?: string;
   link?: string;
   featured?: boolean;
-}) {
-  const [{ id }] = await getDb().insert(projects).values(data).$returningId();
-  return id;
+}): Promise<string> {
+  await connectDb();
+  const doc = await Project.create(data);
+  return doc._id.toString();
 }

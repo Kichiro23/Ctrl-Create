@@ -1,22 +1,22 @@
-import { getDb } from "../api/queries/connection";
-import { projects } from "./schema";
+import { connectDb } from "./mongoose";
+import { Project } from "./models";
 
 async function seed() {
-  const db = getDb();
+  await connectDb();
   console.log("Seeding database...");
 
-  const existing = await db.query.projects.findMany({ limit: 1 });
-  if (existing.length > 0) {
+  const existing = await Project.findOne();
+  if (existing) {
     console.log("Projects already seeded. Skipping.");
     process.exit(0);
   }
 
-  await db.insert(projects).values([
+  await Project.insertMany([
     {
       title: "Aurora Beauty Lounge",
       category: "Websites",
       description: "A premium beauty salon website with online booking, service showcases, and elegant visual design.",
-      imageUrl: "/portfolio-1.jpg",
+      imageUrl: "/images/portfolio/portfolio-1.jpg",
       link: "#",
       featured: true,
     },
@@ -24,7 +24,7 @@ async function seed() {
       title: "The Fusion Studio",
       category: "Websites",
       description: "A dynamic fitness studio website featuring class schedules, trainer profiles, and membership management.",
-      imageUrl: "/portfolio-2.jpg",
+      imageUrl: "/images/portfolio/portfolio-2.jpg",
       link: "#",
       featured: true,
     },
@@ -32,7 +32,7 @@ async function seed() {
       title: "The Crust & Crumb",
       category: "Websites",
       description: "A charming bakery website with online ordering, menu displays, and cozy brand aesthetics.",
-      imageUrl: "/portfolio-3.jpg",
+      imageUrl: "/images/portfolio/portfolio-3.jpg",
       link: "#",
       featured: true,
     },
@@ -40,7 +40,7 @@ async function seed() {
       title: "Atelier Noir",
       category: "Websites",
       description: "A sophisticated fashion ecommerce platform with product grids, lookbook, and seamless checkout.",
-      imageUrl: "/portfolio-4.jpg",
+      imageUrl: "/images/portfolio/portfolio-4.jpg",
       link: "#",
       featured: false,
     },
@@ -48,7 +48,7 @@ async function seed() {
       title: "Arcadia Wellness Spa",
       category: "Design",
       description: "Complete brand identity including logo, business cards, stationery, and packaging design.",
-      imageUrl: "/portfolio-5.jpg",
+      imageUrl: "/images/portfolio/portfolio-5.jpg",
       link: "#",
       featured: true,
     },
@@ -56,7 +56,7 @@ async function seed() {
       title: "Cinematic Productions",
       category: "Video",
       description: "Professional video editing and motion graphics for a documentary film project.",
-      imageUrl: "/portfolio-6.jpg",
+      imageUrl: "/images/portfolio/portfolio-6.jpg",
       link: "#",
       featured: false,
     },
@@ -64,7 +64,7 @@ async function seed() {
       title: "Academic Portfolio System",
       category: "Websites",
       description: "A capstone defense portfolio website for an IT graduate student with thesis showcase.",
-      imageUrl: "/portfolio-7.jpg",
+      imageUrl: "/images/portfolio/portfolio-7.jpg",
       link: "#",
       featured: false,
     },
@@ -72,7 +72,7 @@ async function seed() {
       title: "Wanderlust Travel App",
       category: "Design",
       description: "UI/UX design for a travel booking mobile application with intuitive navigation.",
-      imageUrl: "/portfolio-8.jpg",
+      imageUrl: "/images/portfolio/portfolio-8.jpg",
       link: "#",
       featured: false,
     },

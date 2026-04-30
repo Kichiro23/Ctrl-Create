@@ -260,7 +260,7 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               ) : (
-                <div className="py-12 text-center">
+                <div className="py-14 text-center">
                   <Inbox size={32} className="mx-auto" style={{ color: "var(--text-muted)" }} />
                   <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>No messages yet</p>
                 </div>
@@ -349,7 +349,7 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               ) : (
-                <div className="py-12 text-center">
+                <div className="py-14 text-center">
                   <Users size={32} className="mx-auto" style={{ color: "var(--text-muted)" }} />
                   <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>No memberships yet</p>
                 </div>
@@ -439,7 +439,7 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               ) : (
-                <div className="py-12 text-center">
+                <div className="py-14 text-center">
                   <Package size={32} className="mx-auto" style={{ color: "var(--text-muted)" }} />
                   <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>No orders yet</p>
                 </div>

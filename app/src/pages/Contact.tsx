@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { trpc } from "@/providers/trpc";
-import PaymentMethods from "@/components/PaymentMethods";
+import PaymentTooltip from "@/components/PaymentTooltip";
 import {
   Send, Mail, Phone, MapPin, Clock, CheckCircle, AlertCircle,
   BookOpen, MonitorSmartphone, Clapperboard, Palette, Mic, TrendingUp,
@@ -31,11 +31,30 @@ const serviceOptions = [
   { label: "Automation & Workflow Setup", icon: Zap },
   { label: "IT Support & Troubleshooting", icon: HelpCircle },
   { label: "Presentation / PPT Design", icon: PenTool },
+  { label: "Academic Commission — Thesis Chapter", icon: BookOpen },
+  { label: "Academic Commission — Full Thesis", icon: FileText },
+  { label: "Academic Commission — Capstone System", icon: MonitorSmartphone },
+  { label: "Academic Commission — Defense PPT + Script", icon: GraduationCap },
   { label: "Other — Describe Below", icon: HelpCircle },
 ];
 
-const budgetOptions = ["Under ₱5,000 / $90", "₱5,000 – ₱15,000 / $90 – $265", "₱15,000 – ₱30,000 / $265 – $525", "₱30,000 – ₱50,000 / $525 – $875", "₱50,000+ / $875+", "Flexible / To be discussed"];
-const timelineOptions = ["ASAP (within 1 week)", "1 – 2 weeks", "2 – 4 weeks", "1 – 2 months", "Flexible / No rush", "Ongoing / Long-term"];
+const budgetOptions = [
+  "Under ₱5,000",
+  "₱5,000 – ₱15,000",
+  "₱15,000 – ₱30,000",
+  "₱30,000 – ₱50,000",
+  "₱50,000+",
+  "Flexible / To be discussed",
+];
+
+const timelineOptions = [
+  "ASAP (within 1 week)",
+  "1 – 2 weeks",
+  "2 – 4 weeks",
+  "1 – 2 months",
+  "Flexible / No rush",
+  "Ongoing / Long-term",
+];
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -86,7 +105,7 @@ export default function Contact() {
 
   return (
     <div>
-      <section className="px-4 pb-16 pt-32 md:px-6 lg:px-8">
+      <section className="px-4 pb-12 pt-28 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <div className="text-center">
             <span className="eyebrow">Contact</span>
@@ -98,11 +117,11 @@ export default function Contact() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_380px]">
+          <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_300px]">
             {/* Form */}
-            <div className="glass-card rounded-3xl p-6 md:p-8">
+            <div className="glass-card rounded-3xl p-5 md:p-6">
               {status === "success" ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="flex flex-col items-center justify-center py-14 text-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full" style={{ background: "rgba(52, 199, 89, 0.15)" }}>
                     <CheckCircle size={32} style={{ color: "#34C759" }} />
                   </div>
@@ -113,35 +132,35 @@ export default function Contact() {
                   <button onClick={() => setStatus("idle")} className="btn-primary mt-6 rounded-full">Send Another Message</button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid gap-5 sm:grid-cols-2">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>
                         Full Name <span className="text-red-500">*</span>
                       </label>
                       <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className="contact-input" />
                     </div>
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>
                         Email <span className="text-red-500">*</span>
                       </label>
                       <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="contact-input" />
                     </div>
                   </div>
 
-                  <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Phone / WhatsApp</label>
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Phone / WhatsApp</label>
                       <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+63 912 345 6789" className="contact-input" />
                     </div>
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Business / Organization</label>
-                      <input value={businessName} onChange={(e) => setBusinessName(e.target.value)} placeholder="Your company or project name" className="contact-input" />
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Business / School</label>
+                      <input value={businessName} onChange={(e) => setBusinessName(e.target.value)} placeholder="Your company or school" className="contact-input" />
                     </div>
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Service Type</label>
+                    <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Service Type</label>
                     <select value={serviceType} onChange={(e) => setServiceType(e.target.value)} className="contact-input">
                       <option value="">Select a service...</option>
                       {serviceOptions.map((opt) => (
@@ -150,9 +169,9 @@ export default function Contact() {
                     </select>
                   </div>
 
-                  <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Budget Range</label>
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Budget Range</label>
                       <select value={budget} onChange={(e) => setBudget(e.target.value)} className="contact-input">
                         <option value="">Select budget...</option>
                         {budgetOptions.map((opt) => (
@@ -161,7 +180,7 @@ export default function Contact() {
                       </select>
                     </div>
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Timeline</label>
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Timeline</label>
                       <select value={timeline} onChange={(e) => setTimeline(e.target.value)} className="contact-input">
                         <option value="">Select timeline...</option>
                         {timelineOptions.map((opt) => (
@@ -172,10 +191,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+                    <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>
                       Project Details <span className="text-red-500">*</span>
                     </label>
-                    <textarea required value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Describe your project, goals, and any specific requirements..." rows={5} className="contact-input resize-y" />
+                    <textarea required value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Describe your project, goals, and any specific requirements..." rows={4} className="contact-input resize-y" />
                   </div>
 
                   {status === "error" && (
@@ -197,62 +216,69 @@ export default function Contact() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
-              <div className="glass-card rounded-3xl p-6">
-                <h3 className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>Contact Info</h3>
-                <div className="mt-4 space-y-4">
+            <div className="space-y-5">
+              <div className="glass-card rounded-3xl p-5">
+                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>Contact Info</h3>
+                <div className="mt-4 space-y-3">
                   <div className="flex items-start gap-3">
-                    <Mail size={18} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
+                    <Mail size={16} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
                     <div>
-                      <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Email</p>
+                      <p className="text-[11px] font-medium uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Email</p>
                       <a href="mailto:rommeld216@gmail.com" className="text-sm font-medium hover:underline" style={{ color: "var(--text-primary)" }}>rommeld216@gmail.com</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Phone size={18} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
+                    <Phone size={16} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
                     <div>
-                      <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Phone</p>
+                      <p className="text-[11px] font-medium uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Phone</p>
                       <a href="tel:+639627905910" className="text-sm font-medium hover:underline" style={{ color: "var(--text-primary)" }}>+63 962 790 5910</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <MapPin size={18} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
+                    <MapPin size={16} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
                     <div>
-                      <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Location</p>
+                      <p className="text-[11px] font-medium uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Location</p>
                       <p className="text-sm" style={{ color: "var(--text-primary)" }}>Malolos, Bulacan, Philippines</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Clock size={18} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
+                    <Clock size={16} className="mt-0.5 shrink-0" style={{ color: "var(--accent-blue)" }} />
                     <div>
-                      <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Response Time</p>
+                      <p className="text-[11px] font-medium uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Response Time</p>
                       <p className="text-sm" style={{ color: "var(--text-primary)" }}>Within 24 hours</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="glass-card rounded-3xl p-6">
-                <h3 className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>Payment Options</h3>
-                <PaymentMethods layout="grid" showDetails className="mt-4" />
-              </div>
-
-              <div className="glass-card rounded-3xl p-6">
-                <h3 className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>Quick Links</h3>
-                <div className="mt-4 space-y-2">
-                  <Link to="/services" className="flex items-center gap-2 rounded-2xl px-4 py-3 text-sm transition-colors hover:bg-[var(--bg-surface-solid)]" style={{ color: "var(--text-secondary)" }}>
-                    <ArrowRight size={14} />View All Services
-                  </Link>
-                  <Link to="/packages" className="flex items-center gap-2 rounded-2xl px-4 py-3 text-sm transition-colors hover:bg-[var(--bg-surface-solid)]" style={{ color: "var(--text-secondary)" }}>
-                    <ArrowRight size={14} />View Pricing Packages
-                  </Link>
-                  <Link to="/academic" className="flex items-center gap-2 rounded-2xl px-4 py-3 text-sm transition-colors hover:bg-[var(--bg-surface-solid)]" style={{ color: "var(--text-secondary)" }}>
-                    <ArrowRight size={14} />Academic Services
-                  </Link>
-                  <Link to="/membership" className="flex items-center gap-2 rounded-2xl px-4 py-3 text-sm transition-colors hover:bg-[var(--bg-surface-solid)]" style={{ color: "var(--text-secondary)" }}>
-                    <ArrowRight size={14} />Membership Tiers
-                  </Link>
+              <div className="glass-card rounded-3xl p-5">
+                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>Quick Links</h3>
+                <div className="mt-3 space-y-1">
+                  {[
+                    { label: "View All Services", href: "/services" },
+                    { label: "View Pricing Packages", href: "/packages" },
+                    { label: "Academic Services", href: "/academic" },
+                    { label: "Membership Tiers", href: "/membership" },
+                    { label: "Templates & Commissions", href: "/templates" },
+                  ].map((link) => (
+                    <Link key={link.href} to={link.href} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[var(--bg-surface-solid)]" style={{ color: "var(--text-secondary)" }}>
+                      <ArrowRight size={12} />{link.label}
+                    </Link>
+                  ))}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Payment Options — full width at bottom */}
+          <div className="mt-8">
+            <div className="glass-card rounded-3xl p-6 md:p-8">
+              <h3 className="text-center text-base font-semibold" style={{ color: "var(--text-primary)" }}>Accepted Payment Methods</h3>
+              <p className="mx-auto mt-2 max-w-lg text-center text-sm" style={{ color: "var(--text-secondary)" }}>
+                Pay via GCash, Maya, PayPal, or Google Pay. All account details are verified and ready for transfer.
+              </p>
+              <div className="mt-6">
+                <PaymentTooltip layout="grid" />
               </div>
             </div>
           </div>

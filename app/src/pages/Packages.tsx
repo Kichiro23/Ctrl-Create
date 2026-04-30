@@ -1,16 +1,31 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
-import PaymentMethods from "@/components/PaymentMethods";
+import PaymentTooltip from "@/components/PaymentTooltip";
+import CurrencyToggle from "@/components/CurrencyToggle";
 import {
   Check, ChevronDown, Globe, Code, Palette, PenTool,
   Crown, Zap, ShieldCheck, ArrowRight, Layers, Video, Megaphone, BookOpen, MonitorSmartphone,
+  GraduationCap, FileText, Sparkles,
 } from "lucide-react";
+
+function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
+  const { formatPriceFull } = useCurrency();
+  const { primary, secondary } = formatPriceFull(pricePHP, priceUSD);
+  return (
+    <div className="flex items-baseline gap-1.5">
+      <span className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{primary}</span>
+      <span className="text-xs" style={{ color: "var(--text-muted)" }}>{secondary}</span>
+    </div>
+  );
+}
 
 interface Package {
   name: string;
   priceUSD: number;
   pricePHP: number;
+  originalPricePHP?: number;
   timeline: string;
   description: string;
   features: string[];
@@ -21,8 +36,9 @@ interface Package {
 const websitePackages: Package[] = [
   {
     name: "Starter",
-    priceUSD: 149,
-    pricePHP: 8500,
+    priceUSD: 112,
+    pricePHP: 6500,
+    originalPricePHP: 8500,
     timeline: "7–10 days",
     description: "Single-page presence with clean design",
     features: [
@@ -32,6 +48,8 @@ const websitePackages: Package[] = [
       "Mobile-first responsive design",
       "Light/Dark mode toggle",
       "Social media links",
+      "FREE logo concept (1 revision)",
+      "FREE social media banner",
       "1 major revision (full section redesign)",
       "3 minor revisions (text/image swap)",
       "2 weeks post-launch support",
@@ -41,8 +59,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Business",
-    priceUSD: 249,
-    pricePHP: 14200,
+    priceUSD: 198,
+    pricePHP: 11500,
+    originalPricePHP: 14200,
     timeline: "10–15 days",
     description: "Professional multi-page website",
     features: [
@@ -51,7 +70,9 @@ const websitePackages: Package[] = [
       "Custom layouts & micro-interactions",
       "Contact form with validation",
       "Google Analytics & Search Console setup",
-      "Basic content management",
+      "Google Business Profile setup",
+      "Basic on-page SEO optimization",
+      "FREE 3 months hosting",
       "2 major revisions",
       "5 minor revisions",
       "1 month post-launch support",
@@ -61,8 +82,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Pro",
-    priceUSD: 499,
-    pricePHP: 28500,
+    priceUSD: 388,
+    pricePHP: 22500,
+    originalPricePHP: 28500,
     timeline: "20–30 days",
     description: "Full-scale site with backend features",
     features: [
@@ -74,6 +96,9 @@ const websitePackages: Package[] = [
       "Database integration",
       "Advanced animations & transitions",
       "Newsletter subscription form",
+      "FREE 6 months hosting",
+      "FREE CMS training video",
+      "FREE analytics dashboard setup",
       "3 major revisions",
       "8 minor revisions",
       "2 months post-launch support",
@@ -83,8 +108,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Enterprise",
-    priceUSD: 699,
-    pricePHP: 39800,
+    priceUSD: 560,
+    pricePHP: 32500,
+    originalPricePHP: 39800,
     timeline: "40–60 days",
     description: "Complete digital transformation",
     features: [
@@ -97,6 +123,9 @@ const websitePackages: Package[] = [
       "Advanced SEO & social previews",
       "SSL certificate & security headers",
       "CMS for easy content updates",
+      "FREE 1 year hosting",
+      "FREE priority WhatsApp support",
+      "Quarterly performance reviews",
       "Unlimited revisions",
       "3 months priority support",
     ],
@@ -105,58 +134,175 @@ const websitePackages: Package[] = [
   },
 ];
 
+const academicPackages: Package[] = [
+  {
+    name: "Scholar",
+    priceUSD: 34,
+    pricePHP: 1999,
+    originalPricePHP: 2499,
+    timeline: "Monthly",
+    description: "For occasional academic help",
+    features: [
+      "2 essay/research papers per month",
+      "1 consultation call",
+      "5% discount on thesis chapters",
+      "Standard support",
+      "Grammar & formatting check",
+    ],
+    highlight: "Starter Academic Membership",
+    popular: false,
+  },
+  {
+    name: "Dean's Lister",
+    priceUSD: 69,
+    pricePHP: 3999,
+    originalPricePHP: 4999,
+    timeline: "Monthly",
+    description: "For regular academic support",
+    features: [
+      "5 papers/assignments per month",
+      "2 consultation calls",
+      "1 free defense PPT per month",
+      "10% discount on thesis chapters",
+      "Priority support",
+      "Turnitin reports included",
+    ],
+    highlight: "Most Popular",
+    popular: true,
+  },
+  {
+    name: "Magna Cum Laude",
+    priceUSD: 121,
+    pricePHP: 6999,
+    originalPricePHP: 8999,
+    timeline: "Monthly",
+    description: "For thesis & capstone students",
+    features: [
+      "Unlimited papers & assignments",
+      "4 consultation calls per month",
+      "1 thesis chapter per month included",
+      "1 capstone system consultation",
+      "15% discount on all academic services",
+      "Priority support + rush delivery",
+      "Free defense PPT template",
+    ],
+    highlight: "Best for thesis students",
+    popular: false,
+  },
+  {
+    name: "Valedictorian",
+    priceUSD: 207,
+    pricePHP: 11999,
+    originalPricePHP: 14999,
+    timeline: "Monthly",
+    description: "For full-semester support",
+    features: [
+      "Unlimited everything",
+      "Weekly consultation calls",
+      "Full thesis (Ch 1–5) over 4 months",
+      "Defense prep + PPT + script",
+      "1 basic capstone system included",
+      "20% discount on all services",
+      "VIP support + 24h response",
+    ],
+    highlight: "Best for comprehensive support",
+    popular: false,
+  },
+];
+
 const addonPackages = [
-  { name: "Logo Design", priceUSD: 99, pricePHP: 5650, icon: Palette, description: "Unique logo with brand guidelines" },
-  { name: "Branding Kit", priceUSD: 149, pricePHP: 8500, icon: Layers, description: "Color palette, typography, business cards, social templates" },
-  { name: "Promo Video", priceUSD: 199, pricePHP: 11350, icon: Video, description: "60-second promotional video with motion graphics" },
-  { name: "Social Media Pack", priceUSD: 79, pricePHP: 4500, icon: Megaphone, description: "30 posts + stories for Instagram/Facebook" },
-  { name: "SEO Package", priceUSD: 199, pricePHP: 11350, icon: Globe, description: "Keyword research, on-page SEO, monthly report (3 months)" },
-  { name: "Content Writing", priceUSD: 49, pricePHP: 2800, icon: PenTool, description: "Professional web copy per page" },
-  { name: "Academic System", priceUSD: 299, pricePHP: 17000, icon: BookOpen, description: "Capstone defense system with defense-ready documentation" },
-  { name: "Mobile App (PWA)", priceUSD: 199, pricePHP: 11350, icon: MonitorSmartphone, description: "Progressive Web App with offline support" },
+  { name: "Logo Design", priceUSD: 78, pricePHP: 4500, icon: Palette, description: "Unique logo with brand guidelines" },
+  { name: "Branding Kit", priceUSD: 121, pricePHP: 6999, icon: Layers, description: "Color palette, typography, business cards, social templates" },
+  { name: "Promo Video", priceUSD: 155, pricePHP: 8999, icon: Video, description: "60-second promotional video with motion graphics" },
+  { name: "Social Media Pack", priceUSD: 60, pricePHP: 3499, icon: Megaphone, description: "30 posts + stories for Instagram/Facebook" },
+  { name: "SEO Package", priceUSD: 155, pricePHP: 8999, icon: Globe, description: "Keyword research, on-page SEO, monthly report (3 months)" },
+  { name: "Content Writing", priceUSD: 38, pricePHP: 2200, icon: PenTool, description: "Professional web copy per page" },
+  { name: "Academic System", priceUSD: 242, pricePHP: 14000, icon: BookOpen, description: "Capstone defense system with defense-ready documentation" },
+  { name: "Mobile App (PWA)", priceUSD: 155, pricePHP: 8999, icon: MonitorSmartphone, description: "Progressive Web App with offline support" },
 ];
 
 const membershipTiers = [
-  { name: "Bronze", price: "₱3,999", duration: "1 month", discount: "5%", color: "#C9A96E", icon: ShieldCheck, features: ["Discount on every service", "Free consultation call", "Monthly check-in", "1 revision per project"] },
-  { name: "Silver", price: "₱8,000", duration: "2 months", discount: "6%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "Priority queue", "2 free social media posts", "Extended revision scope"] },
-  { name: "Gold", price: "₱16,999", duration: "3 months", discount: "8%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance"] },
-  { name: "Diamond", price: "₱30,000", duration: "4 months", discount: "10%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "Full brand development", "Unlimited consultations", "3 months maintenance", "Exclusive perks & first access"] },
+  { name: "Bronze", pricePHP: 2999, priceUSD: 52, duration: "1 month", discount: "5%", color: "#C9A96E", icon: ShieldCheck, features: ["Discount on every service", "Free consultation call", "Monthly check-in", "1 revision per project", "Free social media banner"] },
+  { name: "Silver", pricePHP: 5999, priceUSD: 103, duration: "2 months", discount: "6%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "Priority queue", "2 free social media posts", "Extended revision scope", "Free basic SEO audit"] },
+  { name: "Gold", pricePHP: 12999, priceUSD: 224, duration: "3 months", discount: "8%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance", "Free Google Business setup"] },
+  { name: "Diamond", pricePHP: 22500, priceUSD: 388, duration: "4 months", discount: "10%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "Full brand development", "Unlimited consultations", "3 months maintenance", "Exclusive perks & first access", "Free logo design"] },
 ];
 
 export default function Packages() {
-  const { formatPrice } = useCurrency();
   const [openAddons, setOpenAddons] = useState(false);
   const [openMembership, setOpenMembership] = useState(false);
+  const [activeTab, setActiveTab] = useState<"website" | "academic">("website");
+
+  const currentPackages = activeTab === "website" ? websitePackages : academicPackages;
 
   return (
     <div>
       {/* Hero */}
-      <section className="px-4 pb-16 pt-32 text-center md:px-6 lg:px-8">
+      <section className="px-4 pb-12 pt-28 text-center md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
-          <span className="eyebrow">Pricing</span>
+          <div className="flex items-center justify-center gap-3">
+            <span className="eyebrow">Pricing</span>
+            <CurrencyToggle />
+          </div>
           <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-            Website & Service Packages
+            Website & Academic Packages
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg" style={{ color: "var(--text-secondary)" }}>
-            Transparent pricing for websites, systems, add-ons, and recurring memberships.
+            Transparent pricing for websites, academic services, add-ons, and recurring memberships.
           </p>
           <div className="mt-6 flex justify-center">
-            <PaymentMethods layout="badges" />
+            <PaymentTooltip layout="badges" />
           </div>
         </div>
       </section>
 
-      {/* Website Packages */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      {/* Tab Toggle */}
+      <section className="px-4 pb-8 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => setActiveTab("website")}
+              className={`flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all ${
+                activeTab === "website" ? "text-white" : "border"
+              }`}
+              style={
+                activeTab === "website"
+                  ? { background: "var(--accent-blue)" }
+                  : { borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }
+              }
+            >
+              <MonitorSmartphone size={16} />
+              Website Packages
+            </button>
+            <button
+              onClick={() => setActiveTab("academic")}
+              className={`flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all ${
+                activeTab === "academic" ? "text-white" : "border"
+              }`}
+              style={
+                activeTab === "academic"
+                  ? { background: "#34C759" }
+                  : { borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }
+              }
+            >
+              <GraduationCap size={16} />
+              Academic Membership
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Packages */}
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <div className="section-heading mb-12">
-            <span className="eyebrow">Website</span>
-            <h2>Website Commission Packages</h2>
-            <p>Choose the scope that fits your business or academic needs.</p>
+            <span className="eyebrow">{activeTab === "website" ? "Website" : "Academic"}</span>
+            <h2>{activeTab === "website" ? "Website Commission Packages" : "Academic Support Memberships"}</h2>
+            <p>{activeTab === "website" ? "Choose the scope that fits your business or academic needs." : "Consistent academic help with monthly allowances and discounts."}</p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {websitePackages.map((pkg) => (
+            {currentPackages.map((pkg) => (
               <div key={pkg.name} className={`glass-card relative flex flex-col rounded-3xl p-6 ${pkg.popular ? "ring-1 ring-[var(--accent-blue)]" : ""}`}>
                 {pkg.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ background: "var(--accent-blue)" }}>Most Popular</span>
@@ -164,9 +310,11 @@ export default function Packages() {
                 <h3 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>{pkg.name}</h3>
                 <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>{pkg.description}</p>
                 <div className="mt-3">
-                  <span className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{formatPrice(pkg.priceUSD, pkg.pricePHP)}</span>
-                  <span className="ml-1 text-sm" style={{ color: "var(--text-muted)" }}>starting</span>
+                  <PriceDisplay pricePHP={pkg.pricePHP} priceUSD={pkg.priceUSD} />
                 </div>
+                {pkg.originalPricePHP && (
+                  <p className="text-xs line-through" style={{ color: "var(--text-muted)" }}>₱{pkg.originalPricePHP.toLocaleString()}</p>
+                )}
                 <p className="mt-1 text-xs" style={{ color: "var(--text-muted)" }}>{pkg.timeline}</p>
                 {pkg.highlight && <p className="mt-2 text-xs font-medium" style={{ color: "var(--accent-blue)" }}>{pkg.highlight}</p>}
                 <ul className="mt-5 flex-1 space-y-2">
@@ -177,9 +325,9 @@ export default function Packages() {
                     </li>
                   ))}
                 </ul>
-                <a href="/contact" className={`mt-6 block w-full rounded-full py-2.5 text-center text-sm font-semibold ${pkg.popular ? "btn-primary" : "btn-secondary"}`}>
+                <Link to="/contact" className={`mt-6 block w-full rounded-full py-2.5 text-center text-sm font-semibold ${pkg.popular ? "btn-primary" : "btn-secondary"}`}>
                   Get Started
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -187,7 +335,7 @@ export default function Packages() {
       </section>
 
       {/* Add-Ons */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <div className="section-heading mb-8">
             <span className="eyebrow">Extras</span>
@@ -213,7 +361,9 @@ export default function Packages() {
                       </div>
                       <h4 className="mt-3 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{addon.name}</h4>
                       <p className="mt-1 text-xs" style={{ color: "var(--text-secondary)" }}>{addon.description}</p>
-                      <p className="mt-2 text-sm font-bold" style={{ color: "var(--accent-blue)" }}>{formatPrice(addon.priceUSD, addon.pricePHP)}</p>
+                      <div className="mt-2">
+                        <PriceDisplay pricePHP={addon.pricePHP} priceUSD={addon.priceUSD} />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -224,7 +374,7 @@ export default function Packages() {
       </section>
 
       {/* Membership */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <div className="section-heading mb-8">
             <span className="eyebrow">Membership</span>
@@ -249,7 +399,9 @@ export default function Packages() {
                         <tier.icon size={20} style={{ color: tier.color }} />
                       </div>
                       <h4 className="mt-3 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{tier.name}</h4>
-                      <p className="mt-1 text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{tier.price}</p>
+                      <div className="mt-1">
+                        <PriceDisplay pricePHP={tier.pricePHP} priceUSD={tier.priceUSD} />
+                      </div>
                       <p className="text-xs" style={{ color: "var(--text-muted)" }}>for {tier.duration} · {tier.discount} off all services</p>
                       <ul className="mt-3 space-y-1">
                         {tier.features.map((f) => (
@@ -266,19 +418,19 @@ export default function Packages() {
           </AnimatePresence>
 
           <div className="mt-6 text-center">
-            <a href="/membership" className="btn-secondary rounded-full inline-flex items-center gap-2">View Full Membership Page <ArrowRight size={14} /></a>
+            <Link to="/membership" className="btn-secondary rounded-full inline-flex items-center gap-2">View Full Membership Page <ArrowRight size={14} /></Link>
           </div>
         </div>
       </section>
 
       {/* Payment Methods */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <div className="section-heading mb-8">
             <span className="eyebrow">Payments</span>
             <h2>Accepted Payment Methods</h2>
           </div>
-          <PaymentMethods layout="grid" showDetails className="mx-auto max-w-lg" />
+          <PaymentTooltip layout="grid" className="mx-auto max-w-lg" />
           <p className="mt-4 text-sm" style={{ color: "var(--text-secondary)" }}>
             GCash / Maya / PayPal / Google Pay — flexible options for every client.
           </p>
@@ -286,7 +438,7 @@ export default function Packages() {
       </section>
 
       {/* Revision Policy */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px]">
           <div className="section-heading mb-8">
             <span className="eyebrow">Policy</span>
@@ -316,21 +468,21 @@ export default function Packages() {
             </div>
           </div>
           <div className="mt-6 text-center">
-            <a href="/revision-policy" className="btn-secondary rounded-full inline-flex items-center gap-2">View Full Revision Policy <ArrowRight size={14} /></a>
+            <Link to="/revision-policy" className="btn-secondary rounded-full inline-flex items-center gap-2">View Full Revision Policy <ArrowRight size={14} /></Link>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Ready to Start Your Project?</h2>
           <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
             Tell me what you're building and I'll send you a custom quote within 24 hours.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a href="/contact" className="btn-primary rounded-full"><Code size={16} className="mr-2" />Request a Quote</a>
-            <a href="/services" className="btn-secondary rounded-full">Browse All Services</a>
+            <Link to="/contact" className="btn-primary rounded-full"><Code size={16} className="mr-2" />Request a Quote</Link>
+            <Link to="/services" className="btn-secondary rounded-full">Browse All Services</Link>
           </div>
         </div>
       </section>

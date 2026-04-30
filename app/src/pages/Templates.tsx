@@ -1,16 +1,34 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { ExternalLink, Wrench, ShieldCheck, QrCode } from "lucide-react";
-import PaymentMethods from "@/components/PaymentMethods";
+import { useState } from "react";
+import { Link } from "react-router";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ExternalLink, ShieldCheck, QrCode, Search, X,
+  MonitorSmartphone, GraduationCap, Tag, ArrowRight,
+} from "lucide-react";
+import PaymentTooltip from "@/components/PaymentTooltip";
+import SearchBar from "@/components/SearchBar";
+import { useDebouncedSearch } from "@/components/SearchBar";
+import CurrencyToggle from "@/components/CurrencyToggle";
+import { useCurrency } from "@/hooks/useCurrency";
+import { templates, templateCategories, type TemplateCategoryFilter, type Template } from "@/data/templates";
+
+function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
+  const { formatPriceFull } = useCurrency();
+  const { primary, secondary } = formatPriceFull(pricePHP, priceUSD);
+  return (
+    <div className="flex items-baseline gap-1.5">
+      <span className="text-lg font-bold" style={{ color: "var(--accent-blue)" }}>{primary}</span>
+      <span className="text-xs" style={{ color: "var(--text-muted)" }}>{secondary}</span>
+    </div>
+  );
+}
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10% 0px" }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       className={className}
     >
@@ -20,17 +38,12 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
 }
 
 function StaggerContainer({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
   return (
     <motion.div
-      ref={ref}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.08 } },
-      }}
+      whileInView="visible"
+      viewport={{ once: true, margin: "-10% 0px" }}
+      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
       className={className}
     >
       {children}
@@ -43,32 +56,61 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
-const templates = [
-  { name: "POS Restaurant App System", price: 7999, image: "/portfolio-1.jpg" },
-  { name: "POS Grocery App System", price: 7999, image: "/portfolio-2.jpg" },
-  { name: "Resort Reservation System", price: 9999, image: "/portfolio-3.jpg" },
-  { name: "Car Rental Dashboard", price: 9999, image: "/portfolio-4.jpg" },
-  { name: "Staycation System", price: 8999, image: "/portfolio-5.jpg" },
-  { name: "Travel & Tours System", price: 9999, image: "/portfolio-6.jpg" },
-  { name: "Construction Services & Products System", price: 9999, image: "/portfolio-7.jpg" },
-  { name: "Printing Services Dashboard", price: 9999, image: "/portfolio-8.jpg" },
-  { name: "Finance Hub", price: 7999, image: "/portfolio-1.jpg" },
-];
+const categoryIcons: Record<TemplateCategoryFilter, React.ElementType> = {
+  All: Search,
+  "Website Templates": MonitorSmartphone,
+  "Academic Commissions": GraduationCap,
+};
+
+const categoryColors: Record<TemplateCategoryFilter, string> = {
+  All: "var(--accent-blue)",
+  "Website Templates": "#007AFF",
+  "Academic Commissions": "#34C759",
+};
 
 export default function Templates() {
+  const [activeCategory, setActiveCategory] = useState<TemplateCategoryFilter>("All");
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+
+  const searchFn = (item: Template, query: string) => {
+    const text = `${item.name} ${item.description} ${item.subcategory} ${item.tags.join(" ")}`.toLowerCase();
+    return text.includes(query);
+  };
+
+  const { query, setQuery, results } = useDebouncedSearch(templates, searchFn, 300);
+
+  const filtered = results.filter((t) => {
+    if (activeCategory === "All") return true;
+    return t.category === activeCategory;
+  });
+
   return (
     <div>
       {/* Hero */}
-      <section className="relative flex min-h-[50vh] items-center justify-center px-4 pt-24 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[800px] text-center">
+      <section className="relative flex min-h-[40vh] flex-col items-start justify-start px-4 pt-36 pb-10 md:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto max-w-[900px] text-center">
           <AnimatedSection>
-            <span className="eyebrow">Marketplace</span>
+            <div className="flex items-center justify-center gap-3">
+              <span className="eyebrow">Marketplace</span>
+              <CurrencyToggle />
+            </div>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-              Ready-Made Systems
+              Ready-Made Systems & Academic Packages
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Find everything you need to build and launch. Explore ready-to-use systems and buy instantly through QRPh Payment.
+              Find everything you need — from business systems to academic commissions. Buy instantly through QRPh Payment.
             </p>
+          </AnimatedSection>
+
+          <AnimatedSection className="mt-10">
+            <div className="relative z-20 mx-auto max-w-md">
+              <SearchBar
+                placeholder="Search templates, commissions, tags..."
+                value={query}
+                onChange={setQuery}
+                className="relative z-20"
+              />
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -78,25 +120,16 @@ export default function Templates() {
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <div
-                className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm"
-                style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
-              >
+              <div className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
                 <QrCode size={16} style={{ color: "var(--accent-blue)" }} />
                 QRPh Accepted
               </div>
-              <div
-                className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm"
-                style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
-              >
+              <div className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
                 <ShieldCheck size={16} style={{ color: "var(--accent-blue)" }} />
                 Instant Purchase — No Annual Fees
               </div>
-              <div
-                className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm"
-                style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
-              >
-                <Wrench size={16} style={{ color: "var(--accent-blue)" }} />
+              <div className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
+                <MonitorSmartphone size={16} style={{ color: "var(--accent-blue)" }} />
                 Customization Available
               </div>
             </div>
@@ -104,69 +137,170 @@ export default function Templates() {
         </div>
       </section>
 
-      {/* Templates Grid */}
-      <section className="px-4 py-12 md:px-6 lg:px-8">
+      {/* Category Tabs */}
+      <section className="px-4 py-4 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
-          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {templates.map((template) => (
-              <motion.div
-                key={template.name}
-                variants={itemVariants}
-                className="glass-card group overflow-hidden rounded-3xl"
+          <AnimatedSection>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {templateCategories.map((cat) => {
+                const Icon = categoryIcons[cat];
+                const isActive = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+                      isActive ? "text-white" : "border"
+                    }`}
+                    style={
+                      isActive
+                        ? { background: categoryColors[cat] }
+                        : { borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }
+                    }
+                  >
+                    <Icon size={14} />
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Templates Grid */}
+      <section className="px-4 py-14 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          {query && (
+            <div className="mb-6 flex items-center justify-between">
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                {filtered.length} result{filtered.length !== 1 ? "s" : ""} for &quot;{query}&quot;
+              </p>
+              <button
+                onClick={() => setQuery("")}
+                className="flex items-center gap-1 text-sm transition-colors hover:text-[var(--accent-blue)]"
+                style={{ color: "var(--text-muted)" }}
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={template.image}
-                    alt={template.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/40" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">
-                      Quick Preview <ExternalLink size={14} />
-                    </span>
-                  </div>
+                <X size={14} /> Clear search
+              </button>
+            </div>
+          )}
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory + query}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+            >
+              {filtered.length === 0 ? (
+                <div className="py-20 text-center">
+                  <Search size={40} className="mx-auto" style={{ color: "var(--text-muted)" }} />
+                  <p className="mt-4 text-lg font-medium" style={{ color: "var(--text-primary)" }}>No results found</p>
+                  <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>Try a different search term or category.</p>
                 </div>
-                <div className="p-5">
-                  <h3 className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>
-                    {template.name}
-                  </h3>
-                  <p className="mt-1 text-lg font-bold" style={{ color: "var(--accent-blue)" }}>
-                    ₱{template.price.toLocaleString()}
-                  </p>
-                  <div className="mt-4 flex items-center gap-2">
-                    <button
-                      className="flex-1 rounded-xl border py-2.5 text-sm font-semibold transition-all"
-                      style={{ borderColor: "var(--accent-blue)", color: "var(--accent-blue)" }}
+              ) : (
+                <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {filtered.map((template) => (
+                    <motion.div
+                      key={template.id}
+                      variants={itemVariants}
+                      className="glass-card group overflow-hidden rounded-3xl"
                     >
-                      View Demo
-                    </button>
-                    <button className="flex-1 rounded-xl py-2.5 text-sm font-semibold text-white" style={{ background: "var(--accent-blue)" }}>
-                      Customize
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </StaggerContainer>
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <img
+                          src={template.image}
+                          alt={template.name}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/40" />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <button
+                            onClick={() => setSelectedTemplate(template)}
+                            className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black"
+                          >
+                            Quick Preview <ExternalLink size={14} />
+                          </button>
+                        </div>
+                        <div className="absolute top-3 left-3">
+                          <span
+                            className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white"
+                            style={{
+                              background: template.category === "Website Templates" ? "#007AFF" : "#34C759",
+                            }}
+                          >
+                            {template.category === "Website Templates" ? "Website" : "Academic"}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <div className="flex items-center gap-2">
+                          <Tag size={12} style={{ color: "var(--text-muted)" }} />
+                          <span className="text-xs" style={{ color: "var(--text-muted)" }}>{template.subcategory}</span>
+                        </div>
+                        <h3 className="mt-1 text-base font-semibold" style={{ color: "var(--text-primary)" }}>
+                          {template.name}
+                        </h3>
+                        <p className="mt-1 line-clamp-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                          {template.description}
+                        </p>
+                        <div className="mt-3">
+                          <PriceDisplay pricePHP={template.pricePHP} priceUSD={template.priceUSD} />
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {template.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                              style={{ background: "var(--bg-surface-solid)", color: "var(--text-secondary)", border: "1px solid var(--border-subtle)" }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="mt-4 flex items-center gap-2">
+                          <button
+                            onClick={() => setSelectedTemplate(template)}
+                            className="flex-1 rounded-xl border py-2.5 text-sm font-semibold transition-all"
+                            style={{ borderColor: "var(--accent-blue)", color: "var(--accent-blue)" }}
+                          >
+                            View Details
+                          </button>
+                          <Link
+                            to="/contact"
+                            className="flex-1 rounded-xl py-2.5 text-center text-sm font-semibold text-white"
+                            style={{ background: "var(--accent-blue)" }}
+                          >
+                            Inquire
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </StaggerContainer>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
       {/* Payment Methods */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection className="section-heading mb-8">
             <span className="eyebrow">Payments</span>
             <h2>Pay Your Way</h2>
           </AnimatedSection>
           <AnimatedSection>
-            <PaymentMethods layout="grid" showDetails className="mx-auto max-w-md" />
+            <PaymentTooltip layout="grid" className="mx-auto max-w-md" />
           </AnimatedSection>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>
@@ -176,13 +310,94 @@ export default function Templates() {
               All templates can be customized to fit your brand. Or we can build something entirely from scratch.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <a href="mailto:rommeld216@gmail.com" className="btn-primary rounded-full">
-                Get a Custom Quote
-              </a>
+              <Link to="/contact" className="btn-primary rounded-full flex items-center gap-2">
+                Get a Custom Quote <ArrowRight size={16} />
+              </Link>
             </div>
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Template Detail Modal */}
+      <AnimatePresence>
+        {selectedTemplate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => setSelectedTemplate(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25 }}
+              className="w-full max-w-lg overflow-hidden rounded-3xl border shadow-2xl"
+              style={{ background: "var(--bg-surface-solid)", borderColor: "var(--border-subtle)" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative aspect-video">
+                <img src={selectedTemplate.image} alt={selectedTemplate.name} className="h-full w-full object-cover" />
+                <button
+                  onClick={() => setSelectedTemplate(null)}
+                  className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+                >
+                  <X size={16} />
+                </button>
+                <div className="absolute top-3 left-3">
+                  <span
+                    className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white"
+                    style={{
+                      background: selectedTemplate.category === "Website Templates" ? "#007AFF" : "#34C759",
+                    }}
+                  >
+                    {selectedTemplate.category === "Website Templates" ? "Website Template" : "Academic Commission"}
+                  </span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2">
+                  <Tag size={12} style={{ color: "var(--text-muted)" }} />
+                  <span className="text-xs" style={{ color: "var(--text-muted)" }}>{selectedTemplate.subcategory}</span>
+                </div>
+                <h3 className="mt-2 text-xl font-bold" style={{ color: "var(--text-primary)" }}>{selectedTemplate.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{selectedTemplate.description}</p>
+                <div className="mt-4">
+                  <PriceDisplay pricePHP={selectedTemplate.pricePHP} priceUSD={selectedTemplate.priceUSD} />
+                </div>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {selectedTemplate.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full px-2.5 py-1 text-[11px] font-medium"
+                      style={{ background: "var(--bg-surface)", color: "var(--text-secondary)", border: "1px solid var(--border-subtle)" }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-6 flex items-center gap-3">
+                  <Link
+                    to="/contact"
+                    className="flex-1 rounded-xl py-3 text-center text-sm font-semibold text-white"
+                    style={{ background: "var(--accent-blue)" }}
+                  >
+                    Inquire Now
+                  </Link>
+                  <button
+                    onClick={() => setSelectedTemplate(null)}
+                    className="rounded-xl border px-5 py-3 text-sm font-semibold"
+                    style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

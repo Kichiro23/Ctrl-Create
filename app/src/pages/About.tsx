@@ -4,8 +4,9 @@ import {
   Code, Database, Cloud, Shield, Palette, Wrench, Briefcase, GraduationCap, Award,
   MapPin, Mail, Phone, Clock, Globe, Cpu, Layers, Zap, CheckCircle2, ExternalLink,
   Linkedin, Instagram, Facebook, Github, MessageCircle, Send, BookOpen, PenTool, Presentation,
+  ShoppingCart, FileText, Sparkles, Megaphone, Car,
 } from "lucide-react";
-import PaymentMethods from "@/components/PaymentMethods";
+import PaymentTooltip from "@/components/PaymentTooltip";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -32,8 +33,10 @@ const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 
 const stats = [
   { value: "5+", label: "Years Experience", icon: Clock },
   { value: "PH", label: "Based in Philippines", icon: MapPin },
-  { value: "50+", label: "Projects Delivered", icon: Briefcase },
-  { value: "12+", label: "Websites Built", icon: Code },
+  { value: "100+", label: "Projects Delivered", icon: Briefcase },
+  { value: "25+", label: "Websites Built", icon: Code },
+  { value: "50+", label: "Students Helped", icon: GraduationCap },
+  { value: "12+", label: "Industries Served", icon: Globe },
 ];
 
 const technicalSkills = [
@@ -72,6 +75,12 @@ const workExperience = [
 
 const projects = [
   { title: "CARP (Climate & Air Research Platform)", role: "Lead Developer (Full Stack)", period: "2025 – 2026", bullets: ["Developed WeatherCarp, a full-stack environmental monitoring platform at Bulacan State University.", "React 19 + TypeScript frontend, Node.js/Express backend, MongoDB Atlas, 5+ APIs integrated.", "JWT + Google OAuth 2.0, deployed on Hostinger/Render.", "Leaflet.js maps, Chart.js visualizations, AI chatbot, multi-domain monitoring."], link: "https://weathercarp.com", stack: "React, TypeScript, Tailwind CSS, Node.js, Express, MongoDB, Vite" },
+  { title: "E-commerce Platform for Local Retail", role: "Full Stack Developer", period: "2024", bullets: ["Built a complete e-commerce platform with product catalog, cart, checkout, and Stripe payment integration.", "React + Node.js + MySQL stack with JWT authentication and admin dashboard.", "Deployed with CI/CD pipeline and performance optimized for mobile."], stack: "React, Node.js, MySQL, Stripe, Tailwind CSS" },
+  { title: "Barangay Document Management System", role: "Full Stack Developer", period: "2024", bullets: ["Developed a comprehensive barangay portal with resident database, clearance requests, and blotter system.", "Role-based access control for admin, staff, and residents.", "Automated document generation and SMS notification integration."], stack: "Next.js, Prisma, PostgreSQL, Tailwind CSS" },
+  { title: "AI-Powered Content Generator", role: "AI Engineer", period: "2023 – 2024", bullets: ["Built a content generation tool using Python, OpenAI API, and LangChain for automated blog and social media content.", "Implemented RAG pipeline for context-aware responses with vector database integration.", "Deployed as a web app with FastAPI backend and React frontend."], stack: "Python, FastAPI, OpenAI API, LangChain, React, Pinecone" },
+  { title: "Social Media Automation Suite", role: "Automation Engineer", period: "2023", bullets: ["Created an automation workflow using N8N and Meta APIs for content scheduling and analytics reporting.", "Integrated with Buffer and Later APIs for multi-platform posting.", "Reduced client content management time by 60%."], stack: "N8N, Meta APIs, Zapier, Python, REST APIs" },
+  { title: "Restaurant POS & Inventory System", role: "Full Stack Developer", period: "2023", bullets: ["Developed a restaurant POS with table management, kitchen display, and real-time inventory tracking.", "Integrated GCash and Maya payment APIs for seamless checkout.", "Built with responsive design for tablet and desktop use."], stack: "React, Node.js, MySQL, Socket.io, Tailwind CSS" },
+  { title: "Salon Booking & CRM", role: "Full Stack Developer", period: "2023", bullets: ["Built a salon management system with appointment booking, staff scheduling, and customer CRM.", "Automated SMS reminders and loyalty points system.", "Admin dashboard with revenue analytics and service performance reports."], stack: "Next.js, Prisma, PostgreSQL, Tailwind CSS, Twilio" },
   { title: "Database Management System", role: "Independent Project", period: "2021 – 2022", bullets: ["Built a MySQL-based inventory management system with full CRUD operations and relational schemas."] },
   { title: "Software System Designer", role: "Independent Project", period: "2023 – 2024", bullets: ["Designed end-to-end system architecture, UI/UX layout, and user flow.", "Produced complete technical documentation and stakeholder presentations."] },
   { title: "Python Application Developer", role: "Independent Project", period: "2021 – 2022", bullets: ["Developed a modular mathematics converter in Python applying OOP principles."] },
@@ -104,7 +113,7 @@ export default function About() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative px-4 pb-16 pt-32 md:px-6 lg:px-8">
+      <section className="relative px-4 pb-12 pt-28 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="text-center">
             <span className="eyebrow">About Me</span>
@@ -123,7 +132,7 @@ export default function About() {
             <p className="mt-3 text-sm font-medium" style={{ color: "var(--accent-blue)" }}>Open to Remote, Part-Time & Project-Based Work</p>
           </AnimatedSection>
 
-          <StaggerContainer className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <StaggerContainer className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {stats.map((stat) => (
               <motion.div key={stat.label} variants={itemVariants} className="glass-card rounded-3xl p-6 text-center">
                 <stat.icon size={24} className="mx-auto" style={{ color: "var(--accent-blue)" }} />
@@ -145,14 +154,14 @@ export default function About() {
 
           <AnimatedSection className="mt-4">
             <div className="flex justify-center">
-              <PaymentMethods layout="badges" />
+              <PaymentTooltip layout="badges" />
             </div>
           </AnimatedSection>
         </div>
       </section>
 
       {/* Technical Skills */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Expertise</span>
@@ -181,7 +190,7 @@ export default function About() {
       </section>
 
       {/* Writing & Academic Skills */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Specializations</span>
@@ -210,7 +219,7 @@ export default function About() {
       </section>
 
       {/* Tools & Technology */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Stack</span>
@@ -239,12 +248,12 @@ export default function About() {
       </section>
 
       {/* Work Experience */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Background</span>
             <h2>Work Experience</h2>
-            <p>Freelance creative and technical professional since 2020.</p>
+            <p>Freelance creative and technical professional since 2021.</p>
           </AnimatedSection>
 
           <div className="mx-auto max-w-3xl space-y-6">
@@ -273,7 +282,7 @@ export default function About() {
       </section>
 
       {/* Projects */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Projects</span>
@@ -314,7 +323,7 @@ export default function About() {
       </section>
 
       {/* Certifications */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Credentials</span>
@@ -343,7 +352,7 @@ export default function About() {
       </section>
 
       {/* Core Attributes */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Strengths</span>
@@ -367,20 +376,20 @@ export default function About() {
       </section>
 
       {/* Payment Methods */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection className="section-heading mb-8">
             <span className="eyebrow">Payments</span>
             <h2>Accepted Payment Methods</h2>
           </AnimatedSection>
           <AnimatedSection>
-            <PaymentMethods layout="grid" showDetails className="mx-auto max-w-lg" />
+            <PaymentTooltip layout="grid" className="mx-auto max-w-lg" />
           </AnimatedSection>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Let's Work Together</h2>

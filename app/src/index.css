@@ -117,14 +117,17 @@
     @apply rounded-2xl border border-[var(--border-subtle)] backdrop-blur-xl;
     background: var(--bg-surface);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    transition: transform 250ms cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: transform 300ms cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 300ms cubic-bezier(0.25, 0.1, 0.25, 1), border-color 300ms ease;
+  }
+  .glass-card:hover {
+    border-color: var(--border-glow);
   }
   .dark .glass-card {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   }
   .glass-card-hover:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 56px rgba(0, 0, 0, 0.14);
   }
   .dark .glass-card-hover:hover {
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.40);

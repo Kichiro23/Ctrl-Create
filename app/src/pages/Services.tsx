@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import {
@@ -28,8 +28,10 @@ import {
   Presentation,
   Type,
   Brain,
+  Search,
+  X,
 } from "lucide-react";
-import PaymentMethods from "@/components/PaymentMethods";
+import PaymentTooltip from "@/components/PaymentTooltip";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -194,11 +196,20 @@ const whyChooseUs = [
 ];
 
 export default function Services() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredCategories = serviceCategories.map((category) => ({
+    ...category,
+    services: category.services.filter((service) =>
+      `${service.name} ${service.desc}`.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+  })).filter((category) => category.services.length > 0);
+
   return (
     <div>
       {/* Hero */}
-      <section className="relative flex min-h-[60vh] items-center justify-center px-4 pt-24 md:px-6 lg:px-8">
-        <div className="mx-auto max-w-[900px] text-center">
+      <section className="relative flex min-h-[50vh] flex-col items-start justify-start px-4 pt-32 pb-10 md:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto max-w-[900px] text-center">
           <AnimatedSection>
             <span className="eyebrow">Full Catalog</span>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
@@ -216,6 +227,36 @@ export default function Services() {
               </Link>
             </div>
           </AnimatedSection>
+
+          {/* Search */}
+          <AnimatedSection className="mt-10">
+            <div className="relative z-20 mx-auto max-w-md">
+              <div
+                className="flex items-center gap-2 rounded-full border px-4 py-2.5"
+                style={{ borderColor: "var(--border-subtle)", background: "var(--bg-surface)" }}
+              >
+                <Search size={16} style={{ color: "var(--text-muted)" }} />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search services..."
+                  className="flex-1 bg-transparent text-sm outline-none"
+                  style={{ color: "var(--text-primary)" }}
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery("")} style={{ color: "var(--text-muted)" }}>
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              {searchQuery && (
+                <p className="mt-2 text-xs" style={{ color: "var(--text-muted)" }}>
+                  {filteredCategories.reduce((acc, c) => acc + c.services.length, 0)} results for &quot;{searchQuery}&quot;
+                </p>
+              )}
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -227,71 +268,79 @@ export default function Services() {
               <span className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>
                 Accepted Payments
               </span>
-              <PaymentMethods layout="badges" />
+              <PaymentTooltip layout="badges" />
             </div>
           </AnimatedSection>
         </div>
       </section>
 
       {/* Service Categories */}
-      {serviceCategories.map((category) => (
-        <section
-          key={category.name}
-          className="px-4 py-16 md:px-6 lg:px-8"
-          style={{ background: category.name === "Digital & Technical" ? "var(--bg-primary)" : undefined }}
-        >
-          <div className="mx-auto max-w-[1200px]">
-            <AnimatedSection className="mb-10">
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="flex h-10 w-10 items-center justify-center rounded-2xl"
-                      style={{ background: `${category.color}15` }}
-                    >
-                      <category.icon size={20} style={{ color: category.color }} />
-                    </div>
-                    <h2 className="text-2xl font-bold tracking-tight md:text-3xl" style={{ color: "var(--text-primary)" }}>
-                      {category.name}
-                    </h2>
-                  </div>
-                  <p className="mt-2 max-w-xl text-sm" style={{ color: "var(--text-secondary)" }}>
-                    {category.description}
-                  </p>
-                </div>
-                <Link
-                  to={category.link}
-                  className="inline-flex items-center gap-1 text-sm font-medium transition-colors hover:gap-2"
-                  style={{ color: "var(--accent-blue)" }}
-                >
-                  Learn More <ArrowRight size={14} />
-                </Link>
-              </div>
-            </AnimatedSection>
-
-            <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {category.services.map((service) => (
-                <motion.div
-                  key={service.name}
-                  variants={itemVariants}
-                  className="glass-card rounded-3xl p-5 transition-all hover:-translate-y-1"
-                >
-                  <service.icon size={18} style={{ color: category.color }} />
-                  <h3 className="mt-3 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                    {service.name}
-                  </h3>
-                  <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                    {service.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </StaggerContainer>
-          </div>
+      {filteredCategories.length === 0 ? (
+        <section className="px-4 py-14 text-center md:px-6 lg:px-8">
+          <Search size={40} className="mx-auto" style={{ color: "var(--text-muted)" }} />
+          <p className="mt-4 text-lg font-medium" style={{ color: "var(--text-primary)" }}>No services found</p>
+          <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>Try a different search term.</p>
         </section>
-      ))}
+      ) : (
+        filteredCategories.map((category) => (
+          <section
+            key={category.name}
+            className="px-4 py-14 md:px-6 lg:px-8"
+            style={{ background: category.name === "Digital & Technical" ? "var(--bg-primary)" : undefined }}
+          >
+            <div className="mx-auto max-w-[1200px]">
+              <AnimatedSection className="mb-10">
+                <div className="flex flex-wrap items-end justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-10 w-10 items-center justify-center rounded-2xl"
+                        style={{ background: `${category.color}15` }}
+                      >
+                        <category.icon size={20} style={{ color: category.color }} />
+                      </div>
+                      <h2 className="text-2xl font-bold tracking-tight md:text-3xl" style={{ color: "var(--text-primary)" }}>
+                        {category.name}
+                      </h2>
+                    </div>
+                    <p className="mt-2 max-w-xl text-sm" style={{ color: "var(--text-secondary)" }}>
+                      {category.description}
+                    </p>
+                  </div>
+                  <Link
+                    to={category.link}
+                    className="inline-flex items-center gap-1 text-sm font-medium transition-colors hover:gap-2"
+                    style={{ color: "var(--accent-blue)" }}
+                  >
+                    Learn More <ArrowRight size={14} />
+                  </Link>
+                </div>
+              </AnimatedSection>
+
+              <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {category.services.map((service) => (
+                  <motion.div
+                    key={service.name}
+                    variants={itemVariants}
+                    className="glass-card rounded-3xl p-5 transition-all hover:-translate-y-1"
+                  >
+                    <service.icon size={18} style={{ color: category.color }} />
+                    <h3 className="mt-3 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                      {service.name}
+                    </h3>
+                    <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                      {service.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </StaggerContainer>
+            </div>
+          </section>
+        ))
+      )}
 
       {/* Why Choose Us */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Why Us</span>
@@ -313,7 +362,7 @@ export default function Services() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>

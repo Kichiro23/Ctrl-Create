@@ -1,18 +1,14 @@
 import { useState, useRef } from "react";
+import { Link } from "react-router";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
-  Crown,
-  Gem,
-  Medal,
-  Award,
-  CheckCircle2,
-  ArrowRight,
-  UserPlus,
-  RefreshCw,
-  ClipboardList,
-  CreditCard,
-  ChevronDown,
+  Crown, Gem, Medal, Award,
+  CheckCircle2, ArrowRight,
+  UserPlus, RefreshCw, ClipboardList, CreditCard,
+  ChevronDown, MonitorSmartphone, GraduationCap, HelpCircle,
 } from "lucide-react";
+import { useCurrency } from "@/hooks/useCurrency";
+import CurrencyToggle from "@/components/CurrencyToggle";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -30,17 +26,36 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
   );
 }
 
-const tiers = [
+type ProgramType = "website" | "academic";
+
+interface Tier {
+  key: string;
+  name: string;
+  icon: React.ElementType;
+  pricePHP: number;
+  priceUSD: number;
+  originalPricePHP?: number;
+  color: string;
+  status: string;
+  duration: string;
+  discount: string;
+  forWho: string;
+  features: string[];
+}
+
+const websiteTiers: Tier[] = [
   {
     key: "diamond",
     name: "Diamond",
     icon: Gem,
-    pricePHP: 30000,
-    priceUSD: 525,
+    pricePHP: 22500,
+    priceUSD: 388,
+    originalPricePHP: 30000,
     color: "#007AFF",
     status: "VIP",
     duration: "4 months",
     discount: "10%",
+    forWho: "For agencies & growing brands",
     features: [
       "VIP premium card",
       "4 months duration",
@@ -52,6 +67,7 @@ const tiers = [
       "1 creative design",
       "1 free consultation per month",
       "1 month system and website maintenance",
+      "Free logo design",
       "Free 1 banner for cover photo",
     ],
   },
@@ -59,12 +75,14 @@ const tiers = [
     key: "gold",
     name: "Gold",
     icon: Crown,
-    pricePHP: 16999,
-    priceUSD: 298,
+    pricePHP: 12999,
+    priceUSD: 224,
+    originalPricePHP: 16999,
     color: "#FF9500",
     status: "Popular",
     duration: "3 months",
     discount: "8%",
+    forWho: "For small businesses & professionals",
     features: [
       "Advanced business card",
       "3 months duration",
@@ -75,6 +93,7 @@ const tiers = [
       "1 creative design",
       "1 free consultation per month",
       "1 month system and website maintenance",
+      "Free Google Business setup",
       "Business strategy guidance",
     ],
   },
@@ -82,12 +101,14 @@ const tiers = [
     key: "silver",
     name: "Silver",
     icon: Medal,
-    pricePHP: 8000,
-    priceUSD: 140,
+    pricePHP: 5999,
+    priceUSD: 103,
+    originalPricePHP: 8000,
     color: "#86868B",
     status: "Growth",
     duration: "2 months",
     discount: "6%",
+    forWho: "For startups & side hustles",
     features: [
       "Growth level card",
       "2 months duration",
@@ -97,6 +118,7 @@ const tiers = [
       "1 simple video content",
       "1 creative design",
       "1 free consultation per month",
+      "Free basic SEO audit",
       "Basic business advice",
     ],
   },
@@ -104,12 +126,14 @@ const tiers = [
     key: "bronze",
     name: "Bronze",
     icon: Award,
-    pricePHP: 3999,
-    priceUSD: 70,
+    pricePHP: 2999,
+    priceUSD: 52,
+    originalPricePHP: 3999,
     color: "#A2845E",
     status: "Starter",
     duration: "1 month",
     discount: "5%",
+    forWho: "For first-time clients",
     features: [
       "Starter card",
       "1 month duration",
@@ -117,7 +141,97 @@ const tiers = [
       "Limited support",
       "1 simple video content",
       "1 creative design",
+      "Free social media banner",
       "1 free consultation (one-time)",
+    ],
+  },
+];
+
+const academicTiers: Tier[] = [
+  {
+    key: "valedictorian",
+    name: "Valedictorian",
+    icon: Gem,
+    pricePHP: 11999,
+    priceUSD: 207,
+    originalPricePHP: 14999,
+    color: "#007AFF",
+    status: "VIP",
+    duration: "1 month",
+    discount: "20%",
+    forWho: "For full-semester support",
+    features: [
+      "Unlimited papers & assignments",
+      "Weekly consultation calls",
+      "Full thesis (Ch 1–5) over 4 months",
+      "Defense prep + PPT + script",
+      "1 basic capstone system included",
+      "20% discount on all services",
+      "VIP support + 24h response",
+      "Rush delivery at no extra cost",
+    ],
+  },
+  {
+    key: "magna",
+    name: "Magna Cum Laude",
+    icon: Crown,
+    pricePHP: 6999,
+    priceUSD: 121,
+    originalPricePHP: 8999,
+    color: "#FF9500",
+    status: "Popular",
+    duration: "1 month",
+    discount: "15%",
+    forWho: "For thesis & capstone students",
+    features: [
+      "Unlimited papers & assignments",
+      "4 consultation calls per month",
+      "1 thesis chapter per month included",
+      "1 capstone system consultation",
+      "15% discount on all academic services",
+      "Priority support + rush delivery",
+      "Free defense PPT template",
+    ],
+  },
+  {
+    key: "deans",
+    name: "Dean's Lister",
+    icon: Medal,
+    pricePHP: 3999,
+    priceUSD: 69,
+    originalPricePHP: 4999,
+    color: "#86868B",
+    status: "Growth",
+    duration: "1 month",
+    discount: "10%",
+    forWho: "For regular academic support",
+    features: [
+      "5 papers/assignments per month",
+      "2 consultation calls",
+      "1 free defense PPT per month",
+      "10% discount on thesis chapters",
+      "Priority support",
+      "Turnitin reports included",
+    ],
+  },
+  {
+    key: "scholar",
+    name: "Scholar",
+    icon: Award,
+    pricePHP: 1999,
+    priceUSD: 34,
+    originalPricePHP: 2499,
+    color: "#34C759",
+    status: "Starter",
+    duration: "1 month",
+    discount: "5%",
+    forWho: "For occasional help",
+    features: [
+      "2 essay/research papers per month",
+      "1 consultation call",
+      "5% discount on thesis chapters",
+      "Standard support",
+      "Grammar & formatting check",
     ],
   },
 ];
@@ -146,13 +260,36 @@ const faqs = [
     question: "Can I share my membership with my team?",
     answer: "Memberships are individual. To share benefits with family or team members, consider adding a supplementary member.",
   },
+  {
+    question: "Can I switch between Website and Academic membership?",
+    answer: "Yes, you can have both memberships active simultaneously, or switch when one expires. Contact me to arrange the transition.",
+  },
 ];
 
+function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
+  const { formatPriceFull } = useCurrency();
+  const { primary, secondary } = formatPriceFull(pricePHP, priceUSD);
+  return (
+    <div>
+      <span className="text-4xl font-bold" style={{ color: "var(--text-primary)" }}>{primary}</span>
+      <span className="ml-2 text-sm" style={{ color: "var(--text-muted)" }}>{secondary}</span>
+    </div>
+  );
+}
+
 export default function Membership() {
+  const [program, setProgram] = useState<ProgramType>("website");
   const [activeTier, setActiveTier] = useState("gold");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const currentTier = tiers.find((t) => t.key === activeTier)!;
+  const tiers = program === "website" ? websiteTiers : academicTiers;
+  const currentTier = tiers.find((t) => t.key === activeTier) || tiers[1];
+
+  // Reset active tier when switching programs
+  const handleProgramChange = (p: ProgramType) => {
+    setProgram(p);
+    setActiveTier(p === "website" ? "gold" : "magna");
+  };
 
   return (
     <div>
@@ -160,20 +297,57 @@ export default function Membership() {
       <section className="relative flex min-h-[50vh] items-center justify-center px-4 pt-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
-            <span className="eyebrow">Membership</span>
+            <div className="flex items-center justify-center gap-3">
+              <span className="eyebrow">Membership</span>
+              <CurrencyToggle />
+            </div>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
               Become a Member
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Sign up and become a Ctrl + Create member today. Unlock discounts, priority support, and exclusive creative services.
+              Choose the program that fits your needs — ongoing web development or consistent academic support.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Tier Selector */}
-      <section className="px-4 py-12 md:px-6 lg:px-8">
+      {/* Program Toggle */}
+      <section className="px-4 py-8 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
+          <AnimatedSection className="mb-8">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <button
+                onClick={() => handleProgramChange("website")}
+                className={`flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all ${
+                  program === "website" ? "text-white" : "border"
+                }`}
+                style={
+                  program === "website"
+                    ? { background: "#007AFF" }
+                    : { borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }
+                }
+              >
+                <MonitorSmartphone size={16} />
+                Website Building
+              </button>
+              <button
+                onClick={() => handleProgramChange("academic")}
+                className={`flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all ${
+                  program === "academic" ? "text-white" : "border"
+                }`}
+                style={
+                  program === "academic"
+                    ? { background: "#34C759" }
+                    : { borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }
+                }
+              >
+                <GraduationCap size={16} />
+                Academic Support
+              </button>
+            </div>
+          </AnimatedSection>
+
+          {/* Tier Selector */}
           <AnimatedSection className="mb-8">
             <div className="flex flex-wrap items-center justify-center gap-2">
               {tiers.map((tier) => (
@@ -195,6 +369,7 @@ export default function Membership() {
             </div>
           </AnimatedSection>
 
+          {/* Featured Tier Card */}
           <AnimatedSection>
             <div className="glass-card mx-auto max-w-2xl overflow-hidden rounded-3xl p-8 md:p-10">
               <div className="flex items-center gap-3">
@@ -219,12 +394,18 @@ export default function Membership() {
                 </div>
               </div>
 
+              <div className="mt-2 flex items-center gap-1.5 text-xs" style={{ color: "var(--text-muted)" }}>
+                <HelpCircle size={12} />
+                <span>{currentTier.forWho}</span>
+              </div>
+
               <div className="mt-6">
-                <p className="text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
-                  ₱{currentTier.pricePHP.toLocaleString()}
-                </p>
+                <PriceDisplay pricePHP={currentTier.pricePHP} priceUSD={currentTier.priceUSD} />
+                {currentTier.originalPricePHP && (
+                  <p className="text-sm line-through" style={{ color: "var(--text-muted)" }}>₱{currentTier.originalPricePHP.toLocaleString()}</p>
+                )}
                 <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                  ${currentTier.priceUSD} USD · {currentTier.duration} · Up to {currentTier.discount} off
+                  {currentTier.duration} · Up to {currentTier.discount} off all services
                 </p>
               </div>
 
@@ -238,8 +419,8 @@ export default function Membership() {
               </ul>
 
               <div className="mt-8 flex items-center gap-3">
-                <button className="btn-primary flex-1 rounded-full">Apply Now</button>
-                <button className="btn-secondary flex-1 rounded-full">Contact Sales</button>
+                <Link to="/contact" className="btn-primary flex-1 rounded-full text-center">Apply Now</Link>
+                <Link to="/contact" className="btn-secondary flex-1 rounded-full text-center">Contact Sales</Link>
               </div>
             </div>
           </AnimatedSection>
@@ -247,7 +428,7 @@ export default function Membership() {
       </section>
 
       {/* Membership Actions */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Actions</span>
@@ -275,7 +456,7 @@ export default function Membership() {
       </section>
 
       {/* Membership Card CTA */}
-      <section className="px-4 py-16 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection>
             <div className="glass-card rounded-3xl p-8 text-center md:p-10">
@@ -286,16 +467,16 @@ export default function Membership() {
               <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 Powered by Partner Banks — No annual fees
               </p>
-              <button className="btn-primary mt-6 rounded-full">
+              <Link to="/contact" className="btn-primary mt-6 inline-flex items-center rounded-full">
                 Apply for Card <ArrowRight size={16} className="ml-2" />
-              </button>
+              </Link>
             </div>
           </AnimatedSection>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">FAQ</span>

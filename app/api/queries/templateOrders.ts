@@ -1,11 +1,10 @@
-import { getDb } from "./connection";
-import { templateOrders } from "@db/schema";
-import { eq, desc } from "drizzle-orm";
+import { connectDb } from "./connection";
+import { TemplateOrder } from "../../db/models";
+import type { ITemplateOrder } from "../../db/models";
 
-export async function findAllTemplateOrders() {
-  return getDb().query.templateOrders.findMany({
-    orderBy: desc(templateOrders.createdAt),
-  });
+export async function findAllTemplateOrders(): Promise<ITemplateOrder[]> {
+  await connectDb();
+  return TemplateOrder.find().sort({ createdAt: -1 }).lean();
 }
 
 export async function createTemplateOrder(data: {
@@ -15,15 +14,18 @@ export async function createTemplateOrder(data: {
   templateName: string;
   pricePHP: string;
   notes?: string;
-}) {
-  const [{ id }] = await getDb().insert(templateOrders).values(data).$returningId();
-  return id;
+}): Promise<string> {
+  await connectDb();
+  const doc = await TemplateOrder.create(data);
+  return doc._id.toString();
 }
 
-export async function updateTemplateOrderStatus(id: number, status: "pending" | "paid" | "fulfilled" | "cancelled") {
-  await getDb().update(templateOrders).set({ status }).where(eq(templateOrders.id, id));
+export async function updateTemplateOrderStatus(id: number | string, status: string): Promise<void> {
+  await connectDb();
+  await TemplateOrder.findByIdAndUpdate(id, { status });
 }
 
-export async function deleteTemplateOrder(id: number) {
-  await getDb().delete(templateOrders).where(eq(templateOrders.id, id));
+export async function deleteTemplateOrder(id: number | string): Promise<void> {
+  await connectDb();
+  await TemplateOrder.findByIdAndDelete(id);
 }

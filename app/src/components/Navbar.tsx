@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import { Menu, X, Sun, Moon, DollarSign, PhilippinePeso } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { useCurrency } from "@/hooks/useCurrency";
 import { useAuth } from "@/hooks/useAuth";
@@ -21,22 +21,55 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { currency, setCurrency } = useCurrency();
+  const { currency } = useCurrency();
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
+  // Scroll detection
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close mobile menu on route change + scroll to top
   useEffect(() => {
     setMobileOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
+
+  // Scroll spy for home page sections
+  const [activeSection, setActiveSection] = useState<string>(location.pathname);
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setActiveSection(location.pathname);
+      return;
+    }
+
+    const sections = ["stats", "services", "templates", "membership", "process", "packages", "portfolio", "testimonials", "contact"];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+    );
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, [location.pathname]);
 
   const isActive = (href: string) => {
-    if (href === "/") return location.pathname === "/";
+    if (href === "/") {
+      return location.pathname === "/" && (activeSection === "/" || activeSection.startsWith("#"));
+    }
     return location.pathname.startsWith(href);
   };
 
@@ -45,16 +78,17 @@ export default function Navbar() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-4"}`}>
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 md:px-6 lg:px-8">
           <div
-            className="flex w-full items-center justify-between rounded-full border px-4 py-2 transition-all duration-300"
+            className="flex w-full items-center justify-between rounded-full border px-4 py-2 shadow-sm transition-all duration-300"
             style={{
-              background: scrolled ? "var(--bg-surface)" : "rgba(255,255,255,0.05)",
+              background: "var(--bg-surface)",
               backdropFilter: "blur(24px) saturate(180%)",
               WebkitBackdropFilter: "blur(24px) saturate(180%)",
-              borderColor: scrolled ? "var(--border-subtle)" : "rgba(255,255,255,0.1)",
+              borderColor: "var(--border-subtle)",
+              boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.08)" : "0 2px 12px rgba(0,0,0,0.06)",
             }}
           >
             <Link to="/" className="flex items-center gap-2 pl-2">
-              <img src="/logo-cc.png" alt="Ctrl + Create" className="h-7 w-7 object-contain" />
+              <img src="/images/assets/logo-cc.png" alt="Ctrl + Create" className="h-10 w-10 object-contain" />
               <span className="text-sm font-semibold hidden sm:inline" style={{ color: "var(--text-primary)" }}>
                 Ctrl + Create
               </span>
@@ -78,16 +112,6 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 pr-2">
-              <button
-                onClick={() => setCurrency(currency === "USD" ? "PHP" : "USD")}
-                className="hidden h-8 items-center gap-1 rounded-full border px-3 text-xs font-medium transition-colors sm:flex"
-                style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
-                title={`Switch to ${currency === "USD" ? "PHP" : "USD"}`}
-              >
-                {currency === "USD" ? <DollarSign size={12} /> : <PhilippinePeso size={12} />}
-                {currency}
-              </button>
-
               <button
                 onClick={toggleTheme}
                 className="flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
@@ -170,17 +194,6 @@ export default function Navbar() {
                     </Link>
                   </motion.div>
                 ))}
-
-                <div className="mt-4 flex items-center gap-3">
-                  <button
-                    onClick={() => setCurrency(currency === "USD" ? "PHP" : "USD")}
-                    className="flex h-10 items-center gap-1 rounded-full border px-4 text-sm font-medium"
-                    style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
-                  >
-                    {currency === "USD" ? <DollarSign size={14} /> : <PhilippinePeso size={14} />}
-                    {currency}
-                  </button>
-                </div>
 
                 {isAuthenticated ? (
                   <div className="flex flex-col gap-3">

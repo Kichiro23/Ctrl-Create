@@ -1,13 +1,12 @@
 import { z } from "zod";
 import { createRouter, publicQuery } from "./middleware";
-import { getDb } from "./queries/connection";
-import { chatMessages } from "@db/schema";
-import { eq, desc } from "drizzle-orm";
+import { connectDb } from "./queries/connection";
+import { ChatMessage } from "../db/models";
 
 const SYSTEM_PROMPT = `You are the Ctrl + Create assistant — a knowledgeable, friendly AI for a one-man creative studio based in the Philippines. Help visitors with questions about services, pricing, thesis help, web development, and commissions.
 
 Key service details:
-- Website Commissions: $149 Basic · $249 Standard · $699 Premium
+- Website Commissions: ₱6,500 Starter · ₱11,500 Business · ₱22,500 Pro · ₱32,500 Enterprise
 - Academic / Thesis Help: Chapter 1–5, SPSS Analysis, Concept Paper, Defense PPT, IMRaD, Grammar Proofreading
 - Web & Mobile Dev: React, Next.js, TypeScript, TailwindCSS, React Native
 - Graphic Design: Branding, UI/UX, visuals, social media assets
@@ -16,13 +15,13 @@ Key service details:
 - Social Media Growth: Authentic audience building
 - Dashboard Customization: Custom widgets, reports, integrations
 
-Academic Package: ₱5,000 for graduating IT/CS students
+Academic Package: ₱4,000 for graduating IT/CS students
 Thesis Support: 3–5 days per chapter, Turnitin + AI Report included
 Membership Tiers:
-- Bronze ₱3,999 (1mo, 5% off)
-- Silver ₱8,000 (2mo, 6% off)
-- Gold ₱16,999 (3mo, 8% off)
-- Diamond ₱30,000 (4mo, 10% off, VIP)
+- Bronze ₱2,999 (1mo, 5% off)
+- Silver ₱5,999 (2mo, 6% off)
+- Gold ₱12,999 (3mo, 8% off)
+- Diamond ₱22,500 (4mo, 10% off, VIP)
 
 Payment: GCash · Maya · PayPal · Google Pay · Bank Transfer
 Response time: Within 24 hours on business days
@@ -40,10 +39,10 @@ export const chatRouter = createRouter({
     )
     .mutation(async ({ input }) => {
       const sessionId = input.sessionId || `session_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-      const db = getDb();
+      await connectDb();
 
       // Store user message
-      await db.insert(chatMessages).values({
+      await ChatMessage.create({
         sessionId,
         role: "user",
         content: input.message,
@@ -54,11 +53,10 @@ export const chatRouter = createRouter({
         const model = process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini";
 
         // Get conversation history for context
-        const history = await db.query.chatMessages.findMany({
-          where: eq(chatMessages.sessionId, sessionId),
-          orderBy: desc(chatMessages.createdAt),
-          limit: 10,
-        });
+        const history = await ChatMessage.find({ sessionId })
+          .sort({ createdAt: -1 })
+          .limit(10)
+          .lean();
 
         const messages = [
           { role: "system", content: SYSTEM_PROMPT },
@@ -104,7 +102,7 @@ export const chatRouter = createRouter({
         }
 
         // Store assistant response
-        await db.insert(chatMessages).values({
+        await ChatMessage.create({
           sessionId,
           role: "assistant",
           content: reply,

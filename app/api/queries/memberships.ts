@@ -1,28 +1,30 @@
-import { getDb } from "./connection";
-import { memberships } from "@db/schema";
-import { eq, desc } from "drizzle-orm";
+import { connectDb } from "./connection";
+import { Membership } from "../../db/models";
+import type { IMembership } from "../../db/models";
 
-export async function findAllMemberships() {
-  return getDb().query.memberships.findMany({
-    orderBy: desc(memberships.createdAt),
-  });
+export async function findAllMemberships(): Promise<IMembership[]> {
+  await connectDb();
+  return Membership.find().sort({ createdAt: -1 }).lean();
 }
 
 export async function createMembership(data: {
   name: string;
   email: string;
   phone?: string;
-  tier: "bronze" | "silver" | "gold" | "diamond";
+  tier: string;
   notes?: string;
-}) {
-  const [{ id }] = await getDb().insert(memberships).values(data).$returningId();
-  return id;
+}): Promise<string> {
+  await connectDb();
+  const doc = await Membership.create(data);
+  return doc._id.toString();
 }
 
-export async function updateMembershipStatus(id: number, status: "pending" | "active" | "expired" | "cancelled") {
-  await getDb().update(memberships).set({ status }).where(eq(memberships.id, id));
+export async function updateMembershipStatus(id: number | string, status: string): Promise<void> {
+  await connectDb();
+  await Membership.findByIdAndUpdate(id, { status });
 }
 
-export async function deleteMembership(id: number) {
-  await getDb().delete(memberships).where(eq(memberships.id, id));
+export async function deleteMembership(id: number | string): Promise<void> {
+  await connectDb();
+  await Membership.findByIdAndDelete(id);
 }

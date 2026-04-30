@@ -1,33 +1,24 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-type Currency = "USD" | "PHP";
+export type Currency = "PHP" | "USD";
 
-const EXCHANGE_RATE = 57;
+const EXCHANGE_RATE = 58;
 
 interface CurrencyContextType {
   currency: Currency;
   setCurrency: (c: Currency) => void;
-  formatPrice: (usdAmount: number, phpAmount?: number) => string;
+  formatPrice: (phpAmount: number, usdAmount?: number) => string;
+  formatPriceFull: (phpAmount: number, usdAmount?: number) => { primary: string; secondary: string };
   isPH: boolean;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
-function detectLocation(): Currency {
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (tz === "Asia/Manila") return "PHP";
-  } catch {
-    // ignore
-  }
-  return "USD";
-}
-
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrencyState] = useState<Currency>(() => {
     const stored = localStorage.getItem("currency") as Currency | null;
     if (stored === "USD" || stored === "PHP") return stored;
-    return detectLocation();
+    return "PHP"; // Default to PHP for PH economy focus
   });
 
   const setCurrency = (c: Currency) => {
@@ -35,26 +26,36 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("currency", c);
   };
 
-  const formatPrice = (usdAmount: number, phpAmount?: number) => {
-    if (currency === "PHP" && phpAmount !== undefined) {
+  const formatPrice = (phpAmount: number, usdAmount?: number) => {
+    if (currency === "PHP") {
       return `₱${phpAmount.toLocaleString("en-PH")}`;
     }
+    const usd = usdAmount ?? Math.round(phpAmount / EXCHANGE_RATE);
+    return `$${usd.toLocaleString("en-US")}`;
+  };
+
+  const formatPriceFull = (phpAmount: number, usdAmount?: number) => {
+    const usd = usdAmount ?? Math.round(phpAmount / EXCHANGE_RATE);
     if (currency === "PHP") {
-      const php = Math.round(usdAmount * EXCHANGE_RATE);
-      return `₱${php.toLocaleString("en-PH")}`;
+      return {
+        primary: `₱${phpAmount.toLocaleString("en-PH")}`,
+        secondary: `$${usd.toLocaleString("en-US")} USD`,
+      };
     }
-    return `$${usdAmount}`;
+    return {
+      primary: `$${usd.toLocaleString("en-US")}`,
+      secondary: `₱${phpAmount.toLocaleString("en-PH")} PHP`,
+    };
   };
 
   useEffect(() => {
     if (!localStorage.getItem("currency")) {
-      const detected = detectLocation();
-      setCurrencyState(detected);
+      setCurrencyState("PHP");
     }
   }, []);
 
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice, isPH: currency === "PHP" }}>
+    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice, formatPriceFull, isPH: currency === "PHP" }}>
       {children}
     </CurrencyContext.Provider>
   );

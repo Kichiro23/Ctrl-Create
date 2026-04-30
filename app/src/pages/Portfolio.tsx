@@ -2,9 +2,10 @@ import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
 import { trpc } from "@/providers/trpc";
-import { ExternalLink, Lock, Code, Database, Cloud, Cpu, ArrowRight } from "lucide-react";
+import { ExternalLink, Lock, Search } from "lucide-react";
+import { websiteTemplates, academicTemplates } from "@/data/templates";
 
-const categories = ["All", "Personal Projects", "Templates", "Confidential"];
+const categories = ["All", "Personal Projects", "Templates", "Academic Commissions", "Confidential"];
 
 const personalProjects = [
   {
@@ -12,7 +13,7 @@ const personalProjects = [
     title: "WeatherCarp (CARP)",
     category: "Personal Projects",
     description: "Full-stack environmental monitoring platform with real-time weather, air quality data, AI chatbot, and Leaflet.js maps. React 19 + Node.js + MongoDB.",
-    imageUrl: "/portfolio-1.jpg",
+    imageUrl: "/images/portfolio/portfolio-1.jpg",
     link: "https://weathercarp.com",
   },
   {
@@ -20,60 +21,29 @@ const personalProjects = [
     title: "MySQL Inventory DBMS",
     category: "Personal Projects",
     description: "MySQL-based inventory management system with full CRUD operations, relational schemas, and structured data flows.",
-    imageUrl: "/portfolio-2.jpg",
+    imageUrl: "/images/portfolio/portfolio-2.jpg",
   },
   {
     id: 103,
     title: "Python Math Converter",
     category: "Personal Projects",
     description: "Modular mathematics converter built with OOP principles — encapsulation, abstraction, and reusable class structures.",
-    imageUrl: "/portfolio-3.jpg",
+    imageUrl: "/images/portfolio/portfolio-3.jpg",
   },
   {
     id: 104,
     title: "Software System Design",
     category: "Personal Projects",
     description: "End-to-end system architecture, UI/UX layout, and user flow design with complete technical documentation.",
-    imageUrl: "/portfolio-4.jpg",
-  },
-];
-
-const availableTemplates = [
-  {
-    id: 201,
-    title: "POS Restaurant System",
-    category: "Templates",
-    description: "Complete restaurant POS with ordering, kitchen display, and reporting. ₱7,999",
-    imageUrl: "/portfolio-1.jpg",
-  },
-  {
-    id: 202,
-    title: "Resort Reservation System",
-    category: "Templates",
-    description: "Booking engine with room management, payment tracking, and guest portal. ₱9,999",
-    imageUrl: "/portfolio-3.jpg",
-  },
-  {
-    id: 203,
-    title: "Car Rental Dashboard",
-    category: "Templates",
-    description: "Fleet management, booking calendar, and customer CRM. ₱9,999",
-    imageUrl: "/portfolio-4.jpg",
-  },
-  {
-    id: 204,
-    title: "Staycation System",
-    category: "Templates",
-    description: "Property listing, booking, and host management platform. ₱8,999",
-    imageUrl: "/portfolio-5.jpg",
+    imageUrl: "/images/portfolio/portfolio-4.jpg",
   },
 ];
 
 const confidentialProjects = [
-  { id: 301, title: "Aurora Beauty Lounge", category: "Confidential", description: "Client website — confidential project", imageUrl: "/portfolio-6.jpg" },
-  { id: 302, title: "Arcadia Wellness Spa", category: "Confidential", description: "Brand identity & website — confidential project", imageUrl: "/portfolio-7.jpg" },
-  { id: 303, title: "Fitness Studio Booking", category: "Confidential", description: "Booking system — confidential project", imageUrl: "/portfolio-8.jpg" },
-  { id: 304, title: "Local Retail Shop", category: "Confidential", description: "E-commerce site — confidential project", imageUrl: "/portfolio-2.jpg" },
+  { id: 301, title: "Aurora Beauty Lounge", category: "Confidential", description: "Client website — confidential project", imageUrl: "/images/portfolio/portfolio-6.jpg" },
+  { id: 302, title: "Arcadia Wellness Spa", category: "Confidential", description: "Brand identity & website — confidential project", imageUrl: "/images/portfolio/portfolio-7.jpg" },
+  { id: 303, title: "Fitness Studio Booking", category: "Confidential", description: "Booking system — confidential project", imageUrl: "/images/portfolio/portfolio-8.jpg" },
+  { id: 304, title: "Local Retail Shop", category: "Confidential", description: "E-commerce site — confidential project", imageUrl: "/images/portfolio/portfolio-2.jpg" },
 ];
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -98,9 +68,27 @@ export default function Portfolio() {
     activeCategory === "All" ? undefined : { category: activeCategory }
   );
 
+  // Map templates to portfolio items
+  const templateProjects = websiteTemplates.map((t, i) => ({
+    id: 200 + i,
+    title: t.name,
+    category: "Templates",
+    description: `${t.description} ₱${t.pricePHP.toLocaleString()}`,
+    imageUrl: t.image,
+  }));
+
+  const academicProjects = academicTemplates.map((t, i) => ({
+    id: 400 + i,
+    title: t.name,
+    category: "Academic Commissions",
+    description: `${t.description} ₱${t.pricePHP.toLocaleString()}`,
+    imageUrl: t.image,
+  }));
+
   const allItems = [
     ...personalProjects,
-    ...availableTemplates,
+    ...templateProjects,
+    ...academicProjects,
     ...confidentialProjects,
     ...(dbProjects || []),
   ];
@@ -120,7 +108,7 @@ export default function Portfolio() {
               Selected Work
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-base" style={{ color: "var(--text-secondary)" }}>
-              Personal projects, available templates, and confidential client work. Every project built with precision.
+              Personal projects, available templates, academic commissions, and confidential client work. Every project built with precision.
             </p>
           </AnimatedSection>
         </div>
@@ -151,7 +139,7 @@ export default function Portfolio() {
       </section>
 
       {/* Projects Grid */}
-      <section className="px-4 py-12 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           {isLoading ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -184,6 +172,7 @@ export default function Portfolio() {
                         src={project.imageUrl || `/portfolio-${(project.id % 8) + 1}.jpg`}
                         alt={project.title}
                         className={`h-full w-full object-cover transition-transform duration-500 ${project.category === "Confidential" ? "scale-100 blur-sm" : "group-hover:scale-105"}`}
+                        loading="lazy"
                       />
                       {project.category === "Confidential" && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50">
@@ -195,7 +184,16 @@ export default function Portfolio() {
                         <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                             <Link to="/templates" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">
-                              View in Templates <ArrowRight size={14} />
+                              View in Templates <ExternalLink size={14} />
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+                      {project.category === "Academic Commissions" && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <Link to="/templates" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">
+                              View Commissions <ExternalLink size={14} />
                             </Link>
                           </div>
                         </div>
@@ -229,7 +227,9 @@ export default function Portfolio() {
 
           {filtered.length === 0 && (
             <div className="py-20 text-center">
-              <p style={{ color: "var(--text-muted)" }}>No projects found in this category.</p>
+              <Search size={40} className="mx-auto" style={{ color: "var(--text-muted)" }} />
+              <p className="mt-4 text-lg font-medium" style={{ color: "var(--text-primary)" }}>No projects found</p>
+              <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>Try selecting a different category.</p>
             </div>
           )}
         </div>

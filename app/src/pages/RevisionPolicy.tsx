@@ -51,7 +51,7 @@ export default function RevisionPolicy() {
       </section>
 
       {/* Overview */}
-      <section className="px-4 py-12 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection>
             <div className="glass-card p-6 md:p-8">
@@ -67,7 +67,7 @@ export default function RevisionPolicy() {
       </section>
 
       {/* Major vs Minor */}
-      <section className="px-4 py-12 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-8 md:grid-cols-2">
             <AnimatedSection>
@@ -118,7 +118,7 @@ export default function RevisionPolicy() {
       </section>
 
       {/* Package Revision Table */}
-      <section className="px-4 py-12 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection className="section-heading mb-8">
             <span className="eyebrow">Breakdown</span>

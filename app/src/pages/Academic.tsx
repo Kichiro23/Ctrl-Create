@@ -25,7 +25,9 @@ import {
   ChevronDown,
   Mic,
 } from "lucide-react";
-import PaymentMethods from "@/components/PaymentMethods";
+import { useCurrency } from "@/hooks/useCurrency";
+import PaymentTooltip from "@/components/PaymentTooltip";
+import CurrencyToggle from "@/components/CurrencyToggle";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -66,6 +68,17 @@ const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
+
+function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
+  const { formatPriceFull } = useCurrency();
+  const { primary, secondary } = formatPriceFull(pricePHP, priceUSD);
+  return (
+    <div className="flex items-baseline gap-1.5">
+      <span className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>{primary}</span>
+      <span className="text-sm" style={{ color: "var(--text-muted)" }}>{secondary}</span>
+    </div>
+  );
+}
 
 const academicServices = [
   { icon: FileText, title: "Essay Writing", desc: "Argumentative, narrative, descriptive, expository — all essay types.", color: "#007AFF" },
@@ -118,8 +131,9 @@ const devServices = [
 const pricingTiers = [
   {
     name: "Academic Package",
-    price: "₱5,000",
-    usd: "$89",
+    pricePHP: 4000,
+    priceUSD: 69,
+    originalPricePHP: 5000,
     timeline: "7–10 business days",
     features: [
       "Up to 5 pages",
@@ -133,8 +147,9 @@ const pricingTiers = [
   },
   {
     name: "Thesis Chapter",
-    price: "₱3,500",
-    usd: "$62",
+    pricePHP: 2500,
+    priceUSD: 43,
+    originalPricePHP: 3500,
     timeline: "3–5 days per chapter",
     features: [
       "Single chapter (Ch 1–5)",
@@ -147,8 +162,9 @@ const pricingTiers = [
   },
   {
     name: "Full Thesis",
-    price: "₱15,000",
-    usd: "$263",
+    pricePHP: 12000,
+    priceUSD: 207,
+    originalPricePHP: 15000,
     timeline: "2–4 weeks",
     features: [
       "Chapters 1–5 complete",
@@ -160,19 +176,71 @@ const pricingTiers = [
     ],
     highlighted: false,
   },
+  {
+    name: "SPSS / Data Analysis",
+    pricePHP: 2500,
+    priceUSD: 43,
+    originalPricePHP: 3500,
+    timeline: "2–3 days",
+    features: [
+      "Descriptive & inferential stats",
+      "Correlation / Regression / ANOVA",
+      "Graphs & tables",
+      "Interpretation write-up",
+      "Raw data file included",
+    ],
+    highlighted: false,
+  },
+  {
+    name: "Defense PPT + Script",
+    pricePHP: 1800,
+    priceUSD: 31,
+    originalPricePHP: 2500,
+    timeline: "1–2 days",
+    features: [
+      "Professional academic template",
+      "Speaker notes for every slide",
+      "Anticipated Q&A section",
+      "3 revision rounds",
+      "Print-ready format",
+    ],
+    highlighted: false,
+  },
+  {
+    name: "Research Paper",
+    pricePHP: 4000,
+    priceUSD: 69,
+    originalPricePHP: 5500,
+    timeline: "5–7 days",
+    features: [
+      "Full research paper (5–10 pages)",
+      "Proper citations (APA/MLA/Chicago)",
+      "Abstract & keywords",
+      "Turnitin report",
+      "2 revision rounds",
+    ],
+    highlighted: false,
+  },
 ];
 
 const courses = [
   "IT / Computer Science",
   "Engineering",
   "Education",
-  "Business",
+  "Business / Management",
+  "Accountancy",
   "Psychology",
-  "Nursing",
+  "Nursing / MedTech",
   "Criminology",
   "Social Work",
   "Architecture",
-  "Hospitality",
+  "Hospitality / Tourism",
+  "Political Science",
+  "Communication",
+  "Law / Legal Studies",
+  "Agriculture",
+  "Maritime",
+  "Public Administration",
 ];
 
 const faqs = [
@@ -200,20 +268,20 @@ export default function Academic() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative flex min-h-[70vh] items-center justify-center px-4 pt-24 md:px-6 lg:px-8">
+      <section className="relative flex min-h-[60vh] flex-col items-start justify-start px-4 pt-32 pb-10 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[900px] text-center">
           <AnimatedSection>
-            <span className="eyebrow">Student Support</span>
+            <span className="eyebrow">Academic Support</span>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-              Web & Mobile Dev & <span style={{ color: "var(--accent-blue)" }}>Thesis Help</span>
+              Thesis, Research & <span style={{ color: "var(--accent-blue)" }}>Academic Writing</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Struggling with your thesis? Need a website or capstone system built? I do both — and I've helped 50+ students and clients across the Philippines get it done.
+              From single chapters to full thesis papers — quality academic help for Filipino students. SPSS analysis, defense prep, and formatting included. Turnitin-ready output.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link to="/contact" className="btn-primary rounded-full">
                 <Send size={16} className="mr-2" />
-                Send Me a DM
+                Get a Free Quote
               </Link>
               <a href="mailto:rommeld216@gmail.com" className="btn-secondary rounded-full">
                 Email Directly
@@ -238,7 +306,7 @@ export default function Academic() {
       </section>
 
       {/* Academic Writing & Research */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Academic Writing</span>
@@ -261,7 +329,7 @@ export default function Academic() {
       </section>
 
       {/* Thesis Sections */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Modular</span>
@@ -284,7 +352,7 @@ export default function Academic() {
       </section>
 
       {/* Creative Writing */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Creative</span>
@@ -307,7 +375,7 @@ export default function Academic() {
       </section>
 
       {/* Web & Mobile Dev */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Development</span>
@@ -330,7 +398,7 @@ export default function Academic() {
       </section>
 
       {/* Courses */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-10">
             <span className="eyebrow">Coverage</span>
@@ -354,10 +422,13 @@ export default function Academic() {
       </section>
 
       {/* Pricing */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Pricing</span>
+            <div className="flex items-center justify-center gap-3">
+              <span className="eyebrow">Pricing</span>
+              <CurrencyToggle />
+            </div>
             <h2>Student-Friendly Rates</h2>
             <p>Competitive pricing with flexible payment options. GCash, Maya, PayPal, and Bank Transfer accepted.</p>
           </AnimatedSection>
@@ -376,9 +447,11 @@ export default function Academic() {
                 )}
                 <h3 className="text-lg font-semibold" style={{ color: "var(--text-primary)" }}>{pkg.name}</h3>
                 <div className="mt-4">
-                  <span className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>{pkg.price}</span>
-                  <span className="ml-1 text-sm" style={{ color: "var(--text-muted)" }}>{pkg.usd}</span>
+                  <PriceDisplay pricePHP={pkg.pricePHP} priceUSD={pkg.priceUSD} />
                 </div>
+                {(pkg as any).originalPricePHP && (
+                  <p className="text-xs line-through" style={{ color: "var(--text-muted)" }}>₱{(pkg as any).originalPricePHP.toLocaleString()}</p>
+                )}
                 <p className="mt-1 text-xs" style={{ color: "var(--text-muted)" }}>{pkg.timeline}</p>
                 <ul className="mt-6 space-y-3">
                   {pkg.features.map((f, i) => (
@@ -399,8 +472,8 @@ export default function Academic() {
             <div className="glass-card mx-auto max-w-2xl rounded-3xl p-6 text-center">
               <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Additional Charges</p>
               <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-sm" style={{ color: "var(--text-secondary)" }}>
-                <span>Per Module: ₱700 / $12</span>
-                <span>Per Minor Revision: ₱200 / $3.50</span>
+                <span>Per Module: <strong>₱700</strong></span>
+                <span>Per Minor Revision: <strong>₱200</strong></span>
                 <span>Rush Delivery: DM for quote</span>
               </div>
             </div>
@@ -408,21 +481,44 @@ export default function Academic() {
         </div>
       </section>
 
+      {/* Academic Membership CTA */}
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+        <div className="mx-auto max-w-[800px] text-center">
+          <AnimatedSection>
+            <GraduationCap size={48} className="mx-auto" style={{ color: "#34C759" }} />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>
+              Need Consistent Academic Help?
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
+              Join the Academic Support Membership. Get monthly allowances for papers, consultation calls, and discounts on every service.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link to="/membership" className="btn-primary rounded-full" style={{ background: "#34C759" }}>
+                View Academic Membership <ArrowRight size={16} className="ml-2" />
+              </Link>
+              <Link to="/templates" className="btn-secondary rounded-full">
+                Browse Academic Commissions
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Payment Methods */}
-      <section className="px-4 py-16 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection className="section-heading mb-8">
             <span className="eyebrow">Payments</span>
             <h2>Flexible Payment Options</h2>
           </AnimatedSection>
           <AnimatedSection>
-            <PaymentMethods layout="grid" showDetails className="mx-auto max-w-lg" />
+            <PaymentTooltip layout="grid" className="mx-auto max-w-lg" />
           </AnimatedSection>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="px-4 py-24 md:px-6 lg:px-8">
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">FAQ</span>
@@ -466,7 +562,7 @@ export default function Academic() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <GraduationCap size={48} className="mx-auto" style={{ color: "var(--accent-blue)" }} />

@@ -1,24 +1,34 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/providers/trpc";
 import {
   MessageCircle, X, Send, User, Bot, Loader2, WifiOff,
+  ThumbsUp, ThumbsDown,
 } from "lucide-react";
 
 const FALLBACK_RESPONSES = [
   "I'm happy to help! Could you share more details about what you need?",
-  "Great question! I offer website development, academic writing, video editing, and more. What are you looking for?",
-  "Thanks for reaching out! I typically respond to detailed inquiries within 24 hours. You can also use the contact form.",
+  "Great question! I offer website development starting at ₱8,500, academic writing from ₱3,500 per chapter, and video editing. What are you looking for?",
+  "Thanks for reaching out! I typically respond to detailed inquiries within 24 hours. You can also use the contact form for a faster quote.",
   "I'd love to assist with that. For the fastest response, try the contact form at /contact with your project details.",
+  "For pricing, website packages start at ₱8,500 (Starter), ₱14,200 (Business), and ₱28,500 (Pro). Academic chapters are ₱3,500 each. Want a custom quote?",
+  "I can build your capstone system with full documentation! Packages start at ₱18,000 including the web app, ERD, user manual, and defense slides.",
+  "Need thesis help? I cover all chapters (1–5), SPSS analysis, defense PPT, and Turnitin reports. Full thesis package is ₱15,000.",
+  "Memberships are great for ongoing work! Website memberships start at ₱3,999/month. Academic memberships start at ₱2,499/month with discounts on every service.",
+  "I accept GCash, Maya, PayPal, and Google Pay. All payments are secured and I provide official receipts for every transaction.",
+  "Rush delivery is available for most services! Just let me know your deadline and I'll check my schedule.",
+  "For a free consultation, email me at rommeld216@gmail.com or use the contact form. I reply within 1–2 hours during business hours.",
+  "Every website I build is mobile-responsive, SEO-ready, and includes a dark mode toggle. Want to see some templates?",
 ];
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([
+  const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string; liked?: boolean | null }[]>([
     { role: "assistant", content: "Hi! I'm the Ctrl + Create assistant. How can I help you today?" },
   ]);
   const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [retryCount, setRetryCount] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,16 +49,29 @@ export default function ChatWidget() {
   const sendMutation = trpc.chat.send.useMutation({
     onSuccess: (data) => {
       if (data.reply) {
-        setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: data.reply, liked: null }]);
       }
+      setRetryCount(0);
     },
     onError: () => {
+      if (retryCount < 1) {
+        setRetryCount((c) => c + 1);
+        // Auto-retry once after 2 seconds
+        setTimeout(() => {
+          const lastUserMsg = messages.filter((m) => m.role === "user").pop();
+          if (lastUserMsg) {
+            sendMutation.mutate({ message: lastUserMsg.content, sessionId });
+          }
+        }, 2000);
+        return;
+      }
       const fallback = FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
-      setMessages((prev) => [...prev, { role: "assistant", content: fallback }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: fallback, liked: null }]);
+      setRetryCount(0);
     },
   });
 
-  const handleSend = () => {
+  const handleSend = useCallback(() => {
     if (!input.trim()) return;
     const text = input.trim();
     setMessages((prev) => [...prev, { role: "user", content: text }]);
@@ -57,19 +80,25 @@ export default function ChatWidget() {
     if (isOffline) {
       const fallback = FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
       setTimeout(() => {
-        setMessages((prev) => [...prev, { role: "assistant", content: `⚠️ You're offline. ${fallback}` }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: `⚠️ You're offline. ${fallback}`, liked: null }]);
       }, 600);
       return;
     }
 
     sendMutation.mutate({ message: text, sessionId });
-  };
+  }, [input, isOffline, sessionId, sendMutation]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
+  };
+
+  const handleLike = (index: number, liked: boolean) => {
+    setMessages((prev) =>
+      prev.map((m, i) => (i === index ? { ...m, liked } : m))
+    );
   };
 
   const suggestedPrompts = [
@@ -111,7 +140,7 @@ export default function ChatWidget() {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Ctrl + Create Assistant</p>
               <p className="text-xs flex items-center gap-1" style={{ color: "var(--text-muted)" }}>
-                {isOffline ? <><WifiOff size={10} /> Offline</> : "Online — powered by AI"}
+                {isOffline ? <><WifiOff size={10} /> Offline</> : sendMutation.isPending ? <><Loader2 size={10} className="animate-spin" /> Thinking...</> : "Online — powered by AI"}
               </p>
             </div>
             <button onClick={() => setOpen(false)} className="rounded-full p-1 transition-colors hover:bg-[var(--bg-surface-solid)]">
@@ -128,15 +157,35 @@ export default function ChatWidget() {
                     <Bot size={14} style={{ color: "var(--accent-blue)" }} />
                   </div>
                 )}
-                <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${msg.role === "user" ? "rounded-br-sm" : "rounded-bl-sm"}`}
-                  style={{
-                    background: msg.role === "user" ? "var(--accent-blue)" : "var(--bg-surface-solid)",
-                    color: msg.role === "user" ? "#fff" : "var(--text-primary)",
-                    border: msg.role === "assistant" ? "1px solid var(--border-subtle)" : "none",
-                  }}
-                >
-                  {msg.content}
+                <div className="flex flex-col gap-1 max-w-[80%]">
+                  <div
+                    className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${msg.role === "user" ? "rounded-br-sm" : "rounded-bl-sm"}`}
+                    style={{
+                      background: msg.role === "user" ? "var(--accent-blue)" : "var(--bg-surface-solid)",
+                      color: msg.role === "user" ? "#fff" : "var(--text-primary)",
+                      border: msg.role === "assistant" ? "1px solid var(--border-subtle)" : "none",
+                    }}
+                  >
+                    {msg.content}
+                  </div>
+                  {msg.role === "assistant" && i > 0 && (
+                    <div className="flex items-center gap-1 self-start">
+                      <button
+                        onClick={() => handleLike(i, true)}
+                        className={`flex h-6 w-6 items-center justify-center rounded-full transition-colors ${msg.liked === true ? "bg-green-500/10" : "hover:bg-[var(--bg-surface-solid)]"}`}
+                        title="Helpful"
+                      >
+                        <ThumbsUp size={11} style={{ color: msg.liked === true ? "#34C759" : "var(--text-muted)" }} />
+                      </button>
+                      <button
+                        onClick={() => handleLike(i, false)}
+                        className={`flex h-6 w-6 items-center justify-center rounded-full transition-colors ${msg.liked === false ? "bg-red-500/10" : "hover:bg-[var(--bg-surface-solid)]"}`}
+                        title="Not helpful"
+                      >
+                        <ThumbsDown size={11} style={{ color: msg.liked === false ? "#FF3B30" : "var(--text-muted)" }} />
+                      </button>
+                    </div>
+                  )}
                 </div>
                 {msg.role === "user" && (
                   <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: "var(--bg-surface-solid)", border: "1px solid var(--border-subtle)" }}>
@@ -152,7 +201,11 @@ export default function ChatWidget() {
                   <Bot size={14} style={{ color: "var(--accent-blue)" }} />
                 </div>
                 <div className="rounded-2xl rounded-bl-sm px-4 py-2.5" style={{ background: "var(--bg-surface-solid)", border: "1px solid var(--border-subtle)" }}>
-                  <Loader2 size={16} className="animate-spin" style={{ color: "var(--text-muted)" }} />
+                  <div className="flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full animate-bounce" style={{ background: "var(--text-muted)", animationDelay: "0ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full animate-bounce" style={{ background: "var(--text-muted)", animationDelay: "150ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full animate-bounce" style={{ background: "var(--text-muted)", animationDelay: "300ms" }} />
+                  </div>
                 </div>
               </div>
             )}

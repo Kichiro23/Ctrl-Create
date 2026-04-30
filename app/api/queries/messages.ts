@@ -1,11 +1,10 @@
-import { getDb } from "./connection";
-import { messages } from "@db/schema";
-import { eq, desc } from "drizzle-orm";
+import { connectDb } from "./connection";
+import { Message } from "../../db/models";
+import type { IMessage } from "../../db/models";
 
-export async function findAllMessages() {
-  return getDb().query.messages.findMany({
-    orderBy: desc(messages.createdAt),
-  });
+export async function findAllMessages(): Promise<IMessage[]> {
+  await connectDb();
+  return Message.find().sort({ createdAt: -1 }).lean();
 }
 
 export async function createMessage(data: {
@@ -17,15 +16,18 @@ export async function createMessage(data: {
   budget?: string;
   timeline?: string;
   message: string;
-}) {
-  const [{ id }] = await getDb().insert(messages).values(data).$returningId();
-  return id;
+}): Promise<string> {
+  await connectDb();
+  const doc = await Message.create(data);
+  return doc._id.toString();
 }
 
-export async function updateMessageStatus(id: number, readStatus: "read" | "unread") {
-  await getDb().update(messages).set({ readStatus }).where(eq(messages.id, id));
+export async function updateMessageStatus(id: number | string, readStatus: "read" | "unread"): Promise<void> {
+  await connectDb();
+  await Message.findByIdAndUpdate(id, { readStatus });
 }
 
-export async function deleteMessage(id: number) {
-  await getDb().delete(messages).where(eq(messages.id, id));
+export async function deleteMessage(id: number | string): Promise<void> {
+  await connectDb();
+  await Message.findByIdAndDelete(id);
 }

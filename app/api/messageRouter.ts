@@ -6,6 +6,7 @@ import {
   updateMessageStatus,
   deleteMessage,
 } from "./queries/messages";
+import { sendContactNotification } from "./lib/email";
 
 export const messageRouter = createRouter({
   create: publicQuery
@@ -23,6 +24,8 @@ export const messageRouter = createRouter({
     )
     .mutation(async ({ input }) => {
       const id = await createMessage(input);
+      // Fire-and-forget email notification
+      sendContactNotification(input).catch(() => {});
       return { success: true, id };
     }),
 

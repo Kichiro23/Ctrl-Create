@@ -1,36 +1,36 @@
-import { eq } from "drizzle-orm";
-import * as schema from "@db/schema";
-import type { InsertUser } from "@db/schema";
-import { getDb } from "./connection";
+import { connectDb } from "./connection";
+import { User } from "../../db/models";
+import type { IUser } from "../../db/models";
 import { env } from "../lib/env";
 
-export async function findUserByUnionId(unionId: string) {
-  const rows = await getDb()
-    .select()
-    .from(schema.users)
-    .where(eq(schema.users.unionId, unionId))
-    .limit(1);
-  return rows.at(0);
+export async function findUserByUnionId(unionId: string): Promise<IUser | null> {
+  await connectDb();
+  return User.findOne({ unionId }).lean();
 }
 
-export async function upsertUser(data: InsertUser) {
-  const values = { ...data };
-  const updateSet: Partial<InsertUser> = {
-    lastSignInAt: new Date(),
-    ...data,
-  };
+export async function upsertUser(data: {
+  unionId: string;
+  name?: string;
+  email?: string;
+  avatar?: string;
+}): Promise<IUser> {
+  await connectDb();
 
-  if (
-    values.role === undefined &&
-    values.unionId &&
-    values.unionId === env.ownerUnionId
-  ) {
-    values.role = "admin";
-    updateSet.role = "admin";
-  }
+  const isOwner = data.unionId === env.ownerUnionId;
 
-  await getDb()
-    .insert(schema.users)
-    .values(values)
-    .onDuplicateKeyUpdate({ set: updateSet });
+  const user = await User.findOneAndUpdate(
+    { unionId: data.unionId },
+    {
+      $set: {
+        name: data.name,
+        email: data.email,
+        avatar: data.avatar,
+        lastSignInAt: new Date(),
+        ...(isOwner ? { role: "admin" } : {}),
+      },
+    },
+    { upsert: true, new: true }
+  ).lean();
+
+  return user as IUser;
 }
