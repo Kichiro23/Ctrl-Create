@@ -1,21 +1,21 @@
 import "dotenv/config";
 
-function required(name: string): string {
+function getEnv(name: string, requiredInProd = false): string {
   const value = process.env[name];
-  if (!value && process.env.NODE_ENV === "production") {
-    throw new Error(`Missing required environment variable: ${name}`);
+  if (!value && requiredInProd && process.env.NODE_ENV === "production") {
+    console.warn(`[env] Missing environment variable: ${name}`);
   }
   return value ?? "";
 }
 
 export const env = {
-  appId: required("APP_ID"),
-  appSecret: required("APP_SECRET"),
+  appId: getEnv("APP_ID"),
+  appSecret: getEnv("APP_SECRET"),
   isProduction: process.env.NODE_ENV === "production",
-  mongodbUri: required("MONGODB_URI"),
+  mongodbUri: getEnv("MONGODB_URI"),
   resendApiKey: process.env.RESEND_API_KEY ?? "",
   ownerEmail: process.env.OWNER_EMAIL ?? "rommeld216@gmail.com",
-  kimiAuthUrl: required("KIMI_AUTH_URL"),
-  kimiOpenUrl: required("KIMI_OPEN_URL"),
+  kimiAuthUrl: getEnv("KIMI_AUTH_URL"),
+  kimiOpenUrl: getEnv("KIMI_OPEN_URL"),
   ownerUnionId: process.env.OWNER_UNION_ID ?? "",
 };

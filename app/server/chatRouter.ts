@@ -39,24 +39,36 @@ export const chatRouter = createRouter({
     )
     .mutation(async ({ input }) => {
       const sessionId = input.sessionId || `session_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-      await connectDb();
-
-      // Store user message
-      await ChatMessage.create({
-        sessionId,
-        role: "user",
-        content: input.message,
-      });
+      let dbConnected = false;
+      try {
+        await connectDb();
+        dbConnected = true;
+        // Store user message
+        await ChatMessage.create({
+          sessionId,
+          role: "user",
+          content: input.message,
+        });
+      } catch {
+        // DB not available — chat still works without history
+      }
 
       try {
         const apiKey = process.env.OPENROUTER_API_KEY || "";
         const model = process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini";
 
         // Get conversation history for context
-        const history = await ChatMessage.find({ sessionId })
-          .sort({ createdAt: -1 })
-          .limit(10)
-          .lean();
+        let history: any[] = [];
+        if (dbConnected) {
+          try {
+            history = await ChatMessage.find({ sessionId })
+              .sort({ createdAt: -1 })
+              .limit(10)
+              .lean();
+          } catch {
+            // ignore history fetch errors
+          }
+        }
 
         const messages = [
           { role: "system", content: SYSTEM_PROMPT },
@@ -102,11 +114,17 @@ export const chatRouter = createRouter({
         }
 
         // Store assistant response
-        await ChatMessage.create({
-          sessionId,
-          role: "assistant",
-          content: reply,
-        });
+        if (dbConnected) {
+          try {
+            await ChatMessage.create({
+              sessionId,
+              role: "assistant",
+              content: reply,
+            });
+          } catch {
+            // ignore storage errors
+          }
+        }
 
         return { reply, sessionId };
       } catch {

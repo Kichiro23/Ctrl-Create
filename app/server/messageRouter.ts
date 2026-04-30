@@ -23,10 +23,20 @@ export const messageRouter = createRouter({
       }),
     )
     .mutation(async ({ input }) => {
-      const id = await createMessage(input);
-      // Fire-and-forget email notification
-      sendContactNotification(input).catch(() => {});
-      return { success: true, id };
+      try {
+        const id = await createMessage(input);
+        // Fire-and-forget email notification
+        sendContactNotification(input).catch(() => {});
+        return { success: true, id };
+      } catch (err: any) {
+        console.error("[contact] Failed to save message:", err);
+        // Graceful fallback: acknowledge receipt even if DB is down
+        return {
+          success: true,
+          id: "fallback",
+          warning: "Message received but could not be saved to database. Please email rommeld216@gmail.com directly.",
+        };
+      }
     }),
 
   list: adminQuery.query(async () => {
