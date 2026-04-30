@@ -357,6 +357,103 @@ const websiteTemplateData: Template[] = [
       "End-to-end HR suite with employee records, attendance, leave management, payroll computation, government contributions (SSS, PhilHealth, Pag-IBIG), and payslip generation.",
     tags: ["HR", "Payroll", "Attendance", "Government Forms"],
   },
+  // Creative & Personal
+  {
+    id: "portfolio-website",
+    name: "Creative Portfolio",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 18000,
+    priceUSD: 310,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Stunning portfolio website for developers, designers, photographers, and creatives. Project showcases, about section, skills, testimonials, and contact form with smooth animations.",
+    tags: ["Portfolio", "Showcase", "Creative", "Animations"],
+  },
+  {
+    id: "personal-website",
+    name: "Personal Website / Blog",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 18000,
+    priceUSD: 310,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Clean personal website or blog for influencers, writers, and professionals. About page, blog posts, gallery, social links, and newsletter signup with easy content management.",
+    tags: ["Blog", "Personal", "Content", "Newsletter"],
+  },
+  {
+    id: "photography-portfolio",
+    name: "Photography Portfolio",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 22000,
+    priceUSD: 379,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Gallery-focused portfolio for photographers and videographers. Full-screen image viewer, categorized albums, client proofing, booking sessions, and print sales integration.",
+    tags: ["Gallery", "Photography", "Booking", "Proofing"],
+  },
+  {
+    id: "musician-artist",
+    name: "Musician & Artist Page",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 20000,
+    priceUSD: 345,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Media-rich website for bands, solo artists, and performers. Music player, video embeds, event calendar, ticket links, merch store, and mailing list with streaming platform integrations.",
+    tags: ["Music", "Video", "Events", "Merch"],
+  },
+  {
+    id: "wedding-website",
+    name: "Wedding Website",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 15000,
+    priceUSD: 259,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Romantic wedding website with love story timeline, photo gallery, RSVP form, gift registry links, event details, directions, and countdown timer for the big day.",
+    tags: ["Wedding", "RSVP", "Gallery", "Countdown"],
+  },
+  {
+    id: "resume-cv",
+    name: "Resume / CV Website",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 15000,
+    priceUSD: 259,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Professional online resume and CV for job seekers and freelancers. Skills section, work experience timeline, education, certifications, downloadable PDF, and contact form.",
+    tags: ["Resume", "CV", "Professional", "PDF"],
+  },
+  {
+    id: "product-landing",
+    name: "Product Landing Page",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 20000,
+    priceUSD: 345,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "High-converting landing page for apps, products, and services. Hero section, feature highlights, pricing tiers, testimonials, FAQ, CTA buttons, and lead capture forms.",
+    tags: ["Landing Page", "Conversion", "Lead Gen", "SaaS"],
+  },
+  {
+    id: "nonprofit-ngo",
+    name: "Non-Profit & NGO Website",
+    category: "Website Templates",
+    subcategory: "Creative & Personal",
+    pricePHP: 18000,
+    priceUSD: 310,
+    image: "/images/assets/og-image.jpg",
+    description:
+      "Purpose-driven website for charities, foundations, and NGOs. Mission statement, programs, donation integration, volunteer signup, impact stories, and newsletter.",
+    tags: ["Non-Profit", "Donations", "Volunteer", "Impact"],
+  },
 ];
 
 // ── ACADEMIC COMMISSIONS (18 total) ───────────────────
@@ -623,6 +720,7 @@ export const websiteSubcategories = [
   "Professional Services",
   "Government & Community",
   "Enterprise",
+  "Creative & Personal",
 ] as const;
 
 export const academicSubcategories = [
