@@ -25,14 +25,14 @@ export default function SEO({
   keywords,
   structuredData,
 }: SEOProps) {
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const pageTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE_URL}${pathname}`;
   const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image}`;
 
   return (
     <Helmet>
       {/* Basic */}
-      <title>{fullTitle}</title>
+      <title>{SITE_NAME}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={url} />
@@ -40,7 +40,7 @@ export default function SEO({
 
       {/* Open Graph */}
       <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:title" content={fullTitle} />
+      <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />
@@ -51,7 +51,7 @@ export default function SEO({
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
 
