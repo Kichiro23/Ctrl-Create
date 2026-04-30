@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router'
 import Layout from "@/components/Layout"
 import ChatWidget from "@/components/ChatWidget"
 import ErrorBoundary from "@/components/ErrorBoundary"
+import { Analytics } from "@vercel/analytics/react"
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -41,6 +42,7 @@ export default function App() {
         </Routes>
       </Layout>
       <ChatWidget />
+      <Analytics />
     </ErrorBoundary>
   )
 }
