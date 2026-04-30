@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ExternalLink, ShieldCheck, QrCode, Search, X,
+  ExternalLink, ShieldCheck, Search, X,
   MonitorSmartphone, GraduationCap, Tag, ArrowRight,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
@@ -105,7 +105,7 @@ export default function Templates() {
               Ready-Made Systems & Academic Packages
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Find everything you need — from business systems to academic commissions. Buy instantly through QRPh Payment.
+              Find everything you need — from business systems to academic commissions. Send an inquiry and I'll tailor a solution for you.
             </p>
           </AnimatedSection>
 
@@ -128,12 +128,8 @@ export default function Templates() {
           <AnimatedSection>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <div className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
-                <QrCode size={16} style={{ color: "var(--accent-blue)" }} />
-                QRPh Accepted
-              </div>
-              <div className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
                 <ShieldCheck size={16} style={{ color: "var(--accent-blue)" }} />
-                Instant Purchase — No Annual Fees
+                GCash · Maya · PayPal · Google Pay
               </div>
               <div className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
                 <MonitorSmartphone size={16} style={{ color: "var(--accent-blue)" }} />
