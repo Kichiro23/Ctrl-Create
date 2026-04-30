@@ -379,7 +379,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 8500,
     priceUSD: 147,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_portfolio_website.jpg",
     description:
       "Stunning portfolio website for developers, designers, photographers, and creatives. Project showcases, about section, skills, testimonials, and contact form with smooth animations.",
     tags: ["Portfolio", "Showcase", "Creative", "Animations"],
@@ -392,7 +392,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 8000,
     priceUSD: 138,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_personal_website.jpg",
     description:
       "Clean personal website or blog for influencers, writers, and professionals. About page, blog posts, gallery, social links, and newsletter signup with easy content management.",
     tags: ["Blog", "Personal", "Content", "Newsletter"],
@@ -405,7 +405,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 12000,
     priceUSD: 207,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_photography_portfolio.jpg",
     description:
       "Gallery-focused portfolio for photographers and videographers. Full-screen image viewer, categorized albums, client proofing, booking sessions, and print sales integration.",
     tags: ["Gallery", "Photography", "Booking", "Proofing"],
@@ -417,7 +417,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 10000,
     priceUSD: 172,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_musician_artist.jpg",
     description:
       "Media-rich website for bands, solo artists, and performers. Music player, video embeds, event calendar, ticket links, merch store, and mailing list with streaming platform integrations.",
     tags: ["Music", "Video", "Events", "Merch"],
@@ -429,7 +429,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 6500,
     priceUSD: 112,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_wedding_website.jpg",
     description:
       "Romantic wedding website with love story timeline, photo gallery, RSVP form, gift registry links, event details, directions, and countdown timer for the big day.",
     tags: ["Wedding", "RSVP", "Gallery", "Countdown"],
@@ -442,7 +442,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 5500,
     priceUSD: 95,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_resume_cv.jpg",
     description:
       "Professional online resume and CV for job seekers and freelancers. Skills section, work experience timeline, education, certifications, downloadable PDF, and contact form.",
     tags: ["Resume", "CV", "Professional", "PDF"],
@@ -454,7 +454,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 9000,
     priceUSD: 155,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_product_landing.jpg",
     description:
       "High-converting landing page for apps, products, and services. Hero section, feature highlights, pricing tiers, testimonials, FAQ, CTA buttons, and lead capture forms.",
     tags: ["Landing Page", "Conversion", "Lead Gen", "SaaS"],
@@ -467,7 +467,7 @@ const websiteTemplateData: Template[] = [
     subcategory: "Creative & Personal",
     pricePHP: 7500,
     priceUSD: 129,
-    image: "/images/assets/og-image.jpg",
+    image: "/images/templates/template_nonprofit_ngo.jpg",
     description:
       "Purpose-driven website for charities, foundations, and NGOs. Mission statement, programs, donation integration, volunteer signup, impact stories, and newsletter.",
     tags: ["Non-Profit", "Donations", "Volunteer", "Impact"],
