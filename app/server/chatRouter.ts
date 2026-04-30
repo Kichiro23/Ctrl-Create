@@ -85,7 +85,7 @@ export const chatRouter = createRouter({
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${apiKey}`,
-              "HTTP-Referer": process.env.VITE_APP_URL || "https://ctrlcreate.studio",
+              "HTTP-Referer": process.env.VITE_APP_URL || "https://ctrl-create-srvcs.vercel.app",
               "X-Title": "Ctrl + Create Assistant",
             },
             body: JSON.stringify({

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /login
 
-Sitemap: https://ctrl-create.vercel.app/sitemap.xml
+Sitemap: https://ctrl-create-srvcs.vercel.app/sitemap.xml

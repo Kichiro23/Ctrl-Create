@@ -13,7 +13,7 @@ interface SEOProps {
 
 const SITE_NAME = "Ctrl + Create";
 const DEFAULT_IMAGE = "/images/assets/og-image.jpg";
-const SITE_URL = typeof window !== "undefined" ? window.location.origin : "https://ctrl-create.vercel.app";
+const SITE_URL = typeof window !== "undefined" ? window.location.origin : "https://ctrl-create-srvcs.vercel.app";
 
 export default function SEO({
   title,

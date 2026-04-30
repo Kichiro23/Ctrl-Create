@@ -4,7 +4,7 @@
 >
 > Built by Rommel Andrei De Leon — Full Stack Developer · IT & Multimedia Specialist · AI Automation Engineer · Freelance Creative & Technical Professional.
 
-🔗 **Live**: [https://ctrlcreate.studio](https://ctrlcreate.studio)
+🔗 **Live**: [https://ctrl-create-srvcs.vercel.app](https://ctrl-create-srvcs.vercel.app)
 
 ## Overview
 
@@ -91,8 +91,8 @@ Complete papers, individual chapters, data analysis, presentations, defense prep
 
 ## SEO
 
-- **Sitemap**: `https://ctrlcreate.studio/sitemap.xml` (14 pages)
-- **Robots.txt**: `https://ctrlcreate.studio/robots.txt`
+- **Sitemap**: `https://ctrl-create-srvcs.vercel.app/sitemap.xml` (14 pages)
+- **Robots.txt**: `https://ctrl-create-srvcs.vercel.app/robots.txt`
 - **Open Graph & Twitter Cards** on every page
 - **JSON-LD structured data**: Organization schema on homepage
 - **Canonical URLs** for all routes
@@ -124,7 +124,7 @@ OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
 RESEND_API_KEY=re_...
 
 # Frontend
-VITE_APP_URL=https://ctrlcreate.studio
+VITE_APP_URL=https://ctrl-create-srvcs.vercel.app
 ```
 
 ## Getting Started
@@ -146,7 +146,7 @@ npm run dev        # Start Vite dev server + API
    - `RESEND_API_KEY` — Resend API key
    - `OWNER_EMAIL` — where contact notifications go
    - `OPENROUTER_API_KEY` — OpenRouter API key
-   - `VITE_APP_URL` — production domain (`https://ctrlcreate.studio`)
+   - `VITE_APP_URL` — production domain (`https://ctrl-create-srvcs.vercel.app`)
 5. Deploy
 
 **MongoDB Atlas Setup:**

@@ -180,8 +180,8 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "Ctrl + Create",
-            url: "https://ctrl-create.vercel.app",
-            logo: "https://ctrl-create.vercel.app/images/assets/logo-cc.png",
+            url: "https://ctrl-create-srvcs.vercel.app",
+            logo: "https://ctrl-create-srvcs.vercel.app/images/assets/logo-cc.png",
             description: "Premium creative commissions and digital solutions crafted with precision.",
             founder: {
               "@type": "Person",
@@ -212,10 +212,10 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "Ctrl + Create",
-            url: "https://ctrl-create.vercel.app",
+            url: "https://ctrl-create-srvcs.vercel.app",
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://ctrl-create.vercel.app/templates?q={search_term_string}",
+              target: "https://ctrl-create-srvcs.vercel.app/templates?q={search_term_string}",
               "query-input": "required name=search_term_string",
             },
           },
