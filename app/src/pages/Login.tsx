@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
 
 function getOAuthUrl() {
   const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
@@ -20,6 +21,12 @@ function getOAuthUrl() {
 export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center">
+      <SEO
+        title="Login | Ctrl + Create"
+        description="Admin login for Ctrl + Create."
+        pathname="/login"
+        noindex
+      />
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle>Welcome</CardTitle>

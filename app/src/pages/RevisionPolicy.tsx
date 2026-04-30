@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { AlertTriangle, LayoutTemplate, Type, CheckCircle2 } from "lucide-react";
+import SEO from "@/components/SEO";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -35,6 +36,11 @@ const minorExamples = [
 export default function RevisionPolicy() {
   return (
     <div>
+      <SEO
+        title="Revision Policy | Ctrl + Create"
+        description="Our revision policy: major revisions, minor revisions, and out-of-scope changes. Clear guidelines for website and creative project modifications."
+        pathname="/revision-policy"
+      />
       {/* Hero */}
       <section className="relative flex min-h-[40vh] items-center justify-center px-4 pt-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">

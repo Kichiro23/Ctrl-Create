@@ -18,6 +18,7 @@ import {
   ShoppingBag,
 
 } from "lucide-react";
+import SEO from "@/components/SEO";
 
 type Tab = "messages" | "memberships" | "orders";
 
@@ -101,6 +102,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen px-4 pb-12 pt-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <SEO
+        title="Admin Dashboard | Ctrl + Create"
+        description="Admin dashboard for managing messages, memberships, and template orders."
+        pathname="/admin"
+        noindex
+      />
       <div className="mx-auto max-w-[1200px]">
         {/* Header */}
         <div className="mb-8">

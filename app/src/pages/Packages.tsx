@@ -9,6 +9,7 @@ import {
   Crown, Zap, ShieldCheck, ArrowRight, Layers, Video, Megaphone, BookOpen, MonitorSmartphone,
   GraduationCap,
 } from "lucide-react";
+import SEO from "@/components/SEO";
 
 function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
   const { formatPriceFull } = useCurrency();
@@ -237,6 +238,12 @@ export default function Packages() {
 
   return (
     <div>
+      <SEO
+        title="Website & Academic Packages | Transparent Pricing | Ctrl + Create"
+        description="Transparent pricing for website development and academic support. Starter to Enterprise website packages. Scholar to Valedictorian academic memberships."
+        pathname="/packages"
+        keywords="website package Philippines, website design price Philippines, academic membership, thesis package, web development pricing"
+      />
       {/* Hero */}
       <section className="px-4 pb-12 pt-28 text-center md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">

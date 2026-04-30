@@ -6,6 +6,7 @@ import {
   Linkedin, Instagram, Facebook, Github, MessageCircle, Send, BookOpen, PenTool, Presentation,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
+import SEO from "@/components/SEO";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -111,6 +112,12 @@ const socialLinks = [
 export default function About() {
   return (
     <div>
+      <SEO
+        title="About Rommel Andrei De Leon | Full Stack Developer Philippines"
+        description="Meet Rommel Andrei De Leon — Full Stack Developer, IT & Multimedia Specialist, AI Automation Engineer. 5+ years of freelance experience across web development, design, and academic support."
+        pathname="/about"
+        keywords="Rommel Andrei De Leon, full stack developer Philippines, freelance developer Bulacan, React developer, web developer Philippines"
+      />
       {/* Hero */}
       <section className="relative px-4 pb-12 pt-28 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">

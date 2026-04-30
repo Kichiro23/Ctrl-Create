@@ -11,6 +11,7 @@ import { useDebouncedSearch } from "@/components/SearchBar";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import { useCurrency } from "@/hooks/useCurrency";
 import { templates, templateCategories, type TemplateCategoryFilter, type Template } from "@/data/templates";
+import SEO from "@/components/SEO";
 
 function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: number }) {
   const { formatPriceFull } = useCurrency();
@@ -86,6 +87,12 @@ export default function Templates() {
 
   return (
     <div>
+      <SEO
+        title="Website Templates & Academic Commissions | Ctrl + Create"
+        description="Ready-made website templates for businesses and academic commissions for students. POS systems, barangay portals, school management, thesis packages, and more."
+        pathname="/templates"
+        keywords="website templates Philippines, POS system template, barangay portal template, school management system, thesis commission, academic commission"
+      />
       {/* Hero */}
       <section className="relative flex min-h-[40vh] flex-col items-start justify-start px-4 pt-36 pb-10 md:px-6 lg:px-8">
         <div className="relative z-10 mx-auto max-w-[900px] text-center">

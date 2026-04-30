@@ -1,9 +1,15 @@
 import { Link } from "react-router";
 import { Shield, Mail, ArrowRight } from "lucide-react";
+import SEO from "@/components/SEO";
 
 export default function PrivacyPolicy() {
   return (
     <div className="px-4 pb-12 pt-28 md:px-6 lg:px-8">
+      <SEO
+        title="Privacy Policy | Ctrl + Create"
+        description="Ctrl + Create privacy policy. How we collect, use, and protect your personal information."
+        pathname="/privacy-policy"
+      />
       <div className="mx-auto max-w-[800px]">
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: "rgba(0, 122, 255, 0.1)" }}>

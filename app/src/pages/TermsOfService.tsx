@@ -1,9 +1,15 @@
 import { Link } from "react-router";
 import { FileText, Mail, ArrowRight } from "lucide-react";
+import SEO from "@/components/SEO";
 
 export default function TermsOfService() {
   return (
     <div className="px-4 pb-12 pt-28 md:px-6 lg:px-8">
+      <SEO
+        title="Terms of Service | Ctrl + Create"
+        description="Terms of service for Ctrl + Create. Agreement for using our website, services, and commissions."
+        pathname="/terms-of-service"
+      />
       <div className="mx-auto max-w-[800px]">
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: "rgba(0, 122, 255, 0.1)" }}>

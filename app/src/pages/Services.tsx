@@ -32,6 +32,7 @@ import {
   X,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
+import SEO from "@/components/SEO";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -207,6 +208,12 @@ export default function Services() {
 
   return (
     <div>
+      <SEO
+        title="Services | Website Development, Academic Help, Design & Video"
+        description="Full catalog of creative and technical services: website development, thesis writing, SPSS analysis, graphic design, video editing, social media management, and AI automation."
+        pathname="/services"
+        keywords="website development Philippines, thesis help, academic writing service, graphic design freelance, video editing Philippines, social media management"
+      />
       {/* Hero */}
       <section className="relative flex min-h-[50vh] flex-col items-start justify-start px-4 pt-32 pb-10 md:px-6 lg:px-8">
         <div className="relative z-10 mx-auto max-w-[900px] text-center">

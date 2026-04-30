@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { trpc } from "@/providers/trpc";
 import { ExternalLink, Lock, Search } from "lucide-react";
 import { websiteTemplates, academicTemplates } from "@/data/templates";
+import SEO from "@/components/SEO";
 
 const categories = ["All", "Personal Projects", "Templates", "Academic Commissions", "Confidential"];
 
@@ -99,6 +100,12 @@ export default function Portfolio() {
 
   return (
     <div>
+      <SEO
+        title="Portfolio | Projects by Ctrl + Create"
+        description="Selected work from Ctrl + Create: personal projects, website templates, academic commissions, and confidential client work. Built with React, Next.js, TypeScript, and Tailwind CSS."
+        pathname="/portfolio"
+        keywords="web developer portfolio Philippines, React projects, Next.js portfolio, full stack developer projects"
+      />
       {/* Hero */}
       <section className="px-4 pb-8 pt-32 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">

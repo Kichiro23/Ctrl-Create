@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useCurrency } from "@/hooks/useCurrency";
 import CurrencyToggle from "@/components/CurrencyToggle";
+import SEO from "@/components/SEO";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -293,6 +294,12 @@ export default function Membership() {
 
   return (
     <div>
+      <SEO
+        title="Membership Tiers | Bronze Silver Gold Diamond | Ctrl + Create"
+        description="Join Ctrl + Create membership for exclusive discounts, priority support, free consultations, and monthly creative services. Website Building and Academic Support programs."
+        pathname="/membership"
+        keywords="web design membership Philippines, creative agency membership, academic support subscription, freelance developer retainer"
+      />
       {/* Hero */}
       <section className="relative flex min-h-[50vh] items-center justify-center px-4 pt-20 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">

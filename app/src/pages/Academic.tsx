@@ -27,6 +27,7 @@ import {
 import { useCurrency } from "@/hooks/useCurrency";
 import PaymentTooltip from "@/components/PaymentTooltip";
 import CurrencyToggle from "@/components/CurrencyToggle";
+import SEO from "@/components/SEO";
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -266,6 +267,12 @@ export default function Academic() {
 
   return (
     <div>
+      <SEO
+        title="Academic Writing & Thesis Help Philippines | Ctrl + Create"
+        description="Professional academic support for Filipino students: thesis chapters, SPSS analysis, defense PPT, essays, research papers, and capstone systems. Turnitin-ready output with fast turnaround."
+        pathname="/academic"
+        keywords="thesis help Philippines, academic writer Philippines, SPSS analysis, thesis chapter writing, defense PPT, research paper help, capstone project"
+      />
       {/* Hero */}
       <section className="relative flex min-h-[60vh] flex-col items-start justify-start px-4 pt-32 pb-10 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[900px] text-center">

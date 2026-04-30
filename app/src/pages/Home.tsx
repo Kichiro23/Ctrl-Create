@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
 import PaymentTooltip from "@/components/PaymentTooltip";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import SEO from "@/components/SEO";
 import {
   ChevronDown,
   Check,
@@ -169,6 +170,72 @@ export default function Home() {
 
   return (
     <div>
+      <SEO
+        title="Ctrl + Create | Premium Creative Commissions & Digital Solutions Philippines"
+        description="Freelance full stack developer & creative professional based in the Philippines. Website development, thesis/academic help, graphic design, video editing, and AI automation."
+        pathname="/"
+        keywords="website developer Philippines, thesis help Philippines, academic writer, freelance web developer, graphic design Philippines, video editing, React developer, SPSS analysis, capstone project help"
+        structuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Ctrl + Create",
+            url: "https://ctrl-create.vercel.app",
+            logo: "https://ctrl-create.vercel.app/images/assets/logo-cc.png",
+            description: "Premium creative commissions and digital solutions crafted with precision.",
+            founder: {
+              "@type": "Person",
+              name: "Rommel Andrei De Leon",
+            },
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Malolos",
+              addressRegion: "Bulacan",
+              addressCountry: "PH",
+            },
+            contactPoint: {
+              "@type": "ContactPoint",
+              email: "rommeld216@gmail.com",
+              telephone: "+63-962-790-5910",
+              contactType: "customer service",
+              areaServed: "PH",
+              availableLanguage: ["English", "Filipino"],
+            },
+            sameAs: [
+              "https://github.com/Kichiro23",
+              "https://www.linkedin.com/in/rommel-andrei-de-leon-36ba8b291/",
+              "https://www.instagram.com/drei_sanity",
+              "https://www.facebook.com/andrei.deleon23",
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Ctrl + Create",
+            url: "https://ctrl-create.vercel.app",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://ctrl-create.vercel.app/templates?q={search_term_string}",
+              "query-input": "required name=search_term_string",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            name: "Ctrl + Create",
+            description: "Website development, academic writing, graphic design, video editing, and AI automation services.",
+            areaServed: {
+              "@type": "Country",
+              name: "Philippines",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Ctrl + Create",
+            },
+            serviceType: ["Website Development", "Academic Writing", "Graphic Design", "Video Editing", "AI Automation"],
+          },
+        ]}
+      />
       {/* Hero */}
       <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
         <AnimatedBackground />

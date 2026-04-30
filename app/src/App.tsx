@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router'
+import { HelmetProvider } from "react-helmet-async"
 import Layout from "@/components/Layout"
 import ChatWidget from "@/components/ChatWidget"
 import ErrorBoundary from "@/components/ErrorBoundary"
@@ -21,28 +22,30 @@ import NotFound from "./pages/NotFound"
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/academic" element={<Academic />} />
-          <Route path="/templates" element={<Templates />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/packages" element={<Packages />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/revision-policy" element={<RevisionPolicy />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Layout>
-      <ChatWidget />
-      <Analytics />
-    </ErrorBoundary>
+    <HelmetProvider>
+      <ErrorBoundary>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/academic" element={<Academic />} />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/packages" element={<Packages />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/revision-policy" element={<RevisionPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+        <ChatWidget />
+        <Analytics />
+      </ErrorBoundary>
+    </HelmetProvider>
   )
 }

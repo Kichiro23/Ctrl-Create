@@ -8,6 +8,7 @@ import {
   Globe, PenTool, FileText, GraduationCap, MessageSquare, Zap,
   ArrowRight, HelpCircle,
 } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const serviceOptions = [
   { label: "Website Development (React, Next.js)", icon: MonitorSmartphone },
@@ -105,6 +106,12 @@ export default function Contact() {
 
   return (
     <div>
+      <SEO
+        title="Contact | Get a Free Quote | Ctrl + Create"
+        description="Get in touch for a free consultation. Website development, thesis help, graphic design, video editing, and more. Response within 24 hours. Based in Malolos, Bulacan, Philippines."
+        pathname="/contact"
+        keywords="hire web developer Philippines, freelance developer contact, thesis help contact, get a quote website"
+      />
       <section className="px-4 pb-12 pt-28 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <div className="text-center">
