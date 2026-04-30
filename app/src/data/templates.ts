@@ -10,6 +10,7 @@ export interface Template {
   image: string;
   description: string;
   tags: string[];
+  recommended?: boolean;
 }
 
 // ── WEBSITE TEMPLATES (29 total) ──────────────────────
@@ -27,6 +28,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Complete point-of-sale system with barcode scanning, inventory tracking, supplier management, sales reporting, and receipt printing for grocery stores and supermarkets.",
     tags: ["POS", "Inventory", "Retail", "Sales Report"],
+    recommended: true,
   },
   {
     id: "pos-restaurant",
@@ -39,6 +41,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Restaurant management system with table management, menu builder, kitchen order display, billing, split payments, and reservation system.",
     tags: ["POS", "Restaurant", "Reservation", "Kitchen Display"],
+    recommended: true,
   },
   {
     id: "water-refilling-pos",
@@ -63,6 +66,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Charming e-commerce ready template for bakeries and cafes with daily specials, pre-ordering, custom cake orders, loyalty rewards, and pickup scheduling.",
     tags: ["E-commerce", "Pre-order", "Loyalty", "Pickup"],
+    recommended: true,
   },
   {
     id: "pharmacy",
@@ -75,6 +79,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Pharmacy management with medicine inventory, prescription tracking, expiry alerts, generic/brand search, supplier management, and POS billing.",
     tags: ["Pharmacy", "Inventory", "Prescription", "Expiry Alert"],
+    recommended: true,
   },
   {
     id: "motorcycle-parts",
@@ -112,6 +117,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Full-featured hotel management with room booking, availability calendar, rate management, online payment integration, and guest check-in/out.",
     tags: ["Booking", "Calendar", "Payment", "Guest Management"],
+    recommended: true,
   },
   {
     id: "car-rental",
@@ -124,6 +130,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Vehicle fleet management with booking calendar, driver assignment, pricing tiers, damage inspection checklist, and return processing.",
     tags: ["Fleet", "Booking", "Inspection", "Return"],
+    recommended: true,
   },
   {
     id: "staycation",
@@ -160,6 +167,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Appointment scheduling for salons and spas with service menu, staff roster, recurring bookings, loyalty points, and walk-in queue.",
     tags: ["Appointment", "Service Menu", "Loyalty", "Walk-in"],
+    recommended: true,
   },
   {
     id: "funeral-services",
@@ -197,6 +205,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Property marketplace with advanced search, agent profiles, virtual tours, mortgage calculator, and document generation for contracts.",
     tags: ["Marketplace", "Search", "Virtual Tour", "Calculator"],
+    recommended: true,
   },
   {
     id: "construction",
@@ -234,6 +243,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Dental practice management with patient records, appointment scheduling, treatment plans, X-ray storage, and billing integration.",
     tags: ["Patient Records", "Scheduling", "Treatment Plans", "Billing"],
+    recommended: true,
   },
   {
     id: "gym-fitness",
@@ -270,6 +280,7 @@ const websiteTemplateData: Template[] = [
     description:
       "General clinic EMR with patient history, appointment queue, prescription printing, lab request forms, and billing statements.",
     tags: ["EMR", "Queue", "Prescription", "Lab Forms"],
+    recommended: true,
   },
   // Government & Community
   {
@@ -283,6 +294,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Barangay digitization with resident profiling, certificate generation (clearance, indigency), blotter system, and project tracking.",
     tags: ["Profiling", "Certificates", "Blotter", "Projects"],
+    recommended: true,
   },
   {
     id: "school-management",
@@ -295,6 +307,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Complete school ERP with enrollment, grading, class scheduling, faculty load, library, and parent portal for K-12 and higher education.",
     tags: ["Enrollment", "Grading", "Scheduling", "Library"],
+    recommended: true,
   },
   {
     id: "e-learning",
@@ -307,6 +320,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Full learning management system with course builder, video hosting, quizzes/assessments, progress tracking, certificates, and discussion forums.",
     tags: ["LMS", "Courses", "Quizzes", "Certificates"],
+    recommended: true,
   },
   {
     id: "online-voting",
@@ -369,6 +383,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Stunning portfolio website for developers, designers, photographers, and creatives. Project showcases, about section, skills, testimonials, and contact form with smooth animations.",
     tags: ["Portfolio", "Showcase", "Creative", "Animations"],
+    recommended: true,
   },
   {
     id: "personal-website",
@@ -381,6 +396,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Clean personal website or blog for influencers, writers, and professionals. About page, blog posts, gallery, social links, and newsletter signup with easy content management.",
     tags: ["Blog", "Personal", "Content", "Newsletter"],
+    recommended: true,
   },
   {
     id: "photography-portfolio",
@@ -417,6 +433,7 @@ const websiteTemplateData: Template[] = [
     description:
       "Romantic wedding website with love story timeline, photo gallery, RSVP form, gift registry links, event details, directions, and countdown timer for the big day.",
     tags: ["Wedding", "RSVP", "Gallery", "Countdown"],
+    recommended: true,
   },
   {
     id: "resume-cv",
@@ -441,6 +458,7 @@ const websiteTemplateData: Template[] = [
     description:
       "High-converting landing page for apps, products, and services. Hero section, feature highlights, pricing tiers, testimonials, FAQ, CTA buttons, and lead capture forms.",
     tags: ["Landing Page", "Conversion", "Lead Gen", "SaaS"],
+    recommended: true,
   },
   {
     id: "nonprofit-ngo",
@@ -470,6 +488,7 @@ const academicTemplateData: Template[] = [
     description:
       "Complete thesis from Chapter 1 to 5 — research design, literature review, methodology, data analysis, interpretation, and conclusion with full formatting.",
     tags: ["Full Thesis", "Quantitative", "Qualitative", "APA Format"],
+    recommended: true,
   },
   {
     id: "thesis-proposal",
@@ -482,6 +501,7 @@ const academicTemplateData: Template[] = [
     description:
       "A polished thesis proposal with Chapter 1 (Introduction), theoretical framework, problem statement, significance, scope, and methodology overview for adviser approval.",
     tags: ["Proposal", "Concept Paper", "Chapter 1", "Approval"],
+    recommended: true,
   },
   {
     id: "capstone",
@@ -494,6 +514,7 @@ const academicTemplateData: Template[] = [
     description:
       "Complete capstone documentation including system design, SDLC methodology, user manual, testing results, and full technical documentation.",
     tags: ["Capstone", "System Design", "SDLC", "User Manual"],
+    recommended: true,
   },
   {
     id: "research-paper",
@@ -506,6 +527,7 @@ const academicTemplateData: Template[] = [
     description:
       "Polished research or term paper with abstract, introduction, body, conclusion, and properly formatted references in APA, MLA, or Chicago style.",
     tags: ["Research", "Term Paper", "APA", "MLA"],
+    recommended: true,
   },
   {
     id: "business-plan",
@@ -604,6 +626,7 @@ const academicTemplateData: Template[] = [
     description:
       "Complete statistical analysis using SPSS, R, or Jamovi — descriptive stats, reliability testing, correlation, regression, ANOVA, t-test, and interpretation.",
     tags: ["SPSS", "Statistics", "Regression", "ANOVA"],
+    recommended: true,
   },
   {
     id: "conceptual-framework",
@@ -641,6 +664,7 @@ const academicTemplateData: Template[] = [
     description:
       "Professional defense presentation with clean academic design, speaker notes, animated charts, and anticipated Q&A slides for proposal or final defense.",
     tags: ["PowerPoint", "Defense", "Speaker Notes", "Q&A"],
+    recommended: true,
   },
   {
     id: "defense-script",

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink, ShieldCheck, Search, X,
   MonitorSmartphone, GraduationCap, Tag, ArrowRight,
+  SlidersHorizontal, Star, ChevronDown,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
 import SearchBar from "@/components/SearchBar";
@@ -69,9 +70,42 @@ const categoryColors: Record<TemplateCategoryFilter, string> = {
   "Academic Commissions": "#34C759",
 };
 
+type SortOption = "recommended" | "price-asc" | "price-desc" | "name-asc" | "name-desc";
+
+const sortOptions: { value: SortOption; label: string }[] = [
+  { value: "recommended", label: "Recommended" },
+  { value: "price-asc", label: "Price: Low to High" },
+  { value: "price-desc", label: "Price: High to Low" },
+  { value: "name-asc", label: "Name: A-Z" },
+  { value: "name-desc", label: "Name: Z-A" },
+];
+
+function sortTemplates(items: Template[], sortBy: SortOption): Template[] {
+  const sorted = [...items];
+  switch (sortBy) {
+    case "recommended":
+      return sorted.sort((a, b) => {
+        if (a.recommended === b.recommended) return 0;
+        return a.recommended ? -1 : 1;
+      });
+    case "price-asc":
+      return sorted.sort((a, b) => a.pricePHP - b.pricePHP);
+    case "price-desc":
+      return sorted.sort((a, b) => b.pricePHP - a.pricePHP);
+    case "name-asc":
+      return sorted.sort((a, b) => a.name.localeCompare(b.name));
+    case "name-desc":
+      return sorted.sort((a, b) => b.name.localeCompare(a.name));
+    default:
+      return sorted;
+  }
+}
+
 export default function Templates() {
   const [activeCategory, setActiveCategory] = useState<TemplateCategoryFilter>("All");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const [sortBy, setSortBy] = useState<SortOption>("recommended");
+  const [showSortMenu, setShowSortMenu] = useState(false);
 
   const searchFn = (item: Template, query: string) => {
     const text = `${item.name} ${item.description} ${item.subcategory} ${item.tags.join(" ")}`.toLowerCase();
@@ -84,6 +118,8 @@ export default function Templates() {
     if (activeCategory === "All") return true;
     return t.category === activeCategory;
   });
+
+  const sorted = sortTemplates(filtered, sortBy);
 
   return (
     <div>
@@ -171,37 +207,80 @@ export default function Templates() {
         </div>
       </section>
 
-      <p className="mx-auto mb-2 max-w-xl text-center text-xs" style={{ color: "var(--text-muted)" }}>
+      {/* Sort & Results Bar */}
+      <section className="px-4 pt-4 pb-2 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {query ? (
+              <div className="flex items-center gap-2">
+                <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                  {sorted.length} result{sorted.length !== 1 ? "s" : ""} for &quot;{query}&quot;
+                </p>
+                <button
+                  onClick={() => setQuery("")}
+                  className="flex items-center gap-1 text-sm transition-colors hover:text-[var(--accent-blue)]"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  <X size={14} /> Clear
+                </button>
+              </div>
+            ) : (
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                {sorted.length} item{sorted.length !== 1 ? "s" : ""} available
+              </p>
+            )}
+            <div className="relative">
+              <button
+                onClick={() => setShowSortMenu(!showSortMenu)}
+                className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all"
+                style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
+              >
+                <SlidersHorizontal size={14} />
+                {sortOptions.find((o) => o.value === sortBy)?.label}
+                <ChevronDown size={14} className={`transition-transform ${showSortMenu ? "rotate-180" : ""}`} />
+              </button>
+              {showSortMenu && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setShowSortMenu(false)} />
+                  <div
+                    className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-2xl border shadow-xl"
+                    style={{ background: "var(--bg-surface-solid)", borderColor: "var(--border-subtle)" }}
+                  >
+                    {sortOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => { setSortBy(option.value); setShowSortMenu(false); }}
+                        className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors hover:bg-[var(--bg-surface)]"
+                        style={{ color: sortBy === option.value ? "var(--accent-blue)" : "var(--text-secondary)" }}
+                      >
+                        {sortBy === option.value && <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--accent-blue)" }} />}
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p className="mx-auto mb-4 max-w-xl text-center text-xs" style={{ color: "var(--text-muted)" }}>
         Prices shown are starting rates. Final cost may increase based on customization, integrations, and specific requirements.
       </p>
 
       {/* Templates Grid */}
-      <section className="px-4 py-14 md:px-6 lg:px-8">
+      <section className="px-4 py-10 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
-          {query && (
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                {filtered.length} result{filtered.length !== 1 ? "s" : ""} for &quot;{query}&quot;
-              </p>
-              <button
-                onClick={() => setQuery("")}
-                className="flex items-center gap-1 text-sm transition-colors hover:text-[var(--accent-blue)]"
-                style={{ color: "var(--text-muted)" }}
-              >
-                <X size={14} /> Clear search
-              </button>
-            </div>
-          )}
-
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeCategory + query}
+              key={activeCategory + query + sortBy}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
             >
-              {filtered.length === 0 ? (
+              {sorted.length === 0 ? (
                 <div className="py-20 text-center">
                   <Search size={40} className="mx-auto" style={{ color: "var(--text-muted)" }} />
                   <p className="mt-4 text-lg font-medium" style={{ color: "var(--text-primary)" }}>No results found</p>
@@ -209,7 +288,7 @@ export default function Templates() {
                 </div>
               ) : (
                 <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {filtered.map((template) => (
+                  {sorted.map((template) => (
                     <motion.div
                       key={template.id}
                       variants={itemVariants}
@@ -231,7 +310,7 @@ export default function Templates() {
                             Quick Preview <ExternalLink size={14} />
                           </button>
                         </div>
-                        <div className="absolute top-3 left-3">
+                        <div className="absolute top-3 left-3 flex gap-1.5">
                           <span
                             className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white"
                             style={{
@@ -240,6 +319,11 @@ export default function Templates() {
                           >
                             {template.category === "Website Templates" ? "Website" : "Academic"}
                           </span>
+                          {template.recommended && (
+                            <span className="flex items-center gap-1 rounded-full bg-amber-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                              <Star size={10} fill="white" /> Top Pick
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="p-5">
@@ -352,7 +436,7 @@ export default function Templates() {
                 >
                   <X size={16} />
                 </button>
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-3 left-3 flex gap-1.5">
                   <span
                     className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white"
                     style={{
@@ -361,6 +445,11 @@ export default function Templates() {
                   >
                     {selectedTemplate.category === "Website Templates" ? "Website Template" : "Academic Commission"}
                   </span>
+                  {selectedTemplate.recommended && (
+                    <span className="flex items-center gap-1 rounded-full bg-amber-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                      <Star size={10} fill="white" /> Top Pick
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="p-6">
