@@ -22,6 +22,8 @@ const messageSchema = new mongoose.Schema(
     budget: { type: String },
     timeline: { type: String },
     message: { type: String, required: true },
+    discountType: { type: String, enum: ["none", "student", "pwd", "senior"], default: "none" },
+    discountId: { type: String },
     readStatus: { type: String, enum: ["unread", "read"], default: "unread" },
   },
   { timestamps: true }

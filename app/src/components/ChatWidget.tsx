@@ -15,6 +15,7 @@ const FALLBACK_RESPONSES = [
   "Need thesis help? I cover all chapters (1–5), SPSS analysis, defense PPT, and Turnitin reports. Full thesis package is ₱18,000.",
   "Memberships are great for ongoing work! Website memberships start at ₱2,500/month. Academic memberships start at ₱1,800/month with discounts on every service.",
   "I accept GCash, Maya, PayPal, and Google Pay. All payments are secured and I provide official receipts for every transaction.",
+  "Students, PWDs, and senior citizens can apply for special discounts. Just mention it when you inquire through the contact form!",
   "Rush delivery is available for most services! Just let me know your deadline and I'll check my schedule.",
   "For a free consultation, email me at rommeld216@gmail.com or use the contact form. I reply within 1–2 hours during business hours.",
   "Every website I build is mobile-responsive, SEO-ready, and includes a dark mode toggle. Want to see some templates?",

@@ -11,6 +11,8 @@ export async function sendContactNotification(data: {
   serviceType?: string;
   budget?: string;
   timeline?: string;
+  discountType?: string;
+  discountId?: string;
   message: string;
 }) {
   if (!resend) {
@@ -32,6 +34,8 @@ export async function sendContactNotification(data: {
         ${data.serviceType ? `<p><strong>Service:</strong> ${escapeHtml(data.serviceType)}</p>` : ""}
         ${data.budget ? `<p><strong>Budget:</strong> ${escapeHtml(data.budget)}</p>` : ""}
         ${data.timeline ? `<p><strong>Timeline:</strong> ${escapeHtml(data.timeline)}</p>` : ""}
+        ${data.discountType && data.discountType !== "none" ? `<p><strong>Discount Applied For:</strong> ${escapeHtml(data.discountType.toUpperCase())}</p>` : ""}
+        ${data.discountId ? `<p><strong>ID Reference:</strong> ${escapeHtml(data.discountId)}</p>` : ""}
         <p><strong>Message:</strong></p>
         <p style="white-space:pre-wrap">${escapeHtml(data.message)}</p>
       `,

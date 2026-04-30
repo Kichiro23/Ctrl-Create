@@ -222,6 +222,7 @@ export default function AdminDashboard() {
                         <th className="px-4 py-3">Email</th>
                         <th className="px-4 py-3">Service</th>
                         <th className="px-4 py-3">Budget</th>
+                        <th className="px-4 py-3">Discount</th>
                         <th className="px-4 py-3">Date</th>
                         <th className="px-4 py-3">Actions</th>
                       </tr>
@@ -240,6 +241,19 @@ export default function AdminDashboard() {
                           <td className="px-4 py-3 text-sm" style={{ color: "var(--text-secondary)" }}>{msg.email}</td>
                           <td className="px-4 py-3 text-sm" style={{ color: "var(--text-secondary)" }}>{msg.serviceType || "—"}</td>
                           <td className="px-4 py-3 text-sm" style={{ color: "var(--text-secondary)" }}>{msg.budget || "—"}</td>
+                          <td className="px-4 py-3">
+                            {msg.discountType && msg.discountType !== "none" ? (
+                              <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white ${
+                                msg.discountType === "student" ? "bg-amber-500" :
+                                msg.discountType === "pwd" ? "bg-blue-500" :
+                                "bg-green-500"
+                              }`}>
+                                {msg.discountType === "student" ? "Student" : msg.discountType === "pwd" ? "PWD" : "Senior"}
+                              </span>
+                            ) : (
+                              <span className="text-xs" style={{ color: "var(--text-muted)" }}>—</span>
+                            )}
+                          </td>
                           <td className="px-4 py-3 text-xs" style={{ color: "var(--text-muted)" }}>{msg.createdAt ? new Date(msg.createdAt).toLocaleDateString() : "—"}</td>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-1">

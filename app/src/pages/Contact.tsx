@@ -66,6 +66,8 @@ export default function Contact() {
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
   const [message, setMessage] = useState("");
+  const [discountType, setDiscountType] = useState("none");
+  const [discountId, setDiscountId] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -79,6 +81,8 @@ export default function Contact() {
       setServiceType("");
       setBudget("");
       setTimeline("");
+      setDiscountType("none");
+      setDiscountId("");
       setMessage("");
     },
     onError: (err) => {
@@ -100,6 +104,8 @@ export default function Contact() {
       serviceType: serviceType || undefined,
       budget: budget || undefined,
       timeline: timeline || undefined,
+      discountType: discountType !== "none" ? discountType : undefined,
+      discountId: discountId.trim() || undefined,
       message: message.trim(),
     });
   };
@@ -196,6 +202,29 @@ export default function Contact() {
                       </select>
                     </div>
                   </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>Apply for Special Discount</label>
+                      <select value={discountType} onChange={(e) => setDiscountType(e.target.value)} className="contact-input">
+                        <option value="none">None</option>
+                        <option value="student">Student</option>
+                        <option value="pwd">PWD (Person with Disability)</option>
+                        <option value="senior">Senior Citizen</option>
+                      </select>
+                    </div>
+                    {discountType !== "none" && (
+                      <div>
+                        <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>ID / School Reference</label>
+                        <input value={discountId} onChange={(e) => setDiscountId(e.target.value)} placeholder="Student ID / PWD ID / Senior ID" className="contact-input" />
+                      </div>
+                    )}
+                  </div>
+                  {discountType !== "none" && (
+                    <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+                      Valid ID will be verified before the discount is applied. You'll be asked to present it during our consultation call.
+                    </p>
+                  )}
 
                   <div>
                     <label className="mb-1 block text-sm font-medium" style={{ color: "var(--text-primary)" }}>

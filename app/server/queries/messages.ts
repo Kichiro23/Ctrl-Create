@@ -15,6 +15,8 @@ export async function createMessage(data: {
   serviceType?: string;
   budget?: string;
   timeline?: string;
+  discountType?: string;
+  discountId?: string;
   message: string;
 }): Promise<string> {
   await connectDb();

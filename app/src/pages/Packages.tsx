@@ -263,6 +263,16 @@ export default function Packages() {
         </div>
       </section>
 
+      {/* Discount Notice */}
+      <section className="px-4 pb-4 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)", background: "var(--bg-surface)" }}>
+            <GraduationCap size={18} style={{ color: "var(--accent-blue)" }} />
+            <span><strong>Special Discounts Available:</strong> Students, PWDs, and Senior Citizens may apply for additional discounts. <Link to="/contact" className="font-semibold underline" style={{ color: "var(--accent-blue)" }}>Submit an inquiry to apply →</Link></span>
+          </div>
+        </div>
+      </section>
+
       {/* Tab Toggle */}
       <section className="px-4 pb-8 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">

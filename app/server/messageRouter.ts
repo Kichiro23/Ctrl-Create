@@ -19,6 +19,8 @@ export const messageRouter = createRouter({
         serviceType: z.string().optional(),
         budget: z.string().optional(),
         timeline: z.string().optional(),
+        discountType: z.enum(["none", "student", "pwd", "senior"]).optional(),
+        discountId: z.string().optional(),
         message: z.string().min(1, "Message is required"),
       }),
     )

@@ -427,6 +427,16 @@ export default function Academic() {
         </div>
       </section>
 
+      {/* Student Discount Notice */}
+      <section className="px-4 pt-8 pb-2 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)", background: "var(--bg-surface)" }}>
+            <GraduationCap size={18} style={{ color: "#34C759" }} />
+            <span><strong>Student Discount Available:</strong> Students, PWDs, and Senior Citizens may apply for special discounts on top of membership savings. <Link to="/contact" className="font-semibold underline" style={{ color: "#34C759" }}>Submit an inquiry to apply →</Link></span>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
