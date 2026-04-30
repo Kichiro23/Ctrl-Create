@@ -85,9 +85,9 @@ Complete papers, individual chapters, data analysis, presentations, defense prep
 | Package | Price (PHP) | Price (USD) | Timeline | Scope |
 |---------|-------------|-------------|----------|-------|
 | Starter | ₱8,500 | $149 | 7–10 days | Single page, 4–5 sections |
-| Business | ₱14,200 | $249 | 10–15 days | Multi-page, analytics, forms |
-| Pro | ₱28,500 | $499 | 20–30 days | Booking, auth, dashboard |
-| Enterprise | ₱39,800 | $699 | 40–60 days | E-commerce, unlimited pages |
+| Business | ₱25,000 | $430 | 10–15 days | Multi-page, analytics, forms |
+| Pro | ₱58,000 | $1,000 | 20–30 days | Booking, auth, dashboard |
+| Enterprise | ₱120,000 | $2,069 | 40–60 days | E-commerce, unlimited pages |
 
 ## SEO
 

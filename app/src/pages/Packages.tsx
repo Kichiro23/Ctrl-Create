@@ -37,9 +37,9 @@ interface Package {
 const websitePackages: Package[] = [
   {
     name: "Starter",
-    priceUSD: 112,
-    pricePHP: 6500,
-    originalPricePHP: 8500,
+    priceUSD: 149,
+    pricePHP: 8500,
+    originalPricePHP: 12000,
     timeline: "7–10 days",
     description: "Single-page presence with clean design",
     features: [
@@ -60,9 +60,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Business",
-    priceUSD: 198,
-    pricePHP: 11500,
-    originalPricePHP: 14200,
+    priceUSD: 430,
+    pricePHP: 25000,
+    originalPricePHP: 35000,
     timeline: "10–15 days",
     description: "Professional multi-page website",
     features: [
@@ -83,9 +83,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Pro",
-    priceUSD: 388,
-    pricePHP: 22500,
-    originalPricePHP: 28500,
+    priceUSD: 1000,
+    pricePHP: 58000,
+    originalPricePHP: 80000,
     timeline: "20–30 days",
     description: "Full-scale site with backend features",
     features: [
@@ -109,9 +109,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Enterprise",
-    priceUSD: 560,
-    pricePHP: 32500,
-    originalPricePHP: 39800,
+    priceUSD: 2069,
+    pricePHP: 120000,
+    originalPricePHP: 165000,
     timeline: "40–60 days",
     description: "Complete digital transformation",
     features: [
