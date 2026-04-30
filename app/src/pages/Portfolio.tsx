@@ -181,27 +181,27 @@ export default function Portfolio() {
                         </div>
                       )}
                       {project.category === "Templates" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <Link to="/templates" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40 max-md:bg-black/40">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-md:opacity-100">
+                            <Link to="/templates" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black max-md:text-xs max-md:px-3 max-md:py-1.5">
                               View in Templates <ExternalLink size={14} />
                             </Link>
                           </div>
                         </div>
                       )}
                       {project.category === "Academic Commissions" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <Link to="/templates" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40 max-md:bg-black/40">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-md:opacity-100">
+                            <Link to="/templates" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black max-md:text-xs max-md:px-3 max-md:py-1.5">
                               View Commissions <ExternalLink size={14} />
                             </Link>
                           </div>
                         </div>
                       )}
                       {project.link && project.category !== "Confidential" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40">
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/40 max-md:bg-black/40">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-md:opacity-100">
+                            <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-black max-md:text-xs max-md:px-3 max-md:py-1.5">
                               Visit Site <ExternalLink size={14} />
                             </a>
                           </div>

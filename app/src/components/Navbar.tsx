@@ -172,7 +172,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="absolute right-0 top-0 h-full w-[280px] p-6"
+              className="absolute right-0 top-0 h-full w-[280px] overflow-y-auto p-6"
               style={{ background: "var(--bg-surface-solid)" }}
               onClick={(e) => e.stopPropagation()}
             >

@@ -68,7 +68,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-[var(--bg-surface-solid)]"
+      className="flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-[var(--bg-surface-solid)]"
       style={{ border: "1px solid var(--border-subtle)" }}
       title="Copy to clipboard"
     >
@@ -89,11 +89,11 @@ export default function PaymentTooltip({ layout = "grid", className = "" }: Paym
         {methods.map((method) => (
           <div
             key={method.name}
-            className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium"
+            className="flex items-center gap-1.5 rounded-full border px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-medium"
             style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
             title={`${method.name}: ${method.detail}`}
           >
-            <method.icon size={14} style={{ color: method.color }} />
+            <method.icon size={13} className="sm:size-3.5" style={{ color: method.color }} />
             {method.name}
           </div>
         ))}
@@ -121,24 +121,24 @@ export default function PaymentTooltip({ layout = "grid", className = "" }: Paym
 
   // grid layout — clean inline display, NO hover tooltip, NO overlap
   return (
-    <div className={`grid gap-3 sm:grid-cols-2 ${className}`}>
+    <div className={`grid grid-cols-2 gap-2 sm:gap-3 ${className}`}>
       {methods.map((method) => (
         <div
           key={method.name}
-          className="flex items-center gap-3 rounded-2xl border p-4"
+          className="flex items-center gap-2 sm:gap-3 rounded-2xl border p-3 sm:p-4"
           style={{ borderColor: "var(--border-subtle)" }}
         >
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: method.bg }}>
-            <method.icon size={20} style={{ color: method.color }} />
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: method.bg }}>
+            <method.icon size={18} className="sm:size-5" style={{ color: method.color }} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{method.name}</p>
+            <div className="flex items-center justify-between gap-1 sm:gap-2">
+              <p className="text-xs sm:text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{method.name}</p>
               <CopyButton text={method.detail} />
             </div>
-            <p className="mt-0.5 text-xs font-mono truncate" style={{ color: "var(--text-secondary)" }}>{method.detail}</p>
+            <p className="mt-0.5 text-[11px] sm:text-xs font-mono truncate" style={{ color: "var(--text-secondary)" }}>{method.detail}</p>
             {method.note && (
-              <p className="mt-1 text-[10px] flex items-center gap-1" style={{ color: "var(--text-muted)" }}>
+              <p className="mt-1 text-[9px] sm:text-[10px] flex items-center gap-1" style={{ color: "var(--text-muted)" }}>
                 <Smartphone size={9} /> {method.note}
               </p>
             )}

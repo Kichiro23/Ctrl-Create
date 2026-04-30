@@ -260,17 +260,17 @@ export default function Templates() {
                             </span>
                           ))}
                         </div>
-                        <div className="mt-4 flex items-center gap-2">
+                        <div className="mt-4 flex flex-col sm:flex-row items-center gap-2">
                           <button
                             onClick={() => setSelectedTemplate(template)}
-                            className="flex-1 rounded-xl border py-2.5 text-sm font-semibold transition-all"
+                            className="w-full sm:flex-1 rounded-xl border py-2.5 text-sm font-semibold transition-all"
                             style={{ borderColor: "var(--accent-blue)", color: "var(--accent-blue)" }}
                           >
                             View Details
                           </button>
                           <Link
                             to="/contact"
-                            className="flex-1 rounded-xl py-2.5 text-center text-sm font-semibold text-white"
+                            className="w-full sm:flex-1 rounded-xl py-2.5 text-center text-sm font-semibold text-white"
                             style={{ background: "var(--accent-blue)" }}
                           >
                             Inquire

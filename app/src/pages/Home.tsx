@@ -266,7 +266,7 @@ export default function Home() {
       {/* Stats Bar */}
       <section id="stats" className="border-y px-4 py-14 md:px-6 lg:px-8" style={{ borderColor: "var(--border-subtle)" }}>
         <div className="mx-auto max-w-[1200px]">
-          <StaggerContainer className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <StaggerContainer className="grid grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-6">
             {stats.map((stat) => (
               <motion.div key={stat.label} variants={itemVariants} className="flex items-center justify-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "var(--bg-surface-solid)", border: "1px solid var(--border-subtle)" }}>

@@ -17,16 +17,20 @@ export default function Template3DCard({ template, index = 0 }: { template: Temp
       style={{ perspective: "1000px" }}
     >
       <div
-        className="glass-card relative overflow-hidden rounded-3xl transition-transform duration-500 ease-out will-change-transform"
+        className="glass-card relative overflow-hidden rounded-3xl transition-transform duration-500 ease-out will-change-transform touch-manipulation"
         style={{ transformStyle: "preserve-3d" }}
         onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const x = (e.clientX - rect.left) / rect.width - 0.5;
-          const y = (e.clientY - rect.top) / rect.height - 0.5;
-          e.currentTarget.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale(1.02)`;
+          if (window.matchMedia("(hover: hover)").matches) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            e.currentTarget.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale(1.02)`;
+          }
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+          if (window.matchMedia("(hover: hover)").matches) {
+            e.currentTarget.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+          }
         }}
       >
         <div className="relative aspect-[4/3] overflow-hidden">
@@ -36,11 +40,11 @@ export default function Template3DCard({ template, index = 0 }: { template: Temp
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/30" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/30 md:group-hover:bg-black/30" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-md:opacity-100">
             <Link
               to="/templates"
-              className="rounded-full bg-white/90 px-5 py-2.5 text-sm font-semibold text-black shadow-lg transition-transform hover:scale-105"
+              className="rounded-full bg-white/90 px-5 py-2.5 text-sm font-semibold text-black shadow-lg transition-transform hover:scale-105 max-md:text-xs max-md:px-3 max-md:py-2"
             >
               View Details
             </Link>
