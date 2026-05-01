@@ -167,7 +167,7 @@ export default function About() {
       </section>
 
       {/* Technical Skills */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Expertise</span>
@@ -225,7 +225,7 @@ export default function About() {
       </section>
 
       {/* Tools & Technology */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Stack</span>
@@ -288,7 +288,7 @@ export default function About() {
       </section>
 
       {/* Projects */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Projects</span>
@@ -358,7 +358,7 @@ export default function About() {
       </section>
 
       {/* Core Attributes */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Strengths</span>
@@ -395,7 +395,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Let's Work Together</h2>

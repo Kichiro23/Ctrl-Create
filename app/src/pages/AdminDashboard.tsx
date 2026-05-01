@@ -73,7 +73,7 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ background: "var(--bg-primary)" }}>
+      <div className="flex min-h-screen items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen px-4 pb-12 pt-24 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+    <div className="min-h-screen px-4 pb-12 pt-24 md:px-6 lg:px-8">
       <SEO
         title="Admin Dashboard | Cylux Code"
         description="Admin dashboard for managing messages, memberships, and template orders."

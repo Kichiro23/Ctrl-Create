@@ -301,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* How It Works — Process Clarity + Micro-commitments */}
-      <section id="process" className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section id="process" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">{t("home.process.eyebrow")}</span>
@@ -358,7 +358,7 @@ export default function Home() {
       </section>
 
       {/* Academic CTA */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection>
             <div className="glass-card mx-auto max-w-3xl rounded-3xl p-8 text-center md:p-10">
@@ -399,7 +399,7 @@ export default function Home() {
       </section>
 
       {/* Featured Academic Commissions */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">{t("home.academicComm.eyebrow")}</span>
@@ -519,7 +519,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Me */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">{t("home.why.eyebrow")}</span>
@@ -546,7 +546,7 @@ export default function Home() {
       </section>
 
       {/* Contact CTA */}
-      <section id="contact" className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section id="contact" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>{t("home.contact.title")}</h2>

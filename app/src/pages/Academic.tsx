@@ -320,7 +320,7 @@ export default function Academic() {
       </section>
 
       {/* Academic Writing & Research */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Academic Writing</span>
@@ -366,7 +366,7 @@ export default function Academic() {
       </section>
 
       {/* Creative Writing */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
             <span className="eyebrow">Creative</span>
@@ -412,7 +412,7 @@ export default function Academic() {
       </section>
 
       {/* Courses */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-10">
             <span className="eyebrow">Coverage</span>
@@ -509,7 +509,7 @@ export default function Academic() {
       </section>
 
       {/* Academic Membership CTA */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <GraduationCap size={48} className="mx-auto" style={{ color: "#34C759" }} />
@@ -545,7 +545,7 @@ export default function Academic() {
       </section>
 
       {/* FAQ */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">FAQ</span>

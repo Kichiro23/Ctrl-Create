@@ -73,7 +73,7 @@ export default function RevisionPolicy() {
       </section>
 
       {/* Major vs Minor */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid gap-8 md:grid-cols-2">
             <AnimatedSection>

@@ -302,7 +302,7 @@ export default function Services() {
           <section
             key={category.name}
             className="px-4 py-14 md:px-6 lg:px-8"
-            style={{ background: category.name === "Digital & Technical" ? "var(--bg-primary)" : undefined }}
+            
           >
             <div className="mx-auto max-w-[1200px]">
               <AnimatedSection className="mb-10">
@@ -356,7 +356,7 @@ export default function Services() {
       )}
 
       {/* Why Choose Us */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Why Us</span>

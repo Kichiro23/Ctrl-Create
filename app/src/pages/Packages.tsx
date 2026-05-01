@@ -318,7 +318,7 @@ export default function Packages() {
       </section>
 
       {/* Packages */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <div className="section-heading mb-12">
             <span className="eyebrow">{activeTab === "website" ? "Website" : "Academic"}</span>
@@ -402,7 +402,7 @@ export default function Packages() {
       </section>
 
       {/* Membership */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <div className="section-heading mb-8">
             <span className="eyebrow">Membership</span>
@@ -466,7 +466,7 @@ export default function Packages() {
       </section>
 
       {/* Revision Policy */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
           <div className="section-heading mb-8">
             <span className="eyebrow">Policy</span>

@@ -472,7 +472,7 @@ export default function Membership() {
       </section>
 
       {/* Membership Actions */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">Actions</span>
@@ -521,7 +521,7 @@ export default function Membership() {
       </section>
 
       {/* FAQ */}
-      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+      <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px]">
           <AnimatedSection className="section-heading mb-12">
             <span className="eyebrow">FAQ</span>
