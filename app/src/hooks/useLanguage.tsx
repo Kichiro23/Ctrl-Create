@@ -154,8 +154,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Gusto Mo Ng Ganitong Website?",
   },
   "home.contact.subtitle": {
-    en: "Every project was built at a fixed price with a fast turnaround. Your brand deserves the same.",
-    fil: "Bawat project ay fixed price with fast turnaround. Deserve mo rin yan.",
+    en: "Every project is priced affordably with a fast turnaround. Your brand deserves the same.",
+    fil: "Bawat project ay abot-kayang presyo with fast turnaround. Deserve mo rin yan.",
   },
   "home.contact.ctaPrimary": {
     en: "Get My Free Quote",
