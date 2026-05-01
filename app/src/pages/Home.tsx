@@ -250,7 +250,9 @@ export default function Home() {
       <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
         <AnimatedBackground />
         <div className="absolute inset-0 -z-10">
-          <img src="/images/assets/hero-bg.jpg" alt="" className="h-full w-full object-cover opacity-40 dark:opacity-20" />
+          <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-40 dark:opacity-20">
+            <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, var(--bg-primary) 100%)" }} />
         </div>
 
