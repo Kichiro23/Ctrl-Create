@@ -2,6 +2,7 @@
 import { createRouter, publicQuery } from "./middleware";
 import { connectDb } from "./queries/connection";
 import { ChatMessage } from "../db/models";
+import { env } from "./lib/env";
 
 const SYSTEM_PROMPT = `You are the Cylux Code assistant — a knowledgeable, friendly AI for a one-man creative studio based in the Philippines. Help visitors with questions about services, pricing, thesis help, web development, and commissions.
 
@@ -51,8 +52,8 @@ export const chatRouter = createRouter({
       }
 
       try {
-        const apiKey = process.env.OPENROUTER_API_KEY || "";
-        const model = process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini";
+        const apiKey = env.openRouterApiKey;
+        const model = env.openRouterModel;
 
         // Get conversation history for context
         let history: any[] = [];
@@ -82,7 +83,7 @@ export const chatRouter = createRouter({
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${apiKey}`,
-              "HTTP-Referer": process.env.VITE_APP_URL || "https://cylux-code.vercel.app",
+              "HTTP-Referer": env.viteAppUrl,
               "X-Title": "Cylux Code Assistant",
             },
             body: JSON.stringify({

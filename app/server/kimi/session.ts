@@ -7,6 +7,9 @@ const JWT_ALG = "HS256";
 export async function signSessionToken(
   payload: SessionPayload,
 ): Promise<string> {
+  if (!env.appSecret) {
+    throw new Error("APP_SECRET is not configured. Set it in your environment variables.");
+  }
   const secret = new TextEncoder().encode(env.appSecret);
   return new jose.SignJWT(payload)
     .setProtectedHeader({ alg: JWT_ALG })

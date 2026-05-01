@@ -22,7 +22,7 @@ export async function sendContactNotification(data: {
 
   try {
     await resend.emails.send({
-      from: "Cylux Code <onboarding@resend.dev>",
+      from: `Cylux Code <${env.resendFromEmail}>`,
       to: env.ownerEmail,
       subject: `New Contact Form Submission from ${data.name}`,
       html: `
