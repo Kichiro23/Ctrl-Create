@@ -4,7 +4,7 @@ import { Github, Instagram, Linkedin, Facebook, MessageCircle, Send } from "luci
 export default function Footer() {
 
   return (
-    <footer className="border-t" style={{ borderColor: "var(--border-subtle)", background: "var(--bg-primary)" }}>
+    <footer className="relative z-10 border-t backdrop-blur-sm" style={{ borderColor: "var(--border-subtle)", background: "var(--bg-surface)" }}>
       <div className="mx-auto max-w-[1200px] px-4 py-10 md:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-left">
           {/* Brand */}

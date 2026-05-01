@@ -34,12 +34,12 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Custom Design Tokens */
-    --bg-primary: #F5F5F7;
-    --bg-surface: rgba(255, 255, 255, 0.72);
+    --bg-primary: #e8ecf8;
+    --bg-surface: rgba(255, 255, 255, 0.82);
     --bg-surface-solid: #FFFFFF;
-    --text-primary: #1D1D1F;
-    --text-secondary: #86868B;
-    --text-muted: #A1A1A6;
+    --text-primary: #0a0a0f;
+    --text-secondary: #4a4a55;
+    --text-muted: #6e6e7a;
     --accent-blue: #007AFF;
     --accent-blue-hover: #0051D5;
     --border-subtle: rgba(0, 0, 0, 0.08);
@@ -79,7 +79,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Custom Design Tokens - Dark */
-    --bg-primary: #000000;
+    --bg-primary: #06060a;
     --bg-surface: rgba(28, 28, 30, 0.65);
     --bg-surface-solid: #1C1C1E;
     --text-primary: #FFFFFF;
@@ -116,7 +116,7 @@
   .glass-card {
     @apply rounded-2xl border border-[var(--border-subtle)] backdrop-blur-xl;
     background: var(--bg-surface);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
     transition: transform 300ms cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 300ms cubic-bezier(0.25, 0.1, 0.25, 1), border-color 300ms ease;
   }
   .glass-card:hover {
@@ -211,6 +211,47 @@
   .contact-input::placeholder {
     color: var(--text-muted);
   }
+}
+
+/* Orb animations — slow ambient drift for depth */
+@keyframes orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, 3%) scale(1.05); }
+  66% { transform: translate(-2%, 5%) scale(0.95); }
+}
+@keyframes orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-3%, 4%) scale(0.95); }
+  66% { transform: translate(5%, -2%) scale(1.05); }
+}
+@keyframes orb-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(3%, -4%) scale(1.05); }
+  66% { transform: translate(-4%, -3%) scale(0.95); }
+}
+@keyframes orb-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-5%, 5%) scale(1.08); }
+}
+@keyframes orb-5 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, -3%) scale(1.06); }
+}
+
+.animate-orb-1 {
+  animation: orb-1 20s ease-in-out infinite;
+}
+.animate-orb-2 {
+  animation: orb-2 25s ease-in-out infinite;
+}
+.animate-orb-3 {
+  animation: orb-3 22s ease-in-out infinite;
+}
+.animate-orb-4 {
+  animation: orb-4 18s ease-in-out infinite;
+}
+.animate-orb-5 {
+  animation: orb-5 28s ease-in-out infinite;
 }
 
 /* Reduced motion */

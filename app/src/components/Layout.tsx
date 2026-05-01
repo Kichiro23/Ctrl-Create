@@ -1,12 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import type { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-fixed bg-gradient-to-br from-blue-300 via-indigo-100 to-purple-200 dark:from-slate-950 dark:via-blue-950 dark:to-purple-950">
+    <div className="relative flex min-h-screen flex-col">
+      <AnimatedBackground />
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="relative z-10 flex-1">{children}</main>
       <Footer />
     </div>
   );
