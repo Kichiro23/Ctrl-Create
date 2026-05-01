@@ -13,7 +13,7 @@ interface SEOProps {
 
 const SITE_NAME = "Cylux Code";
 const DEFAULT_IMAGE = "/images/assets/og-image.jpg";
-const SITE_URL = typeof window !== "undefined" ? window.location.origin : "https://ctrl-create-srvcs.vercel.app";
+const SITE_URL = typeof window !== "undefined" ? window.location.origin : "https://cylux-code.vercel.app";
 
 export default function SEO({
   title,

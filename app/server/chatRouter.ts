@@ -82,7 +82,7 @@ export const chatRouter = createRouter({
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${apiKey}`,
-              "HTTP-Referer": process.env.VITE_APP_URL || "https://ctrl-create-srvcs.vercel.app",
+              "HTTP-Referer": process.env.VITE_APP_URL || "https://cylux-code.vercel.app",
               "X-Title": "Cylux Code Assistant",
             },
             body: JSON.stringify({

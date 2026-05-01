@@ -190,8 +190,8 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "Cylux Code",
-            url: "https://ctrl-create-srvcs.vercel.app",
-            logo: "https://ctrl-create-srvcs.vercel.app/images/assets/logo-cc.png",
+            url: "https://cylux-code.vercel.app",
+            logo: "https://cylux-code.vercel.app/images/assets/logo-cc.png",
             description: "Premium creative commissions and digital solutions crafted with precision.",
             founder: {
               "@type": "Person",
@@ -222,10 +222,10 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "Cylux Code",
-            url: "https://ctrl-create-srvcs.vercel.app",
+            url: "https://cylux-code.vercel.app",
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://ctrl-create-srvcs.vercel.app/templates?q={search_term_string}",
+              target: "https://cylux-code.vercel.app/templates?q={search_term_string}",
               "query-input": "required name=search_term_string",
             },
           },
