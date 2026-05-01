@@ -2,7 +2,6 @@
 import { Link, useLocation } from "react-router";
 import { Menu, X, Sun, Moon, Globe } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
-import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -21,7 +20,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { user, isAuthenticated, logout } = useAuth();
   const { language, toggleLanguage } = useLanguage();
   const location = useLocation();
 
@@ -131,29 +129,13 @@ export default function Navbar() {
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
               </button>
 
-              {isAuthenticated ? (
-                <div className="hidden items-center gap-2 md:flex">
-                  {user?.avatar && (
-                    <img src={user.avatar} alt="" className="h-7 w-7 rounded-full object-cover" />
-                  )}
-                  <button onClick={logout} className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
-                    Logout
-                  </button>
-                  {user?.role === "admin" && (
-                    <Link to="/admin" className="rounded-full px-3 py-1 text-xs font-medium text-white" style={{ background: "var(--accent-blue)" }}>
-                      Admin
-                    </Link>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  to="/contact"
-                  className="hidden rounded-full px-4 py-1.5 text-sm font-semibold text-white md:inline-flex"
-                  style={{ background: "var(--accent-blue)" }}
-                >
-                  {language === "fil" ? "Simulan Na" : "Get Started"}
-                </Link>
-              )}
+              <Link
+                to="/contact"
+                className="hidden rounded-full px-4 py-1.5 text-sm font-semibold text-white md:inline-flex"
+                style={{ background: "var(--accent-blue)" }}
+              >
+                {language === "fil" ? "Simulan Na" : "Get Started"}
+              </Link>
 
               <button
                 onClick={() => setMobileOpen(true)}
@@ -218,23 +200,9 @@ export default function Navbar() {
                   </span>
                 </div>
 
-                {isAuthenticated ? (
-                  <div className="flex flex-col gap-3">
-                    <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{user?.name || "User"}</span>
-                    {user?.role === "admin" && (
-                      <Link to="/admin" className="rounded-xl px-4 py-3 text-center text-sm font-semibold text-white" style={{ background: "var(--accent-blue)" }}>
-                        Admin Dashboard
-                      </Link>
-                    )}
-                    <button onClick={logout} className="rounded-xl border px-4 py-3 text-center text-sm font-semibold" style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}>
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <Link to="/contact" className="mt-4 rounded-xl px-4 py-3 text-center text-sm font-semibold text-white" style={{ background: "var(--accent-blue)" }}>
-                    {language === "fil" ? "Simulan Na" : "Get Started"}
-                  </Link>
-                )}
+                <Link to="/contact" className="mt-4 rounded-xl px-4 py-3 text-center text-sm font-semibold text-white" style={{ background: "var(--accent-blue)" }}>
+                  {language === "fil" ? "Simulan Na" : "Get Started"}
+                </Link>
               </div>
             </motion.div>
           </motion.div>

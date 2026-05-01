@@ -1,22 +1,22 @@
 import "dotenv/config";
 
-function getEnv(name: string, requiredInProd = false): string {
+function getEnv(name: string, required = false): string {
   const value = process.env[name];
-  if (!value && requiredInProd) {
-    console.warn(`[env] Missing required environment variable: ${name}`);
+  if (!value && required) {
+    console.warn(`[env] Missing environment variable: ${name}`);
   }
   return value ?? "";
 }
 
 export const env = {
-  appId: getEnv("APP_ID", true),
-  appSecret: getEnv("APP_SECRET", true),
+  appId: getEnv("APP_ID"),
+  appSecret: getEnv("APP_SECRET"),
   isProduction: process.env.NODE_ENV === "production",
-  mongodbUri: getEnv("MONGODB_URI", true),
+  mongodbUri: getEnv("MONGODB_URI"),
   resendApiKey: getEnv("RESEND_API_KEY"),
   ownerEmail: getEnv("OWNER_EMAIL") || "rommeld216@gmail.com",
-  kimiAuthUrl: getEnv("KIMI_AUTH_URL", true),
-  kimiOpenUrl: getEnv("KIMI_OPEN_URL", true),
+  kimiAuthUrl: getEnv("KIMI_AUTH_URL"),
+  kimiOpenUrl: getEnv("KIMI_OPEN_URL"),
   ownerUnionId: getEnv("OWNER_UNION_ID"),
   openRouterApiKey: getEnv("OPENROUTER_API_KEY"),
   openRouterModel: getEnv("OPENROUTER_MODEL") || "openai/gpt-4o-mini",
