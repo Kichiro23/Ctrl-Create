@@ -15,7 +15,7 @@ Key service details:
 - Social Media Growth: Authentic audience building
 - Dashboard Customization: Custom widgets, reports, integrations
 
-Academic Package: ₱6,500 for graduating IT/CS students
+Academic Package: ₱4,500 for graduating IT/CS students
 Thesis Support: 3–5 days per chapter, Turnitin + AI Report included
 Membership Tiers (Website): Bronze ₱6,500 · Silver ₱12,500 · Gold ₱22,500 · Diamond ₱42,500
 Membership Tiers (Academic): Scholar ₱2,500 · Dean's Lister ₱4,500 · Magna ₱8,500 · Valedictorian ₱14,500

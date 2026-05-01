@@ -138,8 +138,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Tingnan Lahat Ng Templates",
   },
   "home.templates.note": {
-    en: "36 templates starting at ₱2,500",
-    fil: "36 templates mula ₱2,500",
+    en: "36 samples starting at ₱1,500",
+    fil: "36 samples mula ₱1,500",
   },
 
   // Home — Membership
@@ -384,8 +384,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Kumuha Ng Free Custom Quote",
   },
   "templates.hero.trust1": {
-    en: "Prices start at ₱2,500",
-    fil: "Mula ₱2,500 lang",
+    en: "Prices start at ₱1,500",
+    fil: "Mula ₱1,500 lang",
   },
   "templates.hero.trust2": {
     en: "Fully customized for you",
