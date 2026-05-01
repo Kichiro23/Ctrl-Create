@@ -249,10 +249,6 @@ export default function Home() {
       {/* Hero */}
       <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
         <AnimatedBackground />
-        <div className="absolute inset-0 -z-10">
-          <img src="/images/assets/hero-bg.jpg" alt="" className="h-full w-full object-cover opacity-40 dark:opacity-20" />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, var(--bg-primary) 100%)" }} />
-        </div>
 
         <div className="mx-auto max-w-[800px] text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
