@@ -248,13 +248,13 @@ export default function Home() {
       />
       {/* Hero */}
       <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
-        <AnimatedBackground />
-        <div className="absolute inset-0 -z-10">
-          <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-40 dark:opacity-20">
+        <div className="absolute inset-0 -z-20">
+          <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-50 dark:opacity-30">
             <source src="/videos/hero-bg.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, var(--bg-primary) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 40%, var(--bg-primary) 100%)" }} />
         </div>
+        <AnimatedBackground />
 
         <div className="mx-auto max-w-[800px] text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
