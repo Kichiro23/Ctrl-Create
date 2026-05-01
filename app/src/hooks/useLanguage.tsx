@@ -518,8 +518,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Diretso mo akong kausap — ako mismo ang magbuo ng project mo. Walang account manager, walang handoff, walang miscommunication.",
   },
   "home.why.2.title": {
-    en: "Filipino-Friendly Rates",
-    fil: "Presyong Pang-Pinoy",
+    en: "Affordable Pricing",
+    fil: "Abot-Kayang Presyo",
   },
   "home.why.2.desc": {
     en: "Agency quality at freelance prices. Student discounts available. Flexible payment via GCash, Maya, or PayPal.",
