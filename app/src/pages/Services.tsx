@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import {
@@ -16,6 +17,7 @@ import {
   BarChart3,
   ArrowRight,
   CheckCircle2,
+  Check,
   BookOpen,
   FileText,
   PenTool,
@@ -30,6 +32,7 @@ import {
   Brain,
   Search,
   X,
+  Calendar,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
 import SEO from "@/components/SEO";
@@ -197,6 +200,7 @@ const whyChooseUs = [
 ];
 
 export default function Services() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCategories = serviceCategories.map((category) => ({
@@ -223,15 +227,20 @@ export default function Services() {
               Services
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              From academic writing to full-stack development — everything you need to build, learn, and grow. Every service is delivered with full personal attention.
+              {t("services.hero.subtitle")}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link to="/academic" className="btn-primary rounded-full">
-                Academic Services <ArrowRight size={16} className="ml-2" />
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("services.hero.ctaPrimary")}
               </Link>
-              <Link to="/contact" className="btn-secondary rounded-full">
-                Request a Quote
+              <Link to="/packages" className="btn-secondary rounded-full">
+                {t("services.hero.ctaSecondary")}
               </Link>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("services.hero.trust1")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("services.hero.trust2")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("services.hero.trust3")}</span>
             </div>
           </AnimatedSection>
 
@@ -373,19 +382,20 @@ export default function Services() {
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>
-              Ready to Start?
+              {t("services.cta.title")}
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
-              Tell me about your project and I'll put together a tailored proposal.
+              {t("services.cta.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/contact" className="btn-primary rounded-full">
-                Get a Free Quote
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("services.cta.primary")}
               </Link>
               <Link to="/packages" className="btn-secondary rounded-full">
-                View Packages
+                {t("services.cta.secondary")}
               </Link>
             </div>
+            <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>{t("services.cta.trust")}</p>
           </AnimatedSection>
         </div>
       </section>

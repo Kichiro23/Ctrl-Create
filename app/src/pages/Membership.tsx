@@ -1,11 +1,13 @@
 ﻿import { useState, useRef } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   Crown, Gem, Medal, Award,
-  CheckCircle2, ArrowRight,
+  CheckCircle2, Check, ArrowRight,
   UserPlus, RefreshCw, ClipboardList, CreditCard,
   ChevronDown, MonitorSmartphone, GraduationCap, HelpCircle,
+  Calendar,
 } from "lucide-react";
 import { useCurrency } from "@/hooks/useCurrency";
 import CurrencyToggle from "@/components/CurrencyToggle";
@@ -49,101 +51,106 @@ const websiteTiers: Tier[] = [
     key: "diamond",
     name: "Diamond",
     icon: Gem,
-    pricePHP: 16000,
-    priceUSD: 276,
-    originalPricePHP: 22000,
+    pricePHP: 28500,
+    priceUSD: 491,
+    originalPricePHP: 38000,
     color: "#007AFF",
     status: "VIP",
     duration: "4 months",
-    discount: "10%",
+    discount: "25%",
     forWho: "For agencies & growing brands",
     features: [
-      "VIP premium card",
+      "VIP premium card + physical card",
       "4 months duration",
-      "Up to 10% off every service",
-      "Priority support (VIP assistance)",
-      "Free chatbot flow assistance",
-      "1 simple company profile",
-      "1 simple video content",
-      "1 creative design",
-      "1 free consultation per month",
-      "1 month system and website maintenance",
+      "Up to 25% off every service",
+      "1 advanced 8-page website with backend",
+      "Unlimited creative designs",
+      "3 video contents (up to 60s each)",
+      "Unlimited consultations",
+      "2 months system and website maintenance",
+      "VIP same-day support",
+      "Free 3 months hosting",
+      "Monthly strategy call",
+      "Exclusive first access to new templates",
       "Free logo design",
-      "Free 1 banner for cover photo",
+      "Free brand guidelines document",
     ],
   },
   {
     key: "gold",
     name: "Gold",
     icon: Crown,
-    pricePHP: 9500,
-    priceUSD: 164,
-    originalPricePHP: 13000,
+    pricePHP: 16500,
+    priceUSD: 284,
+    originalPricePHP: 22000,
     color: "#FF9500",
     status: "Popular",
     duration: "3 months",
-    discount: "8%",
+    discount: "20%",
     forWho: "For small businesses & professionals",
     features: [
-      "Advanced business card",
+      "Gold membership card",
       "3 months duration",
-      "Up to 8% off every service",
-      "Priority support",
-      "1 simple company profile",
-      "1 simple video content",
-      "1 creative design",
-      "1 free consultation per month",
-      "1 month system and website maintenance",
+      "Up to 20% off every service",
+      "1 professional 5-page website",
+      "1 logo design",
+      "2 short video contents (up to 30s)",
+      "2 free consultations per month",
+      "1 month maintenance",
       "Free Google Business setup",
+      "Monthly performance report",
       "Business strategy guidance",
+      "Priority support",
     ],
   },
   {
     key: "silver",
     name: "Silver",
     icon: Medal,
-    pricePHP: 4500,
-    priceUSD: 78,
-    originalPricePHP: 6000,
+    pricePHP: 9500,
+    priceUSD: 164,
+    originalPricePHP: 13000,
     color: "#86868B",
     status: "Growth",
     duration: "2 months",
-    discount: "6%",
+    discount: "15%",
     forWho: "For startups & side hustles",
     features: [
-      "Growth level card",
+      "Silver membership card",
       "2 months duration",
-      "Up to 6% off every service",
-      "Standard support",
-      "1 simple company profile",
-      "1 simple video content",
-      "1 creative design",
+      "Up to 15% off every service",
+      "1 simple 3-page website OR 2 creative designs",
+      "1 short video content (up to 30s)",
       "1 free consultation per month",
       "Free basic SEO audit",
+      "2 free social media posts",
+      "Extended revision scope",
       "Basic business advice",
+      "Priority queue",
     ],
   },
   {
     key: "bronze",
     name: "Bronze",
     icon: Award,
-    pricePHP: 2500,
-    priceUSD: 43,
-    originalPricePHP: 3500,
+    pricePHP: 5500,
+    priceUSD: 95,
+    originalPricePHP: 7500,
     color: "#A2845E",
     status: "Starter",
     duration: "1 month",
-    discount: "5%",
+    discount: "10%",
     forWho: "For first-time clients",
     features: [
-      "Starter card",
+      "Bronze membership card",
       "1 month duration",
-      "Up to 5% off every service",
-      "Limited support",
-      "1 simple video content",
-      "1 creative design",
-      "Free social media banner",
-      "1 free consultation (one-time)",
+      "Up to 10% off every service",
+      "1 social media banner design",
+      "1 free business card design",
+      "1 free consultation call",
+      "Monthly check-in",
+      "1 revision per project",
+      "Standard support",
     ],
   },
 ];
@@ -153,21 +160,24 @@ const academicTiers: Tier[] = [
     key: "valedictorian",
     name: "Valedictorian",
     icon: Gem,
-    pricePHP: 9000,
-    priceUSD: 155,
-    originalPricePHP: 12000,
+    pricePHP: 22500,
+    priceUSD: 388,
+    originalPricePHP: 29500,
     color: "#007AFF",
     status: "VIP",
     duration: "1 month",
-    discount: "20%",
+    discount: "25%",
     forWho: "For full-semester support",
     features: [
       "Unlimited papers & assignments",
-      "Weekly consultation calls",
+      "5 consultation calls per month",
+      "3 free defense PPTs per month",
+      "2 free SPSS analyses per month",
+      "1 free thesis chapter per month",
       "Full thesis (Ch 1–5) over 4 months",
       "Defense prep + PPT + script",
       "1 basic capstone system included",
-      "20% discount on all services",
+      "25% discount on all services",
       "VIP support + 24h response",
       "Rush delivery at no extra cost",
     ],
@@ -176,20 +186,22 @@ const academicTiers: Tier[] = [
     key: "magna",
     name: "Magna Cum Laude",
     icon: Crown,
-    pricePHP: 5500,
-    priceUSD: 95,
-    originalPricePHP: 7500,
+    pricePHP: 12500,
+    priceUSD: 216,
+    originalPricePHP: 16500,
     color: "#FF9500",
     status: "Popular",
     duration: "1 month",
-    discount: "15%",
+    discount: "20%",
     forWho: "For thesis & capstone students",
     features: [
-      "Unlimited papers & assignments",
-      "4 consultation calls per month",
+      "8 papers/assignments per month",
+      "3 consultation calls per month",
+      "2 free defense PPTs per month",
+      "1 free SPSS analysis per month",
       "1 thesis chapter per month included",
       "1 capstone system consultation",
-      "15% discount on all academic services",
+      "20% discount on all academic services",
       "Priority support + rush delivery",
       "Free defense PPT template",
     ],
@@ -198,39 +210,40 @@ const academicTiers: Tier[] = [
     key: "deans",
     name: "Dean's Lister",
     icon: Medal,
-    pricePHP: 3200,
-    priceUSD: 55,
-    originalPricePHP: 4500,
+    pricePHP: 6500,
+    priceUSD: 112,
+    originalPricePHP: 8500,
     color: "#86868B",
     status: "Growth",
     duration: "1 month",
-    discount: "10%",
+    discount: "15%",
     forWho: "For regular academic support",
     features: [
-      "5 papers/assignments per month",
+      "4 papers/assignments per month",
       "2 consultation calls",
       "1 free defense PPT per month",
-      "10% discount on thesis chapters",
+      "15% discount on thesis chapters",
       "Priority support",
       "Turnitin reports included",
+      "Grammar & formatting check",
     ],
   },
   {
     key: "scholar",
     name: "Scholar",
     icon: Award,
-    pricePHP: 1800,
-    priceUSD: 31,
-    originalPricePHP: 2500,
+    pricePHP: 3500,
+    priceUSD: 60,
+    originalPricePHP: 4500,
     color: "#34C759",
     status: "Starter",
     duration: "1 month",
-    discount: "5%",
+    discount: "10%",
     forWho: "For occasional help",
     features: [
       "2 essay/research papers per month",
       "1 consultation call",
-      "5% discount on thesis chapters",
+      "10% discount on thesis chapters",
       "Standard support",
       "Grammar & formatting check",
     ],
@@ -279,6 +292,7 @@ function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: numb
 }
 
 export default function Membership() {
+  const { t } = useLanguage();
   const [program, setProgram] = useState<ProgramType>("website");
   const [activeTier, setActiveTier] = useState("gold");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -309,11 +323,21 @@ export default function Membership() {
               <CurrencyToggle />
             </div>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-              Become a Member
+              {t("membership.hero.headline")}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Choose the program that fits your needs — ongoing web development or consistent academic support.
+              {t("membership.hero.subtitle")}
             </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("membership.hero.cta")}
+              </Link>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("membership.hero.trust1")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("membership.hero.trust2")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("membership.hero.trust3")}</span>
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -487,9 +511,10 @@ export default function Membership() {
               <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 Powered by Partner Banks — No annual fees
               </p>
-              <Link to="/contact" className="btn-primary mt-6 inline-flex items-center rounded-full">
-                Apply for Card <ArrowRight size={16} className="ml-2" />
+              <Link to="/contact" className="btn-primary mt-6 inline-flex items-center gap-2 rounded-full">
+                <Calendar size={16} /> {t("membership.card.cta")}
               </Link>
+              <p className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>{t("membership.card.note")}</p>
             </div>
           </AnimatedSection>
         </div>
@@ -541,6 +566,23 @@ export default function Membership() {
               </AnimatedSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="px-4 py-14 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[800px] text-center">
+          <AnimatedSection>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Not Sure Which Tier?</h2>
+            <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
+              {t("membership.final.subtitle")}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2"><Calendar size={16} /> {t("membership.final.primary")}</Link>
+              <Link to="/packages" className="btn-secondary rounded-full">{t("membership.final.secondary")}</Link>
+            </div>
+            <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>{t("membership.final.trust")}</p>
+          </AnimatedSection>
         </div>
       </section>
     </div>

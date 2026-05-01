@@ -1,10 +1,11 @@
 ﻿import { useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink, ShieldCheck, Search, X,
   MonitorSmartphone, GraduationCap, Tag, ArrowRight,
-  SlidersHorizontal, Star, ChevronDown,
+  SlidersHorizontal, Star, ChevronDown, Check, Calendar,
 } from "lucide-react";
 import PaymentTooltip from "@/components/PaymentTooltip";
 import SearchBar from "@/components/SearchBar";
@@ -102,6 +103,7 @@ function sortTemplates(items: Template[], sortBy: SortOption): Template[] {
 }
 
 export default function Templates() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<TemplateCategoryFilter>("All");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("recommended");
@@ -138,11 +140,21 @@ export default function Templates() {
               <CurrencyToggle />
             </div>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-              Ready-Made Systems & Academic Packages
+              {t("templates.hero.headline")}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Find everything you need — from business systems to academic commissions. Send an inquiry and I'll tailor a solution for you.
+              {t("templates.hero.subtitle")}
             </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("templates.hero.cta")}
+              </Link>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("templates.hero.trust1")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("templates.hero.trust2")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("templates.hero.trust3")}</span>
+            </div>
           </AnimatedSection>
 
           <AnimatedSection className="mt-10">
@@ -405,16 +417,17 @@ export default function Templates() {
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>
-              Need Something Custom?
+              {t("templates.cta.title")}
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
-              All templates can be customized to fit your brand. Or we can build something entirely from scratch.
+              {t("templates.cta.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/contact" className="btn-primary rounded-full flex items-center gap-2">
-                Get a Custom Quote <ArrowRight size={16} />
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("templates.cta.primary")}
               </Link>
             </div>
+            <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>{t("templates.cta.trust")}</p>
           </AnimatedSection>
         </div>
       </section>
@@ -489,7 +502,7 @@ export default function Templates() {
                     className="flex-1 rounded-xl py-3 text-center text-sm font-semibold text-white"
                     style={{ background: "var(--accent-blue)" }}
                   >
-                    Inquire Now
+                    {t("templates.modal.cta")}
                   </Link>
                   <button
                     onClick={() => setSelectedTemplate(null)}

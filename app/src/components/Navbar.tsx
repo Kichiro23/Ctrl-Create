@@ -1,8 +1,9 @@
 ﻿import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Globe } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -21,6 +22,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
+  const { language, toggleLanguage } = useLanguage();
   const location = useLocation();
 
   // Scroll detection
@@ -111,6 +113,16 @@ export default function Navbar() {
 
             <div className="flex items-center gap-2 pr-2">
               <button
+                onClick={toggleLanguage}
+                className="flex h-9 w-9 items-center justify-center rounded-full border text-xs font-bold transition-colors"
+                style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
+                aria-label="Toggle language"
+                title={language === "en" ? "Switch to Filipino" : "Switch to English"}
+              >
+                {language === "en" ? "EN" : "FIL"}
+              </button>
+
+              <button
                 onClick={toggleTheme}
                 className="flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
                 style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
@@ -139,7 +151,7 @@ export default function Navbar() {
                   className="hidden rounded-full px-4 py-1.5 text-sm font-semibold text-white md:inline-flex"
                   style={{ background: "var(--accent-blue)" }}
                 >
-                  Get Started
+                  {language === "fil" ? "Simulan Na" : "Get Started"}
                 </Link>
               )}
 
@@ -193,6 +205,19 @@ export default function Navbar() {
                   </motion.div>
                 ))}
 
+                <div className="flex items-center gap-3 pt-4">
+                  <button
+                    onClick={() => { toggleLanguage(); }}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border text-xs font-bold"
+                    style={{ borderColor: "var(--border-subtle)", color: "var(--text-secondary)" }}
+                  >
+                    {language === "en" ? "EN" : "FIL"}
+                  </button>
+                  <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                    {language === "en" ? "English" : "Filipino"}
+                  </span>
+                </div>
+
                 {isAuthenticated ? (
                   <div className="flex flex-col gap-3">
                     <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{user?.name || "User"}</span>
@@ -207,7 +232,7 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <Link to="/contact" className="mt-4 rounded-xl px-4 py-3 text-center text-sm font-semibold text-white" style={{ background: "var(--accent-blue)" }}>
-                    Get Started
+                    {language === "fil" ? "Simulan Na" : "Get Started"}
                   </Link>
                 )}
               </div>

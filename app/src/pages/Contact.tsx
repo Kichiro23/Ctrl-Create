@@ -1,4 +1,5 @@
 ﻿import { useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { trpc } from "@/providers/trpc";
 import PaymentTooltip from "@/components/PaymentTooltip";
@@ -58,6 +59,7 @@ const timelineOptions = [
 ];
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -123,11 +125,16 @@ export default function Contact() {
           <div className="text-center">
             <span className="eyebrow">Contact</span>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-              Let's Build Something Great
+              {t("contact.hero.headline")}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              Tell me about your project. I respond to all inquiries within 24 hours.
+              {t("contact.hero.subtitle")}
             </p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
+              <span className="flex items-center gap-1"><CheckCircle size={12} style={{ color: "#34C759" }} /> {t("contact.hero.trust1")}</span>
+              <span className="flex items-center gap-1"><CheckCircle size={12} style={{ color: "#34C759" }} /> {t("contact.hero.trust2")}</span>
+              <span className="flex items-center gap-1"><CheckCircle size={12} style={{ color: "#34C759" }} /> {t("contact.hero.trust3")}</span>
+            </div>
           </div>
 
           <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_300px]">
@@ -138,11 +145,11 @@ export default function Contact() {
                   <div className="flex h-16 w-16 items-center justify-center rounded-full" style={{ background: "rgba(52, 199, 89, 0.15)" }}>
                     <CheckCircle size={32} style={{ color: "#34C759" }} />
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold" style={{ color: "var(--text-primary)" }}>Message Sent Successfully!</h3>
+                  <h3 className="mt-4 text-xl font-semibold" style={{ color: "var(--text-primary)" }}>{t("contact.success.title")}</h3>
                   <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    Thank you for reaching out. I'll review your request and get back to you within 24 hours.
+                    {t("contact.success.subtitle")}
                   </p>
-                  <button onClick={() => setStatus("idle")} className="btn-primary mt-6 rounded-full">Send Another Message</button>
+                  <button onClick={() => setStatus("idle")} className="btn-primary mt-6 rounded-full">{t("contact.success.button")}</button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -244,9 +251,10 @@ export default function Contact() {
                     {status === "loading" ? (
                       <span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />Sending...</span>
                     ) : (
-                      <><Send size={16} />Send Message</>
+                      <><Send size={16} />{t("contact.form.submit")}</>
                     )}
                   </button>
+                  <p className="text-center text-xs" style={{ color: "var(--text-muted)" }}>{t("contact.form.privacy")}</p>
                 </form>
               )}
             </div>
@@ -288,18 +296,18 @@ export default function Contact() {
               </div>
 
               <div className="glass-card rounded-3xl p-5">
-                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>Quick Links</h3>
-                <div className="mt-3 space-y-1">
+                <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>{t("contact.sidebar.next.title")}</h3>
+                <div className="mt-4 space-y-3">
                   {[
-                    { label: "View All Services", href: "/services" },
-                    { label: "View Pricing Packages", href: "/packages" },
-                    { label: "Academic Services", href: "/academic" },
-                    { label: "Membership Tiers", href: "/membership" },
-                    { label: "Templates & Commissions", href: "/templates" },
-                  ].map((link) => (
-                    <Link key={link.href} to={link.href} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[var(--bg-surface-solid)]" style={{ color: "var(--text-secondary)" }}>
-                      <ArrowRight size={12} />{link.label}
-                    </Link>
+                    { step: "1", label: t("contact.sidebar.next.1") },
+                    { step: "2", label: t("contact.sidebar.next.2") },
+                    { step: "3", label: t("contact.sidebar.next.3") },
+                    { step: "4", label: t("contact.sidebar.next.4") },
+                  ].map((item) => (
+                    <div key={item.step} className="flex items-center gap-3">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--accent-blue)" }}>{item.step}</span>
+                      <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{item.label}</span>
+                    </div>
                   ))}
                 </div>
               </div>

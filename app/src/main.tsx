@@ -5,6 +5,7 @@ import './index.css'
 import { TRPCProvider } from "@/providers/trpc"
 import { ThemeProvider } from "@/hooks/useTheme"
 import { CurrencyProvider } from "@/hooks/useCurrency"
+import { LanguageProvider } from "@/hooks/useLanguage"
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
       <TRPCProvider>
         <ThemeProvider>
           <CurrencyProvider>
-            <App />
+            <LanguageProvider>
+              <App />
+            </LanguageProvider>
           </CurrencyProvider>
         </ThemeProvider>
       </TRPCProvider>

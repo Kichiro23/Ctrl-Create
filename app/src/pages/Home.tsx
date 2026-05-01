@@ -1,4 +1,5 @@
 ﻿import { useRef, useEffect, useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -23,6 +24,14 @@ import {
   Layers,
   Building2,
   Star,
+  MessageCircle,
+  Send,
+  Rocket,
+  Handshake,
+  User,
+  Wallet,
+  Zap,
+  RefreshCw,
 } from "lucide-react";
 import { websiteTemplates, academicTemplates } from "@/data/templates";
 import Template3DCard from "@/components/Template3DCard";
@@ -165,6 +174,7 @@ function PriceDisplay({ pricePHP, priceUSD }: { pricePHP: number; priceUSD: numb
 }
 
 export default function Home() {
+  const { t } = useLanguage();
   const featuredWebsiteTemplates = websiteTemplates.slice(0, 4);
   const featuredAcademicTemplates = academicTemplates.slice(0, 4);
 
@@ -253,19 +263,20 @@ export default function Home() {
             Cylux Code
           </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mx-auto mt-2 max-w-lg text-lg leading-relaxed md:text-xl" style={{ color: "var(--text-secondary)" }}>
-            Premium creative commissions & digital solutions crafted with precision. Based in the Philippines, serving students and businesses worldwide.
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mx-auto mt-2 max-w-xl text-lg leading-relaxed md:text-xl" style={{ color: "var(--text-secondary)" }}>
+            {t("home.hero.subheadline")}
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="mt-5 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/services" className="btn-primary rounded-full">Explore Services</Link>
-            <Link to="/templates" className="btn-secondary rounded-full">View Templates</Link>
-            <Link to="/contact" className="btn-secondary rounded-full">Get in Touch</Link>
+            <Link to="/contact" className="btn-primary rounded-full flex items-center gap-2">{t("home.hero.ctaPrimary")} <ArrowRight size={16} /></Link>
+            <Link to="/services" className="btn-secondary rounded-full">{t("home.hero.ctaSecondary")}</Link>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-6 text-sm italic" style={{ color: "var(--text-muted)" }}>
-            "Where Vision Meets Precision"
-          </motion.p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-5 flex flex-wrap items-center justify-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
+            <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("home.hero.trust1")}</span>
+            <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("home.hero.trust2")}</span>
+            <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("home.hero.trust3")}</span>
+          </motion.div>
         </div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="absolute bottom-6 left-1/2 -translate-x-1/2">
@@ -296,13 +307,44 @@ export default function Home() {
         </div>
       </section>
 
+      {/* How It Works — Process Clarity + Micro-commitments */}
+      <section id="process" className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+        <div className="mx-auto max-w-[1200px]">
+          <AnimatedSection className="section-heading mb-12">
+            <span className="eyebrow">{t("home.process.eyebrow")}</span>
+            <h2>{t("home.process.title")}</h2>
+            <p>{t("home.process.subtitle")}</p>
+          </AnimatedSection>
+          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { step: "1", icon: MessageCircle, title: t("home.process.step1.title"), desc: t("home.process.step1.desc") },
+              { step: "2", icon: Send, title: t("home.process.step2.title"), desc: t("home.process.step2.desc") },
+              { step: "3", icon: Rocket, title: t("home.process.step3.title"), desc: t("home.process.step3.desc") },
+              { step: "4", icon: Handshake, title: t("home.process.step4.title"), desc: t("home.process.step4.desc") },
+            ].map((s) => (
+              <motion.div key={s.step} variants={itemVariants} className="relative text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: "var(--bg-surface-solid)", border: "1px solid var(--border-subtle)" }}>
+                  <s.icon size={24} style={{ color: "var(--accent-blue)" }} />
+                </div>
+                <h3 className="mt-4 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{s.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>{s.desc}</p>
+              </motion.div>
+            ))}
+          </StaggerContainer>
+          <AnimatedSection className="mt-10 text-center">
+            <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">{t("home.process.cta")} <ArrowRight size={16} /></Link>
+            <p className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>{t("home.process.ctaNote")}</p>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Services Grid */}
       <section id="services" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">What I Do</span>
-            <h2>What I Craft</h2>
-            <p>Six core services, each delivered with Apple-level precision and care.</p>
+            <span className="eyebrow">{t("home.services.eyebrow")}</span>
+            <h2>{t("home.services.title")}</h2>
+            <p>{t("home.services.subtitle")}</p>
           </AnimatedSection>
 
           <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -328,14 +370,15 @@ export default function Home() {
           <AnimatedSection>
             <div className="glass-card mx-auto max-w-3xl rounded-3xl p-8 text-center md:p-10">
               <GraduationCap size={32} className="mx-auto" style={{ color: "var(--accent-blue)" }} />
-              <h2 className="mt-4 text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Need Thesis or Academic Help?</h2>
+              <h2 className="mt-4 text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{t("home.academic.title")}</h2>
               <p className="mx-auto mt-2 max-w-lg text-sm" style={{ color: "var(--text-secondary)" }}>
-                SPSS analysis, chapter writing, defense prep, and capstone systems. Student-friendly rates with flexible payment via GCash, Maya, or PayPal.
+                {t("home.academic.desc")}
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <Link to="/academic" className="btn-primary rounded-full">View Academic Services <ArrowRight size={16} className="ml-2" /></Link>
-                <Link to="/contact" className="btn-secondary rounded-full">Get a Quote</Link>
+                <Link to="/contact" className="btn-primary rounded-full">{t("home.academic.ctaPrimary")} <ArrowRight size={16} className="ml-2" /></Link>
+                <Link to="/academic" className="btn-secondary rounded-full">{t("home.academic.ctaSecondary")}</Link>
               </div>
+              <p className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>{t("home.academic.note")}</p>
             </div>
           </AnimatedSection>
         </div>
@@ -345,9 +388,9 @@ export default function Home() {
       <section id="templates" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Website Templates</span>
-            <h2>Ready-Made Systems</h2>
-            <p>Launch faster with professional templates for every industry.</p>
+            <span className="eyebrow">{t("home.templates.eyebrow")}</span>
+            <h2>{t("home.templates.title")}</h2>
+            <p>{t("home.templates.subtitle")}</p>
           </AnimatedSection>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -355,6 +398,10 @@ export default function Home() {
               <Template3DCard key={t.id} template={t} index={i} />
             ))}
           </div>
+          <AnimatedSection className="mt-10 text-center">
+            <Link to="/templates" className="btn-secondary rounded-full inline-flex items-center gap-2">{t("home.templates.cta")} <ArrowRight size={16} /></Link>
+            <p className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>{t("home.templates.note")}</p>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -362,9 +409,9 @@ export default function Home() {
       <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Academic Commissions</span>
-            <h2>Student-Friendly Packages</h2>
-            <p>From essays to full theses — quality academic support at fair prices.</p>
+            <span className="eyebrow">{t("home.academicComm.eyebrow")}</span>
+            <h2>{t("home.academicComm.title")}</h2>
+            <p>{t("home.academicComm.subtitle")}</p>
           </AnimatedSection>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -374,7 +421,7 @@ export default function Home() {
           </div>
 
           <div className="mt-10 text-center">
-            <Link to="/templates" className="btn-secondary rounded-full">Browse All Templates & Commissions <ArrowRight size={16} className="ml-2" /></Link>
+            <Link to="/templates" className="btn-secondary rounded-full">{t("home.academicComm.cta")} <ArrowRight size={16} className="ml-2" /></Link>
           </div>
         </div>
       </section>
@@ -383,9 +430,9 @@ export default function Home() {
       <section id="membership" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Membership</span>
-            <h2>Unlock More Value</h2>
-            <p>Sign up and become a Cylux Code member today.</p>
+            <span className="eyebrow">{t("home.membership.eyebrow")}</span>
+            <h2>{t("home.membership.title")}</h2>
+            <p>{t("home.membership.subtitle")}</p>
           </AnimatedSection>
 
           <AnimatedSection>
@@ -397,24 +444,25 @@ export default function Home() {
                     <Crown size={24} style={{ color: "#FF9500" }} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>Website Building</h3>
-                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>For businesses & professionals</p>
+                    <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>{t("home.membership.webTitle")}</h3>
+                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>{t("home.membership.webDesc")}</p>
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PriceDisplay pricePHP={9500} priceUSD={164} />
-                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>Gold Tier · 3 months · up to 8% off</p>
+                  <PriceDisplay pricePHP={16500} priceUSD={284} />
+                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>Gold Tier · 3 months · up to 20% off</p>
                 </div>
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-                  {["Priority support", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance"].map((item) => (
+                  {["1 professional 5-page website", "1 logo design", "2 video contents", "2 consultations/month", "1 month maintenance", "Google Business setup"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                       <Check size={14} style={{ color: "#FF9500" }} />{item}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-8 flex items-center gap-3">
-                  <Link to="/membership" className="btn-primary flex-1 rounded-full text-center">View Membership Tiers</Link>
+                  <Link to="/membership" className="btn-primary flex-1 rounded-full text-center">{t("home.membership.viewWeb")}</Link>
                 </div>
+                <p className="mt-3 text-center text-xs" style={{ color: "var(--text-muted)" }}>{t("home.membership.note")}</p>
               </div>
 
               {/* Academic Support Membership */}
@@ -424,24 +472,25 @@ export default function Home() {
                     <GraduationCap size={24} style={{ color: "#34C759" }} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>Academic Support</h3>
-                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>For students & researchers</p>
+                    <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>{t("home.membership.acadTitle")}</h3>
+                    <p className="text-sm" style={{ color: "var(--text-muted)" }}>{t("home.membership.acadDesc")}</p>
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PriceDisplay pricePHP={3200} priceUSD={55} />
-                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>Dean&apos;s Lister · Monthly · up to 10% off</p>
+                  <PriceDisplay pricePHP={6500} priceUSD={112} />
+                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>Dean&apos;s Lister · Monthly · up to 15% off</p>
                 </div>
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-                  {["5 papers/assignments per month", "2 consultation calls", "1 free defense PPT", "10% discount on thesis", "Priority support", "Rush delivery"].map((item) => (
+                  {["4 papers/assignments per month", "2 consultation calls", "1 free defense PPT", "15% discount on thesis", "Priority support", "Turnitin reports"].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                       <Check size={14} style={{ color: "#34C759" }} />{item}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-8 flex items-center gap-3">
-                  <Link to="/membership" className="btn-primary flex-1 rounded-full text-center" style={{ background: "#34C759" }}>View Academic Tiers</Link>
+                  <Link to="/membership" className="btn-primary flex-1 rounded-full text-center" style={{ background: "#34C759" }}>{t("home.membership.viewAcad")}</Link>
                 </div>
+                <p className="mt-3 text-center text-xs" style={{ color: "var(--text-muted)" }}>{t("home.membership.note")}</p>
               </div>
             </div>
           </AnimatedSection>
@@ -452,9 +501,9 @@ export default function Home() {
       <section id="testimonials" className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[1200px]">
           <AnimatedSection className="section-heading mb-16">
-            <span className="eyebrow">Testimonials</span>
-            <h2>Client Words</h2>
-            <p>Real feedback from real clients I've worked with.</p>
+            <span className="eyebrow">{t("home.testimonials.eyebrow")}</span>
+            <h2>{t("home.testimonials.title")}</h2>
+            <p>{t("home.testimonials.subtitle")}</p>
           </AnimatedSection>
 
           <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -476,19 +525,46 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why Choose Me */}
+      <section className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
+        <div className="mx-auto max-w-[1200px]">
+          <AnimatedSection className="section-heading mb-12">
+            <span className="eyebrow">{t("home.why.eyebrow")}</span>
+            <h2>{t("home.why.title")}</h2>
+            <p>{t("home.why.subtitle")}</p>
+          </AnimatedSection>
+          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: User, title: t("home.why.1.title"), desc: t("home.why.1.desc") },
+              { icon: Wallet, title: t("home.why.2.title"), desc: t("home.why.2.desc") },
+              { icon: Zap, title: t("home.why.3.title"), desc: t("home.why.3.desc") },
+              { icon: RefreshCw, title: t("home.why.4.title"), desc: t("home.why.4.desc") },
+            ].map((item) => (
+              <motion.div key={item.title} variants={itemVariants} className="glass-card rounded-3xl p-6 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: "rgba(0, 122, 255, 0.1)" }}>
+                  <item.icon size={24} style={{ color: "var(--accent-blue)" }} />
+                </div>
+                <h3 className="mt-4 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{item.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>{item.desc}</p>
+              </motion.div>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
       {/* Contact CTA */}
       <section id="contact" className="px-4 py-14 md:px-6 lg:px-8" style={{ background: "var(--bg-primary)" }}>
         <div className="mx-auto max-w-[800px] text-center">
           <AnimatedSection>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Want a Site Like These?</h2>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>{t("home.contact.title")}</h2>
             <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
-              Every project was built at a fixed price with a fast turnaround. Your brand deserves the same.
+              {t("home.contact.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/contact" className="btn-primary rounded-full"><Calendar size={16} className="mr-2" />Get a Free Quote</Link>
-              <Link to="/portfolio" className="btn-secondary rounded-full">View All Work</Link>
+              <Link to="/contact" className="btn-primary rounded-full"><Calendar size={16} className="mr-2" />{t("home.contact.ctaPrimary")}</Link>
+              <Link to="/portfolio" className="btn-secondary rounded-full">{t("home.contact.ctaSecondary")}</Link>
             </div>
-            <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>No commitment required · Free consultation · Response within 24 hours</p>
+            <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>{t("home.contact.trust")}</p>
             <div className="mt-6 flex justify-center">
               <PaymentTooltip layout="badges" />
             </div>

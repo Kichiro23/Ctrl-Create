@@ -1,4 +1,5 @@
 ﻿import { useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -7,7 +8,7 @@ import CurrencyToggle from "@/components/CurrencyToggle";
 import {
   Check, ChevronDown, Globe, Code, Palette, PenTool,
   Crown, Zap, ShieldCheck, ArrowRight, Layers, Video, Megaphone, BookOpen, MonitorSmartphone,
-  GraduationCap,
+  GraduationCap, Calendar,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -37,9 +38,9 @@ interface Package {
 const websitePackages: Package[] = [
   {
     name: "Starter",
-    priceUSD: 129,
-    pricePHP: 7500,
-    originalPricePHP: 10000,
+    priceUSD: 207,
+    pricePHP: 12000,
+    originalPricePHP: 16000,
     timeline: "7–10 days",
     description: "Single-page presence with clean design",
     features: [
@@ -60,9 +61,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Business",
-    priceUSD: 310,
-    pricePHP: 18000,
-    originalPricePHP: 25000,
+    priceUSD: 431,
+    pricePHP: 25000,
+    originalPricePHP: 35000,
     timeline: "10–15 days",
     description: "Professional multi-page website",
     features: [
@@ -83,9 +84,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Pro",
-    priceUSD: 603,
-    pricePHP: 35000,
-    originalPricePHP: 50000,
+    priceUSD: 828,
+    pricePHP: 48000,
+    originalPricePHP: 68000,
     timeline: "20–30 days",
     description: "Full-scale site with backend features",
     features: [
@@ -109,9 +110,9 @@ const websitePackages: Package[] = [
   },
   {
     name: "Enterprise",
-    priceUSD: 1121,
-    pricePHP: 65000,
-    originalPricePHP: 85000,
+    priceUSD: 1517,
+    pricePHP: 88000,
+    originalPricePHP: 115000,
     timeline: "40–60 days",
     description: "Complete digital transformation",
     features: [
@@ -138,15 +139,15 @@ const websitePackages: Package[] = [
 const academicPackages: Package[] = [
   {
     name: "Scholar",
-    priceUSD: 34,
-    pricePHP: 1999,
-    originalPricePHP: 2499,
+    priceUSD: 60,
+    pricePHP: 3500,
+    originalPricePHP: 4500,
     timeline: "Monthly",
     description: "For occasional academic help",
     features: [
       "2 essay/research papers per month",
       "1 consultation call",
-      "5% discount on thesis chapters",
+      "10% discount on thesis chapters",
       "Standard support",
       "Grammar & formatting check",
     ],
@@ -155,16 +156,16 @@ const academicPackages: Package[] = [
   },
   {
     name: "Dean's Lister",
-    priceUSD: 69,
-    pricePHP: 3999,
-    originalPricePHP: 4999,
+    priceUSD: 112,
+    pricePHP: 6500,
+    originalPricePHP: 8500,
     timeline: "Monthly",
     description: "For regular academic support",
     features: [
-      "5 papers/assignments per month",
+      "4 papers/assignments per month",
       "2 consultation calls",
       "1 free defense PPT per month",
-      "10% discount on thesis chapters",
+      "15% discount on thesis chapters",
       "Priority support",
       "Turnitin reports included",
     ],
@@ -173,17 +174,17 @@ const academicPackages: Package[] = [
   },
   {
     name: "Magna Cum Laude",
-    priceUSD: 121,
-    pricePHP: 6999,
-    originalPricePHP: 8999,
+    priceUSD: 216,
+    pricePHP: 12500,
+    originalPricePHP: 16500,
     timeline: "Monthly",
     description: "For thesis & capstone students",
     features: [
-      "Unlimited papers & assignments",
-      "4 consultation calls per month",
-      "1 thesis chapter per month included",
-      "1 capstone system consultation",
-      "15% discount on all academic services",
+      "8 papers/assignments per month",
+      "3 consultation calls per month",
+      "2 free defense PPTs per month",
+      "1 free SPSS analysis per month",
+      "20% discount on all academic services",
       "Priority support + rush delivery",
       "Free defense PPT template",
     ],
@@ -192,19 +193,20 @@ const academicPackages: Package[] = [
   },
   {
     name: "Valedictorian",
-    priceUSD: 207,
-    pricePHP: 11999,
-    originalPricePHP: 14999,
+    priceUSD: 388,
+    pricePHP: 22500,
+    originalPricePHP: 29500,
     timeline: "Monthly",
     description: "For full-semester support",
     features: [
-      "Unlimited everything",
-      "Weekly consultation calls",
-      "Full thesis (Ch 1–5) over 4 months",
-      "Defense prep + PPT + script",
-      "1 basic capstone system included",
-      "20% discount on all services",
+      "Unlimited papers & assignments",
+      "5 consultation calls per month",
+      "3 free defense PPTs per month",
+      "2 free SPSS analyses per month",
+      "1 free thesis chapter per month",
+      "25% discount on all services",
       "VIP support + 24h response",
+      "Rush delivery at no extra cost",
     ],
     highlight: "Best for comprehensive support",
     popular: false,
@@ -223,13 +225,14 @@ const addonPackages = [
 ];
 
 const membershipTiers = [
-  { name: "Bronze", pricePHP: 2500, priceUSD: 43, duration: "1 month", discount: "5%", color: "#C9A96E", icon: ShieldCheck, features: ["Discount on every service", "Free consultation call", "Monthly check-in", "1 revision per project", "Free social media banner"] },
-  { name: "Silver", pricePHP: 4500, priceUSD: 78, duration: "2 months", discount: "6%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "Priority queue", "2 free social media posts", "Extended revision scope", "Free basic SEO audit"] },
-  { name: "Gold", pricePHP: 9500, priceUSD: 164, duration: "3 months", discount: "8%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 company profile", "1 video content", "1 creative design", "1 free consultation/month", "1 month maintenance", "Free Google Business setup"] },
-  { name: "Diamond", pricePHP: 16000, priceUSD: 276, duration: "4 months", discount: "10%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "Full brand development", "Unlimited consultations", "3 months maintenance", "Exclusive perks & first access", "Free logo design"] },
+  { name: "Bronze", pricePHP: 5500, priceUSD: 95, duration: "1 month", discount: "10%", color: "#C9A96E", icon: ShieldCheck, features: ["1 social media banner design", "1 free consultation call", "10% discount on every service", "Monthly check-in", "1 revision per project", "Free business card design"] },
+  { name: "Silver", pricePHP: 9500, priceUSD: 164, duration: "2 months", discount: "15%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "1 simple 3-page website OR 2 creative designs", "1 short video content (up to 30s)", "Priority queue", "2 free social media posts", "Free basic SEO audit", "Extended revision scope"] },
+  { name: "Gold", pricePHP: 16500, priceUSD: 284, duration: "3 months", discount: "20%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 professional 5-page website", "1 logo design", "2 short video contents", "2 free consultations per month", "1 month maintenance", "Free Google Business setup", "Monthly performance report"] },
+  { name: "Diamond", pricePHP: 28500, priceUSD: 491, duration: "4 months", discount: "25%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "1 advanced 8-page website with backend", "Unlimited creative designs", "3 video contents", "Unlimited consultations", "2 months maintenance", "VIP same-day support", "Free 3 months hosting", "Monthly strategy call", "Exclusive first access to new templates"] },
 ];
 
 export default function Packages() {
+  const { t } = useLanguage();
   const [openAddons, setOpenAddons] = useState(false);
   const [openMembership, setOpenMembership] = useState(false);
   const [activeTab, setActiveTab] = useState<"website" | "academic">("website");
@@ -252,12 +255,17 @@ export default function Packages() {
             <CurrencyToggle />
           </div>
           <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>
-            Website & Academic Packages
+            {t("packages.hero.headline")}
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg" style={{ color: "var(--text-secondary)" }}>
-            Transparent pricing for websites, academic services, add-ons, and recurring memberships.
+            {t("packages.hero.subtitle")}
           </p>
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+              <Calendar size={16} /> {t("packages.hero.cta")}
+            </Link>
+          </div>
+          <div className="mt-4 flex justify-center">
             <PaymentTooltip layout="badges" />
           </div>
         </div>
@@ -346,7 +354,7 @@ export default function Packages() {
                   ))}
                 </ul>
                 <Link to="/contact" className={`mt-6 block w-full rounded-full py-2.5 text-center text-sm font-semibold ${pkg.popular ? "btn-primary" : "btn-secondary"}`}>
-                  Get Started
+                  {pkg.popular ? "Choose This Package" : "Get a Quote for This"}
                 </Link>
               </div>
             ))}
@@ -496,14 +504,15 @@ export default function Packages() {
       {/* CTA */}
       <section className="px-4 py-14 md:px-6 lg:px-8">
         <div className="mx-auto max-w-[800px] text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Ready to Start Your Project?</h2>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>Still Deciding? Let's Talk.</h2>
           <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
-            Tell me what you're building and I'll send you a custom quote within 24 hours.
+            {t("packages.cta.subtitle")}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="btn-primary rounded-full"><Code size={16} className="mr-2" />Request a Quote</Link>
-            <Link to="/services" className="btn-secondary rounded-full">Browse All Services</Link>
+            <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2"><Calendar size={16} /> {t("packages.cta.primary")}</Link>
+            <Link to="/services" className="btn-secondary rounded-full">{t("packages.cta.secondary")}</Link>
           </div>
+          <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>{t("packages.cta.trust")}</p>
         </div>
       </section>
     </div>

@@ -1,4 +1,5 @@
 ﻿import { useRef, useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "react-router";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
@@ -9,6 +10,7 @@ import {
   PenTool,
   Presentation,
   CheckCircle2,
+  Check,
   ArrowRight,
   MessageCircle,
   Code,
@@ -23,6 +25,7 @@ import {
   Brain,
   ChevronDown,
   Mic,
+  Calendar,
 } from "lucide-react";
 import { useCurrency } from "@/hooks/useCurrency";
 import PaymentTooltip from "@/components/PaymentTooltip";
@@ -131,9 +134,9 @@ const devServices = [
 const pricingTiers = [
   {
     name: "Academic Package",
-    pricePHP: 6500,
-    priceUSD: 112,
-    originalPricePHP: 8500,
+    pricePHP: 8500,
+    priceUSD: 147,
+    originalPricePHP: 11000,
     timeline: "7–10 business days",
     features: [
       "Up to 5 pages",
@@ -147,9 +150,9 @@ const pricingTiers = [
   },
   {
     name: "Thesis Chapter",
-    pricePHP: 4500,
-    priceUSD: 78,
-    originalPricePHP: 6000,
+    pricePHP: 5500,
+    priceUSD: 95,
+    originalPricePHP: 7500,
     timeline: "3–5 days per chapter",
     features: [
       "Single chapter (Ch 1–5)",
@@ -162,9 +165,9 @@ const pricingTiers = [
   },
   {
     name: "Full Thesis",
-    pricePHP: 18000,
-    priceUSD: 310,
-    originalPricePHP: 25000,
+    pricePHP: 22000,
+    priceUSD: 379,
+    originalPricePHP: 30000,
     timeline: "2–4 weeks",
     features: [
       "Chapters 1–5 complete",
@@ -178,9 +181,9 @@ const pricingTiers = [
   },
   {
     name: "SPSS / Data Analysis",
-    pricePHP: 4500,
-    priceUSD: 78,
-    originalPricePHP: 6000,
+    pricePHP: 5500,
+    priceUSD: 95,
+    originalPricePHP: 7500,
     timeline: "2–3 days",
     features: [
       "Descriptive & inferential stats",
@@ -193,9 +196,9 @@ const pricingTiers = [
   },
   {
     name: "Defense PPT + Script",
-    pricePHP: 3500,
-    priceUSD: 60,
-    originalPricePHP: 5000,
+    pricePHP: 4500,
+    priceUSD: 78,
+    originalPricePHP: 6500,
     timeline: "1–2 days",
     features: [
       "Professional academic template",
@@ -208,9 +211,9 @@ const pricingTiers = [
   },
   {
     name: "Research Paper",
-    pricePHP: 6500,
-    priceUSD: 112,
-    originalPricePHP: 9000,
+    pricePHP: 8500,
+    priceUSD: 147,
+    originalPricePHP: 11500,
     timeline: "5–7 days",
     features: [
       "Full research paper (5–10 pages)",
@@ -263,6 +266,7 @@ const faqs = [
 ];
 
 export default function Academic() {
+  const { t } = useLanguage();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
@@ -282,16 +286,20 @@ export default function Academic() {
               Thesis, Research & <span style={{ color: "var(--accent-blue)" }}>Academic Writing</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-              From single chapters to full thesis papers — quality academic help for Filipino students. SPSS analysis, defense prep, and formatting included. Turnitin-ready output.
+              {t("academic.hero.subtitle")}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link to="/contact" className="btn-primary rounded-full">
-                <Send size={16} className="mr-2" />
-                Get a Free Quote
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("academic.hero.ctaPrimary")}
               </Link>
-              <a href="mailto:rommeld216@gmail.com" className="btn-secondary rounded-full">
-                Email Directly
-              </a>
+              <Link to="/packages" className="btn-secondary rounded-full">
+                {t("academic.hero.ctaSecondary")}
+              </Link>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs" style={{ color: "var(--text-muted)" }}>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("academic.hero.trust1")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("academic.hero.trust2")}</span>
+              <span className="flex items-center gap-1"><Check size={12} style={{ color: "#34C759" }} /> {t("academic.hero.trust3")}</span>
             </div>
           </AnimatedSection>
         </div>
@@ -586,20 +594,20 @@ export default function Academic() {
           <AnimatedSection>
             <GraduationCap size={48} className="mx-auto" style={{ color: "var(--accent-blue)" }} />
             <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl" style={{ color: "var(--text-primary)" }}>
-              Limited Slots Available
+              {t("academic.cta.title")}
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base" style={{ color: "var(--text-secondary)" }}>
-              Message me now for a FREE consultation. Replies within 1–2 hours.
+              {t("academic.cta.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <a href="mailto:rommeld216@gmail.com" className="btn-primary rounded-full">
-                <MessageCircle size={16} className="mr-2" />
-                Email Me
-              </a>
-              <Link to="/contact" className="btn-secondary rounded-full">
-                Get a Quote <ArrowRight size={16} className="ml-2" />
+              <Link to="/contact" className="btn-primary rounded-full inline-flex items-center gap-2">
+                <Calendar size={16} /> {t("academic.cta.primary")}
+              </Link>
+              <Link to="/packages" className="btn-secondary rounded-full">
+                {t("academic.cta.secondary")} <ArrowRight size={16} className="ml-2" />
               </Link>
             </div>
+            <p className="mt-4 text-xs" style={{ color: "var(--text-muted)" }}>{t("academic.cta.trust")}</p>
           </AnimatedSection>
         </div>
       </section>
