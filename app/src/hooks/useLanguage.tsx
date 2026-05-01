@@ -92,8 +92,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Launch at Celebrate",
   },
   "home.process.step4.desc": {
-    en: "Pay only when you're satisfied. Full handoff with support.",
-    fil: "Bayad lang kapag satisfied ka. Full handoff with support.",
+    en: "50% downpayment to start · 50% on delivery · Full handoff with support.",
+    fil: "50% downpayment para simulan · 50% pag tapos · Full handoff with support.",
   },
   "home.process.cta": {
     en: "Start Step 1 — It's Free",
@@ -166,8 +166,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Tingnan Ang Works",
   },
   "home.contact.trust": {
-    en: "100% free quote · No payment until you're satisfied · Reply within 24 hours",
-    fil: "100% free quote · Bayad lang kapag okay na sayo · Sagot within 24h",
+    en: "100% free quote · 50% downpayment to start · Reply within 24 hours",
+    fil: "100% free quote · 50% downpayment para simulan · Sagot within 24h",
   },
 
   // Services
@@ -216,8 +216,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Tingnan Ang Packages",
   },
   "services.cta.trust": {
-    en: "100% free quote · No payment until delivery · Student discounts available",
-    fil: "100% free quote · Bayad lang pag tapos na · Student discount available",
+    en: "100% free quote · 50% downpayment required · Student discounts available",
+    fil: "100% free quote · 50% downpayment required · Student discount available",
   },
 
   // Academic
@@ -266,8 +266,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Tingnan Ang Packages",
   },
   "academic.cta.trust": {
-    en: "Student discounts available · 100% confidential · No payment until delivery",
-    fil: "Student discount available · 100% confidential · Bayad lang pag tapos na",
+    en: "Student discounts available · 100% confidential · 50% downpayment to start",
+    fil: "Student discount available · 100% confidential · 50% downpayment para simulan",
   },
 
   // Packages
@@ -392,8 +392,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Fully customized para sayo",
   },
   "templates.hero.trust3": {
-    en: "Pay only when satisfied",
-    fil: "Bayad lang kapag satisfied",
+    en: "50% downpayment required",
+    fil: "50% downpayment required",
   },
   "templates.cta.title": {
     en: "Not Sure Which One Fits?",
@@ -574,8 +574,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Sagot within 24h",
   },
   "contact.hero.trust3": {
-    en: "No payment until delivery",
-    fil: "Bayad lang pag tapos na",
+    en: "50% downpayment required",
+    fil: "50% downpayment required",
   },
   "contact.form.submit": {
     en: "Get My Free Quote",
