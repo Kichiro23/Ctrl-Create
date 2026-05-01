@@ -7,13 +7,13 @@ import {
 
 const FALLBACK_RESPONSES = [
   "I'm happy to help! Could you share more details about what you need?",
-  "Great question! I offer website development starting at ₱12,000, academic writing from ₱5,500 per chapter, and video editing. What are you looking for?",
+  "Great question! I offer website development starting at ₱12,000, academic writing from ₱4,500 per chapter, and video editing. What are you looking for?",
   "Thanks for reaching out! I typically respond to detailed inquiries within 24 hours. You can also use the contact form for a faster quote.",
   "I'd love to assist with that. For the fastest response, try the contact form at /contact with your project details.",
-  "For pricing, website packages start at ₱12,000 (Starter), ₱25,000 (Business), and ₱48,000 (Pro). Academic chapters are ₱5,500 each. Want a custom quote?",
+  "For pricing, website packages start at ₱12,000 (Starter), ₱25,000 (Business), and ₱48,000 (Pro). Academic chapters are ₱4,500 each. Want a custom quote?",
   "I can build your capstone system with full documentation! Packages start at ₱15,000 including the web app, ERD, user manual, and defense slides.",
-  "Need thesis help? I cover all chapters (1–5), SPSS analysis, defense PPT, and Turnitin reports. Full thesis package is ₱22,000.",
-  "Memberships are great for ongoing work! Website memberships start at ₱5,500/month. Academic memberships start at ₱3,500/month with discounts on every service.",
+  "Need thesis help? I cover all chapters (1–5), SPSS analysis, defense PPT, and Turnitin reports. Full thesis package is ₱18,000.",
+  "Memberships are great for ongoing work! Website memberships start at ₱3,500/month. Academic memberships start at ₱2,500/month with discounts on every service.",
   "I accept GCash, Maya, PayPal, and Google Pay. All payments are secured and I provide official receipts for every transaction.",
   "Students, PWDs, and senior citizens can apply for special discounts. Just mention it when you inquire through the contact form!",
   "Rush delivery is available for most services! Just let me know your deadline and I'll check my schedule.",

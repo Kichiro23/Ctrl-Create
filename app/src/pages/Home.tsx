@@ -315,7 +315,7 @@ export default function Home() {
             <h2>{t("home.process.title")}</h2>
             <p>{t("home.process.subtitle")}</p>
           </AnimatedSection>
-          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerContainer className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
             {[
               { step: "1", icon: MessageCircle, title: t("home.process.step1.title"), desc: t("home.process.step1.desc") },
               { step: "2", icon: Send, title: t("home.process.step2.title"), desc: t("home.process.step2.desc") },
@@ -449,7 +449,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PriceDisplay pricePHP={16500} priceUSD={284} />
+                  <PriceDisplay pricePHP={11500} priceUSD={198} />
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>Gold Tier · 3 months · up to 20% off</p>
                 </div>
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">
@@ -477,7 +477,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PriceDisplay pricePHP={6500} priceUSD={112} />
+                  <PriceDisplay pricePHP={4500} priceUSD={78} />
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>Dean&apos;s Lister · Monthly · up to 15% off</p>
                 </div>
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">

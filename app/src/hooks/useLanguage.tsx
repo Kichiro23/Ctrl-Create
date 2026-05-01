@@ -26,8 +26,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Cylux Code",
   },
   "home.hero.subheadline": {
-    en: "You need a website that converts, a thesis that passes, or designs that sell — but finding someone reliable, affordable, and local feels impossible. I help Filipino students and business owners turn ideas into results, without the agency price tag.",
-    fil: "Kailangan mo ng website na kumikita, thesis na papasa, o designs na binebenta — pero ang hirap maghanap ng mapagkakatiwalaan, abot-kaya, at local. Tulungan kita gawing totoo ang ideas mo, minus the agency price.",
+    en: "You need a website that converts, a thesis that passes, or designs that sell — but finding someone reliable who won't charge agency rates feels impossible. I help students and business owners worldwide turn ideas into results, with transparent pricing and personal service.",
+    fil: "Kailangan mo ng website na kumikita, thesis na papasa, o designs na binebenta — pero ang hirap maghanap ng mapagkakatiwalaan na hindi singmahal ng agency. Tulungan kitang gawing totoo ang ideas mo, with transparent pricing at personal service.",
   },
   "home.hero.ctaPrimary": {
     en: "Get My Free Quote",
@@ -176,8 +176,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Services",
   },
   "services.hero.subtitle": {
-    en: "Staring at a blank page? Deadline looming? Need a website that actually brings in customers? I provide academic writing, thesis help, website development, video editing, and design — all at Filipino-friendly rates with personal, one-on-one service.",
-    fil: "Blank page? Deadline na? Kailangan ng website na kumikita? Academic writing, thesis help, website dev, video editing, at design — lahat abot-kaya at one-on-one service.",
+    en: "Staring at a blank page? Deadline looming? Need a website that actually brings in customers? I provide academic writing, thesis help, website development, video editing, and design — at rates lower than agencies, with personal one-on-one service.",
+    fil: "Blank page? Deadline na? Kailangan ng website na kumikita? Academic writing, thesis help, website dev, video editing, at design — mas mura kaysa sa agency, with personal one-on-one service.",
   },
   "services.hero.ctaPrimary": {
     en: "Get My Free Quote",
@@ -376,8 +376,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Huwag Magsimula Sa Zero",
   },
   "templates.hero.subtitle": {
-    en: "Building a website or writing a thesis alone wastes weeks. These ready-made templates and academic packages get you to the finish line faster — customized to your exact needs at a fraction of agency cost.",
-    fil: "Ang mag-isa sa website o thesis ay sayang na linggo. Ang ready-made templates at academic packages na ito ay papabilis sayo — customized sa needs mo at mura compared sa agency.",
+    en: "Building a website or writing a thesis alone wastes weeks. Browse my sample designs and academic packages — I'll customize anything to match your exact needs at a fraction of agency cost.",
+    fil: "Ang mag-isa sa website o thesis ay sayang na linggo. Tingnan ang sample designs at academic packages ko — i-customize ko ang lahat para tumugma sa needs mo at mura compared sa agency.",
   },
   "templates.hero.cta": {
     en: "Get My Free Custom Quote",
@@ -388,8 +388,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Mula ₱2,500 lang",
   },
   "templates.hero.trust2": {
-    en: "Full customization included",
-    fil: "Kasama na ang customization",
+    en: "Fully customized for you",
+    fil: "Fully customized para sayo",
   },
   "templates.hero.trust3": {
     en: "Pay only when satisfied",
@@ -422,8 +422,8 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Kailangan Ng Tulong Sa Thesis?",
   },
   "home.academic.desc": {
-    en: "SPSS analysis, chapter writing, defense prep, and capstone systems. Student-friendly rates with flexible payment via GCash, Maya, or PayPal.",
-    fil: "SPSS analysis, chapter writing, defense prep, at capstone systems. Presyong pang-estudyante with flexible payment via GCash, Maya, o PayPal.",
+    en: "SPSS analysis, chapter writing, defense prep, and capstone systems. Competitive rates with flexible payment via GCash, Maya, or PayPal.",
+    fil: "SPSS analysis, chapter writing, defense prep, at capstone systems. Competitive rates with flexible payment via GCash, Maya, o PayPal.",
   },
 
   // Home — Templates
@@ -432,12 +432,12 @@ export const translations: Record<string, Record<Language, string>> = {
     fil: "Website Templates",
   },
   "home.templates.title": {
-    en: "Ready-Made Systems",
-    fil: "Ready-Made Systems",
+    en: "Website Samples",
+    fil: "Website Samples",
   },
   "home.templates.subtitle": {
-    en: "Launch faster with professional templates for every industry.",
-    fil: "Mas mabilis mag-launch with professional templates para sa bawat industry.",
+    en: "These are starting points — I'll customize any design to match your brand, content, and goals.",
+    fil: "Ang mga ito ay starting points — i-customize ko ang design para tumugma sa brand, content, at goals mo.",
   },
 
   // Home — Academic Commissions

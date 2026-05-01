@@ -139,9 +139,9 @@ const websitePackages: Package[] = [
 const academicPackages: Package[] = [
   {
     name: "Scholar",
-    priceUSD: 60,
-    pricePHP: 3500,
-    originalPricePHP: 4500,
+    priceUSD: 43,
+    pricePHP: 2500,
+    originalPricePHP: 3200,
     timeline: "Monthly",
     description: "For occasional academic help",
     features: [
@@ -156,9 +156,9 @@ const academicPackages: Package[] = [
   },
   {
     name: "Dean's Lister",
-    priceUSD: 112,
-    pricePHP: 6500,
-    originalPricePHP: 8500,
+    priceUSD: 78,
+    pricePHP: 4500,
+    originalPricePHP: 5800,
     timeline: "Monthly",
     description: "For regular academic support",
     features: [
@@ -174,9 +174,9 @@ const academicPackages: Package[] = [
   },
   {
     name: "Magna Cum Laude",
-    priceUSD: 216,
-    pricePHP: 12500,
-    originalPricePHP: 16500,
+    priceUSD: 147,
+    pricePHP: 8500,
+    originalPricePHP: 11000,
     timeline: "Monthly",
     description: "For thesis & capstone students",
     features: [
@@ -193,9 +193,9 @@ const academicPackages: Package[] = [
   },
   {
     name: "Valedictorian",
-    priceUSD: 388,
-    pricePHP: 22500,
-    originalPricePHP: 29500,
+    priceUSD: 250,
+    pricePHP: 14500,
+    originalPricePHP: 18500,
     timeline: "Monthly",
     description: "For full-semester support",
     features: [
@@ -225,10 +225,10 @@ const addonPackages = [
 ];
 
 const membershipTiers = [
-  { name: "Bronze", pricePHP: 5500, priceUSD: 95, duration: "1 month", discount: "10%", color: "#C9A96E", icon: ShieldCheck, features: ["1 social media banner design", "1 free consultation call", "10% discount on every service", "Monthly check-in", "1 revision per project", "Free business card design"] },
-  { name: "Silver", pricePHP: 9500, priceUSD: 164, duration: "2 months", discount: "15%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "1 simple 3-page website OR 2 creative designs", "1 short video content (up to 30s)", "Priority queue", "2 free social media posts", "Free basic SEO audit", "Extended revision scope"] },
-  { name: "Gold", pricePHP: 16500, priceUSD: 284, duration: "3 months", discount: "20%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 professional 5-page website", "1 logo design", "2 short video contents", "2 free consultations per month", "1 month maintenance", "Free Google Business setup", "Monthly performance report"] },
-  { name: "Diamond", pricePHP: 28500, priceUSD: 491, duration: "4 months", discount: "25%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "1 advanced 8-page website with backend", "Unlimited creative designs", "3 video contents", "Unlimited consultations", "2 months maintenance", "VIP same-day support", "Free 3 months hosting", "Monthly strategy call", "Exclusive first access to new templates"] },
+  { name: "Bronze", pricePHP: 3500, priceUSD: 60, duration: "1 month", discount: "10%", color: "#C9A96E", icon: ShieldCheck, features: ["1 social media banner design", "1 free consultation call", "10% discount on every service", "Monthly check-in", "1 revision per project", "Free business card design"] },
+  { name: "Silver", pricePHP: 6500, priceUSD: 112, duration: "2 months", discount: "15%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "1 simple 3-page website OR 2 creative designs", "1 short video content (up to 30s)", "Priority queue", "2 free social media posts", "Free basic SEO audit", "Extended revision scope"] },
+  { name: "Gold", pricePHP: 11500, priceUSD: 198, duration: "3 months", discount: "20%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 professional 5-page website", "1 logo design", "2 short video contents", "2 free consultations per month", "1 month maintenance", "Free Google Business setup", "Monthly performance report"] },
+  { name: "Diamond", pricePHP: 19500, priceUSD: 336, duration: "4 months", discount: "25%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "1 advanced 8-page website with backend", "Unlimited creative designs", "3 video contents", "Unlimited consultations", "2 months maintenance", "VIP same-day support", "Free 3 months hosting", "Monthly strategy call", "Exclusive first access to new templates"] },
 ];
 
 export default function Packages() {

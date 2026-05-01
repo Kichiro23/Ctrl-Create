@@ -136,7 +136,7 @@ export default function Templates() {
         <div className="relative z-10 mx-auto max-w-[900px] text-center">
           <AnimatedSection>
             <div className="flex items-center justify-center gap-3">
-              <span className="eyebrow">Marketplace</span>
+              <span className="eyebrow">Samples</span>
               <CurrencyToggle />
             </div>
             <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl" style={{ color: "var(--text-primary)" }}>

@@ -134,9 +134,9 @@ const devServices = [
 const pricingTiers = [
   {
     name: "Academic Package",
-    pricePHP: 8500,
-    priceUSD: 147,
-    originalPricePHP: 11000,
+    pricePHP: 6500,
+    priceUSD: 112,
+    originalPricePHP: 8500,
     timeline: "7–10 business days",
     features: [
       "Up to 5 pages",
@@ -150,9 +150,9 @@ const pricingTiers = [
   },
   {
     name: "Thesis Chapter",
-    pricePHP: 5500,
-    priceUSD: 95,
-    originalPricePHP: 7500,
+    pricePHP: 4500,
+    priceUSD: 78,
+    originalPricePHP: 6000,
     timeline: "3–5 days per chapter",
     features: [
       "Single chapter (Ch 1–5)",
@@ -165,9 +165,9 @@ const pricingTiers = [
   },
   {
     name: "Full Thesis",
-    pricePHP: 22000,
-    priceUSD: 379,
-    originalPricePHP: 30000,
+    pricePHP: 18000,
+    priceUSD: 310,
+    originalPricePHP: 25000,
     timeline: "2–4 weeks",
     features: [
       "Chapters 1–5 complete",
@@ -181,9 +181,9 @@ const pricingTiers = [
   },
   {
     name: "SPSS / Data Analysis",
-    pricePHP: 5500,
-    priceUSD: 95,
-    originalPricePHP: 7500,
+    pricePHP: 4500,
+    priceUSD: 78,
+    originalPricePHP: 6000,
     timeline: "2–3 days",
     features: [
       "Descriptive & inferential stats",
@@ -196,9 +196,9 @@ const pricingTiers = [
   },
   {
     name: "Defense PPT + Script",
-    pricePHP: 4500,
-    priceUSD: 78,
-    originalPricePHP: 6500,
+    pricePHP: 3500,
+    priceUSD: 60,
+    originalPricePHP: 5000,
     timeline: "1–2 days",
     features: [
       "Professional academic template",
@@ -211,9 +211,9 @@ const pricingTiers = [
   },
   {
     name: "Research Paper",
-    pricePHP: 8500,
-    priceUSD: 147,
-    originalPricePHP: 11500,
+    pricePHP: 6500,
+    priceUSD: 112,
+    originalPricePHP: 9000,
     timeline: "5–7 days",
     features: [
       "Full research paper (5–10 pages)",
