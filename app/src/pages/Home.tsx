@@ -247,7 +247,7 @@ export default function Home() {
         ]}
       />
       {/* Hero */}
-      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
+      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(0,122,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 40%, rgba(175,82,222,0.08) 0%, transparent 50%), var(--bg-primary)" }}>
         <AnimatedBackground />
 
         <div className="mx-auto max-w-[800px] text-center">
