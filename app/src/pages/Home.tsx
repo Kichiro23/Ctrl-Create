@@ -247,7 +247,7 @@ export default function Home() {
         ]}
       />
       {/* Hero */}
-      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
+      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100 dark:from-slate-900 dark:via-blue-950 dark:to-purple-950 px-4 pt-24 pb-20">
         <AnimatedBackground />
 
         <div className="mx-auto max-w-[800px] text-center">
