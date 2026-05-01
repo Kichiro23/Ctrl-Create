@@ -3,76 +3,83 @@ import { motion } from "framer-motion";
 export default function AnimatedBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      {/* Large soft orbs */}
+      {/* Large animated gradient orbs */}
       <motion.div
-        className="absolute -left-[10%] -top-[10%] h-[50vw] w-[50vw] rounded-full opacity-25 blur-[100px]"
-        style={{ background: "radial-gradient(circle, var(--accent-blue) 0%, transparent 70%)" }}
-        animate={{ x: [0, 40, -30, 0], y: [0, -30, 40, 0], scale: [1, 1.1, 0.95, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -left-[20%] -top-[20%] h-[60vw] w-[60vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(0,122,255,0.35) 0%, rgba(0,122,255,0.08) 40%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+        animate={{ x: [0, 60, -40, 0], y: [0, -40, 60, 0], scale: [1, 1.15, 0.95, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -right-[10%] top-[5%] h-[40vw] w-[40vw] rounded-full opacity-15 blur-[100px]"
-        style={{ background: "radial-gradient(circle, #AF52DE 0%, transparent 70%)" }}
-        animate={{ x: [0, -50, 30, 0], y: [0, 40, -20, 0], scale: [1, 0.9, 1.15, 1] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute -right-[15%] top-[0%] h-[55vw] w-[55vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(175,82,222,0.3) 0%, rgba(175,82,222,0.06) 40%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+        animate={{ x: [0, -70, 50, 0], y: [0, 50, -30, 0], scale: [1, 0.9, 1.2, 1] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
       <motion.div
-        className="absolute bottom-[0%] left-[20%] h-[45vw] w-[45vw] rounded-full opacity-15 blur-[100px]"
-        style={{ background: "radial-gradient(circle, #34C759 0%, transparent 70%)" }}
-        animate={{ x: [0, 60, -40, 0], y: [0, -50, 30, 0], scale: [1, 1.05, 0.9, 1] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+        className="absolute bottom-[-10%] left-[10%] h-[50vw] w-[50vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(52,199,89,0.2) 0%, rgba(52,199,89,0.05) 40%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+        animate={{ x: [0, 50, -60, 0], y: [0, -60, 40, 0], scale: [1, 1.1, 0.85, 1] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+      />
+      <motion.div
+        className="absolute top-[30%] right-[20%] h-[35vw] w-[35vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(255,149,0,0.15) 0%, transparent 70%)",
+          filter: "blur(50px)",
+        }}
+        animate={{ x: [0, -30, 40, 0], y: [0, 40, -20, 0], scale: [1, 1.2, 0.9, 1] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
 
-      {/* Floating geometric shapes */}
+      {/* Floating glass shapes */}
       {[
-        { size: 120, x: "10%", y: "15%", delay: 0, duration: 18, rotate: 45, shape: "rounded-2xl" },
-        { size: 80, x: "80%", y: "10%", delay: 3, duration: 22, rotate: -20, shape: "rounded-full" },
-        { size: 60, x: "75%", y: "65%", delay: 6, duration: 16, rotate: 30, shape: "rounded-3xl" },
-        { size: 100, x: "20%", y: "70%", delay: 2, duration: 20, rotate: -15, shape: "rounded-2xl" },
-        { size: 50, x: "50%", y: "40%", delay: 8, duration: 14, rotate: 60, shape: "rounded-full" },
-        { size: 70, x: "5%", y: "50%", delay: 5, duration: 19, rotate: -45, shape: "rounded-3xl" },
-        { size: 90, x: "90%", y: "35%", delay: 10, duration: 17, rotate: 25, shape: "rounded-2xl" },
-        { size: 40, x: "35%", y: "25%", delay: 12, duration: 15, rotate: -30, shape: "rounded-full" },
+        { size: 100, x: "8%", y: "12%", delay: 0, duration: 16, rotate: 30 },
+        { size: 70, x: "85%", y: "8%", delay: 2, duration: 20, rotate: -15 },
+        { size: 50, x: "70%", y: "60%", delay: 4, duration: 14, rotate: 45 },
+        { size: 80, x: "15%", y: "65%", delay: 1, duration: 18, rotate: -25 },
+        { size: 40, x: "50%", y: "35%", delay: 6, duration: 12, rotate: 60 },
       ].map((shape, i) => (
         <motion.div
           key={i}
-          className={`absolute border ${shape.shape}`}
+          className="absolute rounded-2xl border"
           style={{
             width: shape.size,
             height: shape.size,
             left: shape.x,
             top: shape.y,
-            borderColor: "var(--border-subtle)",
-            background: "linear-gradient(135deg, rgba(0,122,255,0.08) 0%, rgba(175,82,222,0.05) 100%)",
-            opacity: 0.4,
+            borderColor: "rgba(0,122,255,0.15)",
+            background: "linear-gradient(135deg, rgba(0,122,255,0.1) 0%, rgba(175,82,222,0.06) 100%)",
+            backdropFilter: "blur(8px)",
           }}
           animate={{
-            y: [0, -40, 20, 0],
-            x: [0, 20, -15, 0],
-            rotate: [shape.rotate, shape.rotate + 15, shape.rotate - 10, shape.rotate],
-            opacity: [0.2, 0.45, 0.2],
+            y: [0, -30, 15, 0],
+            x: [0, 15, -10, 0],
+            rotate: [shape.rotate, shape.rotate + 10, shape.rotate - 8, shape.rotate],
           }}
-          transition={{
-            duration: shape.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: shape.delay,
-          }}
+          transition={{ duration: shape.duration, repeat: Infinity, ease: "easeInOut", delay: shape.delay }}
         />
       ))}
 
-      {/* Floating dots */}
+      {/* Visible floating dots */}
       {[
-        { size: 4, x: "15%", y: "20%", delay: 0, duration: 12 },
-        { size: 6, x: "75%", y: "15%", delay: 2, duration: 15 },
-        { size: 3, x: "85%", y: "60%", delay: 4, duration: 10 },
-        { size: 5, x: "25%", y: "75%", delay: 1, duration: 18 },
-        { size: 4, x: "60%", y: "80%", delay: 3, duration: 14 },
-        { size: 3, x: "45%", y: "35%", delay: 5, duration: 16 },
-        { size: 5, x: "10%", y: "55%", delay: 6, duration: 13 },
-        { size: 4, x: "90%", y: "40%", delay: 7, duration: 11 },
-        { size: 3, x: "55%", y: "20%", delay: 9, duration: 12 },
-        { size: 5, x: "30%", y: "45%", delay: 11, duration: 15 },
+        { size: 6, x: "12%", y: "18%", delay: 0, duration: 10 },
+        { size: 8, x: "78%", y: "12%", delay: 2, duration: 13 },
+        { size: 5, x: "88%", y: "55%", delay: 4, duration: 9 },
+        { size: 7, x: "22%", y: "72%", delay: 1, duration: 15 },
+        { size: 6, x: "55%", y: "78%", delay: 3, duration: 11 },
+        { size: 5, x: "42%", y: "32%", delay: 5, duration: 14 },
+        { size: 7, x: "8%", y: "50%", delay: 6, duration: 12 },
+        { size: 6, x: "92%", y: "38%", delay: 7, duration: 10 },
       ].map((dot, i) => (
         <motion.div
           key={`dot-${i}`}
@@ -82,20 +89,20 @@ export default function AnimatedBackground() {
             height: dot.size,
             left: dot.x,
             top: dot.y,
-            background: "var(--accent-blue)",
-            opacity: 0.2,
+            background: "#007AFF",
+            boxShadow: "0 0 12px rgba(0,122,255,0.5)",
           }}
-          animate={{ y: [0, -30, 20, 0], x: [0, 15, -10, 0], opacity: [0.1, 0.3, 0.1] }}
+          animate={{ y: [0, -25, 15, 0], x: [0, 12, -8, 0], opacity: [0.5, 0.9, 0.5] }}
           transition={{ duration: dot.duration, repeat: Infinity, ease: "easeInOut", delay: dot.delay }}
         />
       ))}
 
-      {/* Subtle grid */}
+      {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(var(--text-secondary) 1px, transparent 1px), linear-gradient(90deg, var(--text-secondary) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
+          backgroundImage: `linear-gradient(rgba(0,122,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,122,255,0.04) 1px, transparent 1px)`,
+          backgroundSize: "80px 80px",
         }}
       />
     </div>
