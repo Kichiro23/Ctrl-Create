@@ -78,13 +78,13 @@ export default function Navbar() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-4"}`}>
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 md:px-6 lg:px-8">
           <div
-            className="flex w-full items-center justify-between rounded-full border px-4 py-2 shadow-sm transition-all duration-300"
+            className={`flex w-full items-center justify-between rounded-full border px-4 py-2 shadow-sm transition-all duration-300 dark:!bg-[rgba(28,28,30,0.45)]`}
             style={{
-              background: "var(--bg-surface)",
-              backdropFilter: "blur(24px) saturate(180%)",
-              WebkitBackdropFilter: "blur(24px) saturate(180%)",
+              background: "rgba(255, 255, 255, 0.45)",
+              backdropFilter: "blur(20px) saturate(150%)",
+              WebkitBackdropFilter: "blur(20px) saturate(150%)",
               borderColor: "var(--border-subtle)",
-              boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.08)" : "0 2px 12px rgba(0,0,0,0.06)",
+              boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.06)" : "0 2px 12px rgba(0,0,0,0.04)",
             }}
           >
             <Link to="/" className="flex items-center gap-2 pl-2">
