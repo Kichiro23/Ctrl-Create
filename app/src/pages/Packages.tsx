@@ -225,10 +225,10 @@ const addonPackages = [
 ];
 
 const membershipTiers = [
-  { name: "Bronze", pricePHP: 3500, priceUSD: 60, duration: "1 month", discount: "10%", color: "#C9A96E", icon: ShieldCheck, features: ["1 social media banner design", "1 free consultation call", "10% discount on every service", "Monthly check-in", "1 revision per project", "Free business card design"] },
-  { name: "Silver", pricePHP: 6500, priceUSD: 112, duration: "2 months", discount: "15%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "1 simple 3-page website OR 2 creative designs", "1 short video content (up to 30s)", "Priority queue", "2 free social media posts", "Free basic SEO audit", "Extended revision scope"] },
-  { name: "Gold", pricePHP: 11500, priceUSD: 198, duration: "3 months", discount: "20%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 professional 5-page website", "1 logo design", "2 short video contents", "2 free consultations per month", "1 month maintenance", "Free Google Business setup", "Monthly performance report"] },
-  { name: "Diamond", pricePHP: 19500, priceUSD: 336, duration: "4 months", discount: "25%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "1 advanced 8-page website with backend", "Unlimited creative designs", "3 video contents", "Unlimited consultations", "2 months maintenance", "VIP same-day support", "Free 3 months hosting", "Monthly strategy call", "Exclusive first access to new templates"] },
+  { name: "Bronze", pricePHP: 6500, priceUSD: 112, duration: "1 month", discount: "10%", color: "#C9A96E", icon: ShieldCheck, features: ["1 social media banner design", "1 free consultation call", "10% discount on every service", "Monthly check-in", "1 revision per project", "Free business card design"] },
+  { name: "Silver", pricePHP: 12500, priceUSD: 216, duration: "2 months", discount: "15%", color: "#A1A1A6", icon: ShieldCheck, features: ["Everything in Bronze", "1 simple 3-page website OR 2 creative designs", "1 short video content (up to 30s)", "Priority queue", "2 free social media posts", "Free basic SEO audit", "Extended revision scope"] },
+  { name: "Gold", pricePHP: 22500, priceUSD: 388, duration: "3 months", discount: "20%", color: "#FF9500", icon: Crown, features: ["Everything in Silver", "1 professional 5-page website", "1 logo design", "2 short video contents", "2 free consultations per month", "1 month maintenance", "Free Google Business setup", "Monthly performance report"] },
+  { name: "Diamond", pricePHP: 42500, priceUSD: 733, duration: "4 months", discount: "25%", color: "#007AFF", icon: Zap, features: ["Everything in Gold", "1 advanced 8-page website with backend", "Unlimited creative designs", "3 video contents", "Unlimited consultations", "2 months maintenance", "VIP same-day support", "Free 3 months hosting", "Monthly strategy call", "Exclusive first access to new templates"] },
 ];
 
 export default function Packages() {
