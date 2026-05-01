@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import { motion, useInView } from "framer-motion";
 import { useCurrency } from "@/hooks/useCurrency";
 import PaymentTooltip from "@/components/PaymentTooltip";
-import AnimatedBackground from "@/components/AnimatedBackground";
 import SEO from "@/components/SEO";
 import {
   ChevronDown,
@@ -247,9 +246,7 @@ export default function Home() {
         ]}
       />
       {/* Hero */}
-      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100 dark:from-slate-900 dark:via-blue-950 dark:to-purple-950 px-4 pt-24 pb-20">
-        <AnimatedBackground />
-
+      <section id="hero" className="relative flex min-h-[70dvh] items-center justify-start overflow-hidden px-4 pt-24 pb-20">
         <div className="mx-auto max-w-[800px] text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <img src="/images/assets/logo-cc.png" alt="Cylux Code" className="mx-auto h-36 w-36 object-contain md:h-48 md:w-48" />
