@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { authRouter } from "./auth-router";
 import { messageRouter } from "./messageRouter";
 import { projectRouter } from "./projectRouter";
@@ -16,6 +17,11 @@ export const appRouter = createRouter({
   testMutation: publicQuery.mutation(async () => {
     return { ok: true, ts: Date.now() };
   }),
+  testMutationWithInput: publicQuery
+    .input(z.object({ name: z.string() }))
+    .mutation(async ({ input }) => {
+      return { ok: true, name: input.name };
+    }),
   auth: authRouter,
   message: messageRouter,
   project: projectRouter,
