@@ -100329,6 +100329,9 @@ var appRouter = createRouter({
     const id = await createMessage({ name: "tRPC Test", email: "test@trpc.com", message: "testing tRPC + MongoDB" });
     return { ok: true, id };
   }),
+  testMutation: publicQuery.mutation(async () => {
+    return { ok: true, ts: Date.now() };
+  }),
   auth: authRouter,
   message: messageRouter,
   project: projectRouter,
