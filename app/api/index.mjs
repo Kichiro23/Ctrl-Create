@@ -94976,7 +94976,10 @@ async function connectDb() {
   }
   if (!cached2.promise) {
     cached2.promise = import_mongoose.default.connect(env.mongodbUri, {
-      bufferCommands: false
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 5e3,
+      connectTimeoutMS: 5e3,
+      socketTimeoutMS: 1e4
     }).then((m) => m);
   }
   cached2.conn = await cached2.promise;
