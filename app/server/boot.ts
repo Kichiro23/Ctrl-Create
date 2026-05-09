@@ -45,6 +45,26 @@ app.post("/api/test-db", async (c) => {
   }
 });
 
+app.get("/api/test-db-raw", async (c) => {
+  try {
+    const mongoose = await import("mongoose");
+    const uri = env.mongodbUri;
+    if (!uri) return c.json({ error: "MONGODB_URI not set" }, 500);
+    const start = Date.now();
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 15000,
+      connectTimeoutMS: 15000,
+      socketTimeoutMS: 20000,
+      bufferCommands: false,
+    });
+    const ping = await mongoose.connection.db.admin().ping();
+    const elapsed = Date.now() - start;
+    return c.json({ success: true, ping, elapsedMs: elapsed });
+  } catch (err: any) {
+    return c.json({ error: err.message, code: err.code, name: err.name, stack: err.stack?.split("\n").slice(0,4) }, 500);
+  }
+});
+
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
 // Global error handler

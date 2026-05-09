@@ -100373,6 +100373,25 @@ app.post("/api/test-db", async (c) => {
     return c.json({ error: err.message }, 500);
   }
 });
+app.get("/api/test-db-raw", async (c) => {
+  try {
+    const mongoose3 = await Promise.resolve().then(() => __toESM(require_mongoose2(), 1));
+    const uri = env.mongodbUri;
+    if (!uri) return c.json({ error: "MONGODB_URI not set" }, 500);
+    const start = Date.now();
+    await mongoose3.connect(uri, {
+      serverSelectionTimeoutMS: 15e3,
+      connectTimeoutMS: 15e3,
+      socketTimeoutMS: 2e4,
+      bufferCommands: false
+    });
+    const ping = await mongoose3.connection.db.admin().ping();
+    const elapsed = Date.now() - start;
+    return c.json({ success: true, ping, elapsedMs: elapsed });
+  } catch (err) {
+    return c.json({ error: err.message, code: err.code, name: err.name, stack: err.stack?.split("\n").slice(0, 4) }, 500);
+  }
+});
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 app.onError((err, c) => {
   console.error("[Hono] Unhandled error:", err);
