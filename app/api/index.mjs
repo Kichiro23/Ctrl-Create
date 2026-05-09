@@ -100293,13 +100293,15 @@ app.get("/api/test-db", async (c) => {
 app.post("/api/test-body", async (c) => {
   try {
     const incoming = c.env?.incoming;
-    if (incoming && incoming.rawBody) {
-      return c.json({ success: true, body: JSON.parse(incoming.rawBody.toString()), source: "rawBody" });
-    }
-    const body = await c.req.json();
-    return c.json({ success: true, body, source: "c.req.json()" });
+    return c.json({
+      success: true,
+      hasEnv: !!c.env,
+      hasIncoming: !!incoming,
+      hasRawBody: !!(incoming && incoming.rawBody),
+      rawBodyType: incoming && incoming.rawBody ? typeof incoming.rawBody : null
+    });
   } catch (err) {
-    return c.json({ error: err.message, source: "c.req.json()" }, 500);
+    return c.json({ error: err.message }, 500);
   }
 });
 app.get("/api/test-db-raw", async (c) => {
