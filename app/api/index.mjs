@@ -95077,10 +95077,18 @@ var Membership = import_mongoose3.default.models.Membership || import_mongoose3.
 var TemplateOrder = import_mongoose3.default.models.TemplateOrder || import_mongoose3.default.model("TemplateOrder", templateOrderSchema);
 
 // server/queries/messages.ts
+function withTimeout(fn, ms = 3e3) {
+  const timeout = new Promise(
+    (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([fn(), timeout]);
+}
 async function createMessage(data) {
-  await connectDb();
-  const doc = await Message.create(data);
-  return doc._id.toString();
+  return withTimeout(async () => {
+    await connectDb();
+    const doc = await Message.create(data);
+    return doc._id.toString();
+  });
 }
 
 // node_modules/postal-mime/src/decode-strings.js
@@ -100102,14 +100110,24 @@ var messageRouter = createRouter({
 });
 
 // server/queries/projects.ts
+function withTimeout2(fn, ms = 3e3) {
+  const timeout = new Promise(
+    (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([fn(), timeout]);
+}
 async function findAllProjects(category) {
-  await connectDb();
-  const filter = category ? { category } : {};
-  return Project.find(filter).sort({ createdAt: -1 }).lean();
+  return withTimeout2(async () => {
+    await connectDb();
+    const filter = category ? { category } : {};
+    return Project.find(filter).sort({ createdAt: -1 }).lean();
+  });
 }
 async function findFeaturedProjects() {
-  await connectDb();
-  return Project.find({ featured: true }).sort({ createdAt: -1 }).lean();
+  return withTimeout2(async () => {
+    await connectDb();
+    return Project.find({ featured: true }).sort({ createdAt: -1 }).lean();
+  });
 }
 
 // server/projectRouter.ts
@@ -100187,6 +100205,8 @@ var chatRouter = createRouter({
       ];
       let reply = "";
       try {
+        const controller = new AbortController();
+        const fetchTimeout = setTimeout(() => controller.abort(), 8e3);
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
@@ -100200,8 +100220,10 @@ var chatRouter = createRouter({
             messages,
             temperature: 0.7,
             max_tokens: 800
-          })
+          }),
+          signal: controller.signal
         });
+        clearTimeout(fetchTimeout);
         if (response.ok) {
           const data = await response.json();
           reply = data.choices?.[0]?.message?.content || "";
@@ -100238,10 +100260,18 @@ For a detailed quote, visit /contact or email rommeld216@gmail.com.`;
 });
 
 // server/queries/memberships.ts
+function withTimeout3(fn, ms = 3e3) {
+  const timeout = new Promise(
+    (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([fn(), timeout]);
+}
 async function createMembership(data) {
-  await connectDb();
-  const doc = await Membership.create(data);
-  return doc._id.toString();
+  return withTimeout3(async () => {
+    await connectDb();
+    const doc = await Membership.create(data);
+    return doc._id.toString();
+  });
 }
 
 // server/membershipRouter.ts
@@ -100261,10 +100291,18 @@ var membershipRouter = createRouter({
 });
 
 // server/queries/templateOrders.ts
+function withTimeout4(fn, ms = 3e3) {
+  const timeout = new Promise(
+    (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([fn(), timeout]);
+}
 async function createTemplateOrder(data) {
-  await connectDb();
-  const doc = await TemplateOrder.create(data);
-  return doc._id.toString();
+  return withTimeout4(async () => {
+    await connectDb();
+    const doc = await TemplateOrder.create(data);
+    return doc._id.toString();
+  });
 }
 
 // server/templateOrderRouter.ts

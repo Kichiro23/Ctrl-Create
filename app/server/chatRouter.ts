@@ -78,6 +78,8 @@ export const chatRouter = createRouter({
 
         let reply = "";
         try {
+          const controller = new AbortController();
+          const fetchTimeout = setTimeout(() => controller.abort(), 8000);
           const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -92,7 +94,9 @@ export const chatRouter = createRouter({
               temperature: 0.7,
               max_tokens: 800,
             }),
+            signal: controller.signal,
           });
+          clearTimeout(fetchTimeout);
 
           if (response.ok) {
             const data = (await response.json()) as {

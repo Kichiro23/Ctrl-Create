@@ -1,6 +1,13 @@
 import { connectDb } from "./connection";
 import { Membership } from "../../db/models";
 
+function withTimeout<T>(fn: () => Promise<T>, ms = 3000): Promise<T> {
+  const timeout = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
+  );
+  return Promise.race([fn(), timeout]);
+}
+
 export async function createMembership(data: {
   name: string;
   email: string;
@@ -8,7 +15,9 @@ export async function createMembership(data: {
   tier: string;
   notes?: string;
 }): Promise<string> {
-  await connectDb();
-  const doc = await Membership.create(data);
-  return doc._id.toString();
+  return withTimeout(async () => {
+    await connectDb();
+    const doc = await Membership.create(data);
+    return doc._id.toString();
+  });
 }
