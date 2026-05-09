@@ -100290,6 +100290,14 @@ app.get("/api/test-db", async (c) => {
     return c.json({ error: err.message }, 500);
   }
 });
+app.post("/api/test-body", async (c) => {
+  try {
+    const body = await c.req.raw.json();
+    return c.json({ success: true, body });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
 app.get("/api/test-db-raw", async (c) => {
   try {
     const mongoose3 = await Promise.resolve().then(() => __toESM(require_mongoose2(), 1));

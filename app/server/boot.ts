@@ -43,6 +43,15 @@ app.get("/api/test-db", async (c) => {
   }
 });
 
+app.post("/api/test-body", async (c) => {
+  try {
+    const body = await c.req.raw.json();
+    return c.json({ success: true, body });
+  } catch (err: any) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get("/api/test-db-raw", async (c) => {
   try {
     const mongoose = await import("mongoose");
