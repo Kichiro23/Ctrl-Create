@@ -50,6 +50,9 @@ app.post("/api/test-body", async (c) => {
     result += "hasIncoming=" + !!incoming + "\n";
     if (incoming) {
       result += "hasRawBody=" + !!incoming.rawBody + "\n";
+      result += "complete=" + incoming.complete + "\n";
+      result += "readableFlowing=" + incoming.readableFlowing + "\n";
+      result += "readableLength=" + incoming.readableLength + "\n";
       try {
         const keys = Object.keys(incoming);
         result += "keys=" + keys.slice(0, 20).join(",") + "\n";
