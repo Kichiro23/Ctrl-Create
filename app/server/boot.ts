@@ -45,6 +45,11 @@ app.get("/api/test-db", async (c) => {
 
 app.post("/api/test-body", async (c) => {
   try {
+    // Try to access rawBody from the underlying Node.js request
+    const incoming = (c.env as any)?.incoming;
+    if (incoming && incoming.rawBody) {
+      return c.json({ success: true, body: JSON.parse(incoming.rawBody.toString()), source: "rawBody" });
+    }
     const body = await c.req.json();
     return c.json({ success: true, body, source: "c.req.json()" });
   } catch (err: any) {
