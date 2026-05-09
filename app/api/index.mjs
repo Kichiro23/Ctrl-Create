@@ -100293,15 +100293,24 @@ app.get("/api/test-db", async (c) => {
 app.post("/api/test-body", async (c) => {
   try {
     const incoming = c.env?.incoming;
-    const info = {
-      hasEnv: !!c.env,
-      hasIncoming: !!incoming,
-      hasRawBody: !!(incoming && incoming.rawBody),
-      incomingKeys: incoming ? Object.keys(incoming).slice(0, 20) : null,
-      hasBody: !!(incoming && incoming.body),
-      bodyType: incoming && incoming.body ? typeof incoming.body : null
-    };
-    return c.text(JSON.stringify(info));
+    let result = "hasEnv=" + !!c.env + "\n";
+    result += "hasIncoming=" + !!incoming + "\n";
+    if (incoming) {
+      result += "hasRawBody=" + !!incoming.rawBody + "\n";
+      try {
+        const keys = Object.keys(incoming);
+        result += "keys=" + keys.slice(0, 20).join(",") + "\n";
+      } catch (e) {
+        result += "keysError=" + e.message + "\n";
+      }
+      try {
+        result += "hasBody=" + !!incoming.body + "\n";
+        result += "bodyType=" + typeof incoming.body + "\n";
+      } catch (e) {
+        result += "bodyError=" + e.message + "\n";
+      }
+    }
+    return c.text(result);
   } catch (err) {
     return c.text("Error: " + err.message, 500);
   }
