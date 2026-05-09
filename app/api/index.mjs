@@ -100293,6 +100293,13 @@ app.get("/api/test-db", async (c) => {
 app.post("/api/test-body", async (c) => {
   try {
     const incoming = c.env?.incoming;
+    const safeStringify = (obj) => {
+      try {
+        return JSON.stringify(obj);
+      } catch {
+        return "[circular]";
+      }
+    };
     return c.json({
       success: true,
       hasEnv: !!c.env,
@@ -100300,9 +100307,9 @@ app.post("/api/test-body", async (c) => {
       hasRawBody: !!(incoming && incoming.rawBody),
       rawBodyType: incoming && incoming.rawBody ? typeof incoming.rawBody : null,
       incomingKeys: incoming ? Object.keys(incoming).slice(0, 20) : null,
-      bodyKeys: incoming && incoming.body ? Object.keys(incoming.body).slice(0, 20) : null,
       hasBody: !!(incoming && incoming.body),
-      bodyType: incoming && incoming.body ? typeof incoming.body : null
+      bodyType: incoming && incoming.body ? typeof incoming.body : null,
+      bodyString: incoming && incoming.body ? safeStringify(incoming.body) : null
     });
   } catch (err) {
     return c.json({ error: err.message }, 500);
