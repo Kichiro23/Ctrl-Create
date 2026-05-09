@@ -100325,6 +100325,10 @@ var templateOrderRouter = createRouter({
 // server/router.ts
 var appRouter = createRouter({
   ping: publicQuery.query(() => ({ ok: true, ts: Date.now() })),
+  testDb: publicQuery.query(async () => {
+    const id = await createMessage({ name: "tRPC Test", email: "test@trpc.com", message: "testing tRPC + MongoDB" });
+    return { ok: true, id };
+  }),
   auth: authRouter,
   message: messageRouter,
   project: projectRouter,
