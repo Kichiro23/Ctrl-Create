@@ -36,7 +36,7 @@ app.use("/api/trpc/*", async (c) => {
   }
 });
 
-app.post("/api/test-db", async (c) => {
+app.get("/api/test-db", async (c) => {
   try {
     const id = await createMessage({ name: "Test", email: "test@test.com", message: "test" });
     return c.json({ success: true, id });

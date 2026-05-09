@@ -14,13 +14,13 @@ async function connectWithTimeout(): Promise<typeof mongoose> {
 
   const promise = mongoose.connect(env.mongodbUri, {
     bufferCommands: false,
-    serverSelectionTimeoutMS: 5000,
-    connectTimeoutMS: 5000,
-    socketTimeoutMS: 10000,
+    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 10000,
+    socketTimeoutMS: 20000,
   }).then((m) => m);
 
   const timeout = new Promise<never>((_, reject) => {
-    setTimeout(() => reject(new Error("MongoDB connection timed out after 5s")), 5000);
+    setTimeout(() => reject(new Error("MongoDB connection timed out after 10s")), 10000);
   });
 
   return Promise.race([promise, timeout]);

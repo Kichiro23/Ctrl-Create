@@ -94975,12 +94975,12 @@ async function connectWithTimeout() {
   }
   const promise2 = import_mongoose.default.connect(env.mongodbUri, {
     bufferCommands: false,
-    serverSelectionTimeoutMS: 5e3,
-    connectTimeoutMS: 5e3,
-    socketTimeoutMS: 1e4
+    serverSelectionTimeoutMS: 1e4,
+    connectTimeoutMS: 1e4,
+    socketTimeoutMS: 2e4
   }).then((m) => m);
   const timeout = new Promise((_, reject) => {
-    setTimeout(() => reject(new Error("MongoDB connection timed out after 5s")), 5e3);
+    setTimeout(() => reject(new Error("MongoDB connection timed out after 10s")), 1e4);
   });
   return Promise.race([promise2, timeout]);
 }
@@ -95077,7 +95077,7 @@ var Membership = import_mongoose3.default.models.Membership || import_mongoose3.
 var TemplateOrder = import_mongoose3.default.models.TemplateOrder || import_mongoose3.default.model("TemplateOrder", templateOrderSchema);
 
 // server/queries/messages.ts
-function withTimeout(fn, ms = 3e3) {
+function withTimeout(fn, ms = 1e4) {
   const timeout = new Promise(
     (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
   );
@@ -100110,7 +100110,7 @@ var messageRouter = createRouter({
 });
 
 // server/queries/projects.ts
-function withTimeout2(fn, ms = 3e3) {
+function withTimeout2(fn, ms = 1e4) {
   const timeout = new Promise(
     (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
   );
@@ -100260,7 +100260,7 @@ For a detailed quote, visit /contact or email rommeld216@gmail.com.`;
 });
 
 // server/queries/memberships.ts
-function withTimeout3(fn, ms = 3e3) {
+function withTimeout3(fn, ms = 1e4) {
   const timeout = new Promise(
     (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
   );
@@ -100291,7 +100291,7 @@ var membershipRouter = createRouter({
 });
 
 // server/queries/templateOrders.ts
-function withTimeout4(fn, ms = 3e3) {
+function withTimeout4(fn, ms = 1e4) {
   const timeout = new Promise(
     (_, reject) => setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
   );
@@ -100365,7 +100365,7 @@ app.use("/api/trpc/*", async (c) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 });
-app.post("/api/test-db", async (c) => {
+app.get("/api/test-db", async (c) => {
   try {
     const id = await createMessage({ name: "Test", email: "test@test.com", message: "test" });
     return c.json({ success: true, id });

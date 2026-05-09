@@ -1,7 +1,7 @@
 import { connectDb } from "./connection";
 import { Membership } from "../../db/models";
 
-function withTimeout<T>(fn: () => Promise<T>, ms = 3000): Promise<T> {
+function withTimeout<T>(fn: () => Promise<T>, ms = 10000): Promise<T> {
   const timeout = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error(`Database operation timed out after ${ms}ms`)), ms)
   );
