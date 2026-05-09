@@ -100298,7 +100298,11 @@ app.post("/api/test-body", async (c) => {
       hasEnv: !!c.env,
       hasIncoming: !!incoming,
       hasRawBody: !!(incoming && incoming.rawBody),
-      rawBodyType: incoming && incoming.rawBody ? typeof incoming.rawBody : null
+      rawBodyType: incoming && incoming.rawBody ? typeof incoming.rawBody : null,
+      incomingKeys: incoming ? Object.keys(incoming).slice(0, 20) : null,
+      bodyKeys: incoming && incoming.body ? Object.keys(incoming.body).slice(0, 20) : null,
+      hasBody: !!(incoming && incoming.body),
+      bodyType: incoming && incoming.body ? typeof incoming.body : null
     });
   } catch (err) {
     return c.json({ error: err.message }, 500);
