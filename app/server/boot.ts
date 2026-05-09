@@ -1,10 +1,8 @@
 import { Hono } from "hono";
-import { bodyLimit } from "hono/body-limit";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
-import { createMessage } from "./queries/messages";
 
 const app = new Hono();
 
@@ -31,44 +29,6 @@ app.use("/api/trpc/*", async (c) => {
   } catch (err) {
     console.error("[tRPC] Handler error:", err);
     return c.json({ error: "Internal server error" }, 500);
-  }
-});
-
-app.get("/api/test-db", async (c) => {
-  try {
-    const id = await createMessage({ name: "Test", email: "test@test.com", message: "test" });
-    return c.json({ success: true, id });
-  } catch (err: any) {
-    return c.json({ error: err.message }, 500);
-  }
-});
-
-app.post("/api/test-body", async (c) => {
-  try {
-    const text = await c.req.text();
-    return c.json({ success: true, text, bytes: Array.from(Buffer.from(text)).slice(0, 30) });
-  } catch (err: any) {
-    return c.json({ error: err.message }, 500);
-  }
-});
-
-app.get("/api/test-db-raw", async (c) => {
-  try {
-    const mongoose = await import("mongoose");
-    const uri = env.mongodbUri;
-    if (!uri) return c.json({ error: "MONGODB_URI not set" }, 500);
-    const start = Date.now();
-    await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 15000,
-      connectTimeoutMS: 15000,
-      socketTimeoutMS: 20000,
-      bufferCommands: false,
-    });
-    const ping = await mongoose.connection.db.admin().ping();
-    const elapsed = Date.now() - start;
-    return c.json({ success: true, ping, elapsedMs: elapsed });
-  } catch (err: any) {
-    return c.json({ error: err.message, code: err.code, name: err.name, stack: err.stack?.split("\n").slice(0,4) }, 500);
   }
 });
 

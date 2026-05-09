@@ -79960,6 +79960,1128 @@ async function fetchRequestHandler(opts) {
   }));
 }
 
+// node_modules/@trpc/server/dist/initTRPC-BRf4imah.mjs
+var import_objectSpread2$2 = __toESM2(require_objectSpread2(), 1);
+var middlewareMarker = "middlewareMarker";
+function createMiddlewareFactory() {
+  function createMiddlewareInner(middlewares) {
+    return {
+      _middlewares: middlewares,
+      unstable_pipe(middlewareBuilderOrFn) {
+        const pipedMiddleware = "_middlewares" in middlewareBuilderOrFn ? middlewareBuilderOrFn._middlewares : [middlewareBuilderOrFn];
+        return createMiddlewareInner([...middlewares, ...pipedMiddleware]);
+      }
+    };
+  }
+  function createMiddleware(fn) {
+    return createMiddlewareInner([fn]);
+  }
+  return createMiddleware;
+}
+function createInputMiddleware(parse5) {
+  const inputMiddleware = async function inputValidatorMiddleware(opts) {
+    let parsedInput;
+    const rawInput = await opts.getRawInput();
+    try {
+      parsedInput = await parse5(rawInput);
+    } catch (cause) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        cause
+      });
+    }
+    const combinedInput = isObject(opts.input) && isObject(parsedInput) ? (0, import_objectSpread2$2.default)((0, import_objectSpread2$2.default)({}, opts.input), parsedInput) : parsedInput;
+    return opts.next({ input: combinedInput });
+  };
+  inputMiddleware._type = "input";
+  return inputMiddleware;
+}
+function createOutputMiddleware(parse5) {
+  const outputMiddleware = async function outputValidatorMiddleware({ next }) {
+    const result = await next();
+    if (!result.ok) return result;
+    try {
+      const data = await parse5(result.data);
+      return (0, import_objectSpread2$2.default)((0, import_objectSpread2$2.default)({}, result), {}, { data });
+    } catch (cause) {
+      throw new TRPCError({
+        message: "Output validation failed",
+        code: "INTERNAL_SERVER_ERROR",
+        cause
+      });
+    }
+  };
+  outputMiddleware._type = "output";
+  return outputMiddleware;
+}
+var import_defineProperty3 = __toESM2(require_defineProperty(), 1);
+var StandardSchemaV1Error = class extends Error {
+  /**
+  * Creates a schema error with useful information.
+  *
+  * @param issues The schema issues.
+  */
+  constructor(issues) {
+    var _issues$;
+    super((_issues$ = issues[0]) === null || _issues$ === void 0 ? void 0 : _issues$.message);
+    (0, import_defineProperty3.default)(this, "issues", void 0);
+    this.name = "SchemaError";
+    this.issues = issues;
+  }
+};
+function getParseFn(procedureParser) {
+  const parser = procedureParser;
+  const isStandardSchema = "~standard" in parser;
+  if (typeof parser === "function" && typeof parser.assert === "function") return parser.assert.bind(parser);
+  if (typeof parser === "function" && !isStandardSchema) return parser;
+  if (typeof parser.parseAsync === "function") return parser.parseAsync.bind(parser);
+  if (typeof parser.parse === "function") return parser.parse.bind(parser);
+  if (typeof parser.validateSync === "function") return parser.validateSync.bind(parser);
+  if (typeof parser.create === "function") return parser.create.bind(parser);
+  if (typeof parser.assert === "function") return (value) => {
+    parser.assert(value);
+    return value;
+  };
+  if (isStandardSchema) return async (value) => {
+    const result = await parser["~standard"].validate(value);
+    if (result.issues) throw new StandardSchemaV1Error(result.issues);
+    return result.value;
+  };
+  throw new Error("Could not find a validator fn");
+}
+var require_objectWithoutPropertiesLoose = __commonJS2({ "../../node_modules/.pnpm/@oxc-project+runtime@0.72.2/node_modules/@oxc-project/runtime/src/helpers/objectWithoutPropertiesLoose.js"(exports, module) {
+  function _objectWithoutPropertiesLoose(r, e) {
+    if (null == r) return {};
+    var t2 = {};
+    for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
+      if (e.includes(n)) continue;
+      t2[n] = r[n];
+    }
+    return t2;
+  }
+  module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
+} });
+var require_objectWithoutProperties = __commonJS2({ "../../node_modules/.pnpm/@oxc-project+runtime@0.72.2/node_modules/@oxc-project/runtime/src/helpers/objectWithoutProperties.js"(exports, module) {
+  var objectWithoutPropertiesLoose = require_objectWithoutPropertiesLoose();
+  function _objectWithoutProperties$1(e, t2) {
+    if (null == e) return {};
+    var o, r, i = objectWithoutPropertiesLoose(e, t2);
+    if (Object.getOwnPropertySymbols) {
+      var s = Object.getOwnPropertySymbols(e);
+      for (r = 0; r < s.length; r++) o = s[r], t2.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
+    }
+    return i;
+  }
+  module.exports = _objectWithoutProperties$1, module.exports.__esModule = true, module.exports["default"] = module.exports;
+} });
+var import_objectWithoutProperties = __toESM2(require_objectWithoutProperties(), 1);
+var import_objectSpread2$13 = __toESM2(require_objectSpread2(), 1);
+var _excluded = [
+  "middlewares",
+  "inputs",
+  "meta"
+];
+function createNewBuilder(def1, def2) {
+  const { middlewares = [], inputs, meta: meta3 } = def2, rest = (0, import_objectWithoutProperties.default)(def2, _excluded);
+  return createBuilder((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, mergeWithoutOverrides(def1, rest)), {}, {
+    inputs: [...def1.inputs, ...inputs !== null && inputs !== void 0 ? inputs : []],
+    middlewares: [...def1.middlewares, ...middlewares],
+    meta: def1.meta && meta3 ? (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, def1.meta), meta3) : meta3 !== null && meta3 !== void 0 ? meta3 : def1.meta
+  }));
+}
+function createBuilder(initDef = {}) {
+  const _def = (0, import_objectSpread2$13.default)({
+    procedure: true,
+    inputs: [],
+    middlewares: []
+  }, initDef);
+  const builder = {
+    _def,
+    input(input) {
+      const parser = getParseFn(input);
+      return createNewBuilder(_def, {
+        inputs: [input],
+        middlewares: [createInputMiddleware(parser)]
+      });
+    },
+    output(output) {
+      const parser = getParseFn(output);
+      return createNewBuilder(_def, {
+        output,
+        middlewares: [createOutputMiddleware(parser)]
+      });
+    },
+    meta(meta3) {
+      return createNewBuilder(_def, { meta: meta3 });
+    },
+    use(middlewareBuilderOrFn) {
+      const middlewares = "_middlewares" in middlewareBuilderOrFn ? middlewareBuilderOrFn._middlewares : [middlewareBuilderOrFn];
+      return createNewBuilder(_def, { middlewares });
+    },
+    unstable_concat(builder$1) {
+      return createNewBuilder(_def, builder$1._def);
+    },
+    concat(builder$1) {
+      return createNewBuilder(_def, builder$1._def);
+    },
+    query(resolver) {
+      return createResolver((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, _def), {}, { type: "query" }), resolver);
+    },
+    mutation(resolver) {
+      return createResolver((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, _def), {}, { type: "mutation" }), resolver);
+    },
+    subscription(resolver) {
+      return createResolver((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, _def), {}, { type: "subscription" }), resolver);
+    },
+    experimental_caller(caller) {
+      return createNewBuilder(_def, { caller });
+    }
+  };
+  return builder;
+}
+function createResolver(_defIn, resolver) {
+  const finalBuilder = createNewBuilder(_defIn, {
+    resolver,
+    middlewares: [async function resolveMiddleware(opts) {
+      const data = await resolver(opts);
+      return {
+        marker: middlewareMarker,
+        ok: true,
+        data,
+        ctx: opts.ctx
+      };
+    }]
+  });
+  const _def = (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, finalBuilder._def), {}, {
+    type: _defIn.type,
+    experimental_caller: Boolean(finalBuilder._def.caller),
+    meta: finalBuilder._def.meta,
+    $types: null
+  });
+  const invoke = createProcedureCaller(finalBuilder._def);
+  const callerOverride = finalBuilder._def.caller;
+  if (!callerOverride) return invoke;
+  const callerWrapper = async (...args) => {
+    return await callerOverride({
+      args,
+      invoke,
+      _def
+    });
+  };
+  callerWrapper._def = _def;
+  return callerWrapper;
+}
+var codeblock = `
+This is a client-only function.
+If you want to call this function on the server, see https://trpc.io/docs/v11/server/server-side-calls
+`.trim();
+async function callRecursive(index, _def, opts) {
+  try {
+    const middleware = _def.middlewares[index];
+    const result = await middleware((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, opts), {}, {
+      meta: _def.meta,
+      input: opts.input,
+      next(_nextOpts) {
+        var _nextOpts$getRawInput;
+        const nextOpts = _nextOpts;
+        return callRecursive(index + 1, _def, (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, opts), {}, {
+          ctx: (nextOpts === null || nextOpts === void 0 ? void 0 : nextOpts.ctx) ? (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, opts.ctx), nextOpts.ctx) : opts.ctx,
+          input: nextOpts && "input" in nextOpts ? nextOpts.input : opts.input,
+          getRawInput: (_nextOpts$getRawInput = nextOpts === null || nextOpts === void 0 ? void 0 : nextOpts.getRawInput) !== null && _nextOpts$getRawInput !== void 0 ? _nextOpts$getRawInput : opts.getRawInput
+        }));
+      }
+    }));
+    return result;
+  } catch (cause) {
+    return {
+      ok: false,
+      error: getTRPCErrorFromUnknown(cause),
+      marker: middlewareMarker
+    };
+  }
+}
+function createProcedureCaller(_def) {
+  async function procedure(opts) {
+    if (!opts || !("getRawInput" in opts)) throw new Error(codeblock);
+    const result = await callRecursive(0, _def, opts);
+    if (!result) throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "No result from middlewares - did you forget to `return next()`?"
+    });
+    if (!result.ok) throw result.error;
+    return result.data;
+  }
+  procedure._def = _def;
+  procedure.procedure = true;
+  procedure.meta = _def.meta;
+  return procedure;
+}
+var _globalThis$process;
+var _globalThis$process2;
+var _globalThis$process3;
+var isServerDefault = typeof window === "undefined" || "Deno" in window || ((_globalThis$process = globalThis.process) === null || _globalThis$process === void 0 || (_globalThis$process = _globalThis$process.env) === null || _globalThis$process === void 0 ? void 0 : _globalThis$process["NODE_ENV"]) === "test" || !!((_globalThis$process2 = globalThis.process) === null || _globalThis$process2 === void 0 || (_globalThis$process2 = _globalThis$process2.env) === null || _globalThis$process2 === void 0 ? void 0 : _globalThis$process2["JEST_WORKER_ID"]) || !!((_globalThis$process3 = globalThis.process) === null || _globalThis$process3 === void 0 || (_globalThis$process3 = _globalThis$process3.env) === null || _globalThis$process3 === void 0 ? void 0 : _globalThis$process3["VITEST_WORKER_ID"]);
+var import_objectSpread25 = __toESM2(require_objectSpread2(), 1);
+var TRPCBuilder = class TRPCBuilder2 {
+  /**
+  * Add a context shape as a generic to the root object
+  * @see https://trpc.io/docs/v11/server/context
+  */
+  context() {
+    return new TRPCBuilder2();
+  }
+  /**
+  * Add a meta shape as a generic to the root object
+  * @see https://trpc.io/docs/v11/quickstart
+  */
+  meta() {
+    return new TRPCBuilder2();
+  }
+  /**
+  * Create the root object
+  * @see https://trpc.io/docs/v11/server/routers#initialize-trpc
+  */
+  create(opts) {
+    var _opts$transformer, _opts$isDev, _globalThis$process$1, _opts$allowOutsideOfS, _opts$errorFormatter, _opts$isServer;
+    const config2 = (0, import_objectSpread25.default)((0, import_objectSpread25.default)({}, opts), {}, {
+      transformer: getDataTransformer((_opts$transformer = opts === null || opts === void 0 ? void 0 : opts.transformer) !== null && _opts$transformer !== void 0 ? _opts$transformer : defaultTransformer),
+      isDev: (_opts$isDev = opts === null || opts === void 0 ? void 0 : opts.isDev) !== null && _opts$isDev !== void 0 ? _opts$isDev : ((_globalThis$process$1 = globalThis.process) === null || _globalThis$process$1 === void 0 ? void 0 : _globalThis$process$1.env["NODE_ENV"]) !== "production",
+      allowOutsideOfServer: (_opts$allowOutsideOfS = opts === null || opts === void 0 ? void 0 : opts.allowOutsideOfServer) !== null && _opts$allowOutsideOfS !== void 0 ? _opts$allowOutsideOfS : false,
+      errorFormatter: (_opts$errorFormatter = opts === null || opts === void 0 ? void 0 : opts.errorFormatter) !== null && _opts$errorFormatter !== void 0 ? _opts$errorFormatter : defaultFormatter,
+      isServer: (_opts$isServer = opts === null || opts === void 0 ? void 0 : opts.isServer) !== null && _opts$isServer !== void 0 ? _opts$isServer : isServerDefault,
+      $types: null
+    });
+    {
+      var _opts$isServer2;
+      const isServer = (_opts$isServer2 = opts === null || opts === void 0 ? void 0 : opts.isServer) !== null && _opts$isServer2 !== void 0 ? _opts$isServer2 : isServerDefault;
+      if (!isServer && (opts === null || opts === void 0 ? void 0 : opts.allowOutsideOfServer) !== true) throw new Error(`You're trying to use @trpc/server in a non-server environment. This is not supported by default.`);
+    }
+    return {
+      _config: config2,
+      procedure: createBuilder({ meta: opts === null || opts === void 0 ? void 0 : opts.defaultMeta }),
+      middleware: createMiddlewareFactory(),
+      router: createRouterFactory(config2),
+      mergeRouters,
+      createCallerFactory: createCallerFactory()
+    };
+  }
+};
+var initTRPC = new TRPCBuilder();
+
+// node_modules/superjson/dist/double-indexed-kv.js
+var DoubleIndexedKV = class {
+  constructor() {
+    this.keyToValue = /* @__PURE__ */ new Map();
+    this.valueToKey = /* @__PURE__ */ new Map();
+  }
+  set(key, value) {
+    this.keyToValue.set(key, value);
+    this.valueToKey.set(value, key);
+  }
+  getByKey(key) {
+    return this.keyToValue.get(key);
+  }
+  getByValue(value) {
+    return this.valueToKey.get(value);
+  }
+  clear() {
+    this.keyToValue.clear();
+    this.valueToKey.clear();
+  }
+};
+
+// node_modules/superjson/dist/registry.js
+var Registry = class {
+  constructor(generateIdentifier) {
+    this.generateIdentifier = generateIdentifier;
+    this.kv = new DoubleIndexedKV();
+  }
+  register(value, identifier) {
+    if (this.kv.getByValue(value)) {
+      return;
+    }
+    if (!identifier) {
+      identifier = this.generateIdentifier(value);
+    }
+    this.kv.set(identifier, value);
+  }
+  clear() {
+    this.kv.clear();
+  }
+  getIdentifier(value) {
+    return this.kv.getByValue(value);
+  }
+  getValue(identifier) {
+    return this.kv.getByKey(identifier);
+  }
+};
+
+// node_modules/superjson/dist/class-registry.js
+var ClassRegistry = class extends Registry {
+  constructor() {
+    super((c) => c.name);
+    this.classToAllowedProps = /* @__PURE__ */ new Map();
+  }
+  register(value, options) {
+    if (typeof options === "object") {
+      if (options.allowProps) {
+        this.classToAllowedProps.set(value, options.allowProps);
+      }
+      super.register(value, options.identifier);
+    } else {
+      super.register(value, options);
+    }
+  }
+  getAllowedProps(value) {
+    return this.classToAllowedProps.get(value);
+  }
+};
+
+// node_modules/superjson/dist/util.js
+function valuesOfObj(record2) {
+  if ("values" in Object) {
+    return Object.values(record2);
+  }
+  const values = [];
+  for (const key in record2) {
+    if (record2.hasOwnProperty(key)) {
+      values.push(record2[key]);
+    }
+  }
+  return values;
+}
+function find(record2, predicate) {
+  const values = valuesOfObj(record2);
+  if ("find" in values) {
+    return values.find(predicate);
+  }
+  const valuesNotNever = values;
+  for (let i = 0; i < valuesNotNever.length; i++) {
+    const value = valuesNotNever[i];
+    if (predicate(value)) {
+      return value;
+    }
+  }
+  return void 0;
+}
+function forEach(record2, run2) {
+  Object.entries(record2).forEach(([key, value]) => run2(value, key));
+}
+function includes(arr, value) {
+  return arr.indexOf(value) !== -1;
+}
+function findArr(record2, predicate) {
+  for (let i = 0; i < record2.length; i++) {
+    const value = record2[i];
+    if (predicate(value)) {
+      return value;
+    }
+  }
+  return void 0;
+}
+
+// node_modules/superjson/dist/custom-transformer-registry.js
+var CustomTransformerRegistry = class {
+  constructor() {
+    this.transfomers = {};
+  }
+  register(transformer) {
+    this.transfomers[transformer.name] = transformer;
+  }
+  findApplicable(v) {
+    return find(this.transfomers, (transformer) => transformer.isApplicable(v));
+  }
+  findByName(name) {
+    return this.transfomers[name];
+  }
+};
+
+// node_modules/superjson/dist/is.js
+var getType = (payload) => Object.prototype.toString.call(payload).slice(8, -1);
+var isUndefined = (payload) => typeof payload === "undefined";
+var isNull = (payload) => payload === null;
+var isPlainObject2 = (payload) => {
+  if (typeof payload !== "object" || payload === null)
+    return false;
+  if (payload === Object.prototype)
+    return false;
+  if (Object.getPrototypeOf(payload) === null)
+    return true;
+  return Object.getPrototypeOf(payload) === Object.prototype;
+};
+var isEmptyObject = (payload) => isPlainObject2(payload) && Object.keys(payload).length === 0;
+var isArray = (payload) => Array.isArray(payload);
+var isString = (payload) => typeof payload === "string";
+var isNumber = (payload) => typeof payload === "number" && !isNaN(payload);
+var isBoolean = (payload) => typeof payload === "boolean";
+var isRegExp = (payload) => payload instanceof RegExp;
+var isMap = (payload) => payload instanceof Map;
+var isSet = (payload) => payload instanceof Set;
+var isSymbol = (payload) => getType(payload) === "Symbol";
+var isDate = (payload) => payload instanceof Date && !isNaN(payload.valueOf());
+var isError = (payload) => payload instanceof Error;
+var isNaNValue = (payload) => typeof payload === "number" && isNaN(payload);
+var isPrimitive = (payload) => isBoolean(payload) || isNull(payload) || isUndefined(payload) || isNumber(payload) || isString(payload) || isSymbol(payload);
+var isBigint = (payload) => typeof payload === "bigint";
+var isInfinite = (payload) => payload === Infinity || payload === -Infinity;
+var isTypedArray = (payload) => ArrayBuffer.isView(payload) && !(payload instanceof DataView);
+var isURL = (payload) => payload instanceof URL;
+
+// node_modules/superjson/dist/pathstringifier.js
+var escapeKey = (key) => key.replace(/\\/g, "\\\\").replace(/\./g, "\\.");
+var stringifyPath = (path2) => path2.map(String).map(escapeKey).join(".");
+var parsePath = (string4, legacyPaths) => {
+  const result = [];
+  let segment = "";
+  for (let i = 0; i < string4.length; i++) {
+    let char = string4.charAt(i);
+    if (!legacyPaths && char === "\\") {
+      const escaped = string4.charAt(i + 1);
+      if (escaped === "\\") {
+        segment += "\\";
+        i++;
+        continue;
+      } else if (escaped !== ".") {
+        throw Error("invalid path");
+      }
+    }
+    const isEscapedDot = char === "\\" && string4.charAt(i + 1) === ".";
+    if (isEscapedDot) {
+      segment += ".";
+      i++;
+      continue;
+    }
+    const isEndOfSegment = char === ".";
+    if (isEndOfSegment) {
+      result.push(segment);
+      segment = "";
+      continue;
+    }
+    segment += char;
+  }
+  const lastSegment = segment;
+  result.push(lastSegment);
+  return result;
+};
+
+// node_modules/superjson/dist/transformer.js
+function simpleTransformation(isApplicable, annotation, transform2, untransform) {
+  return {
+    isApplicable,
+    annotation,
+    transform: transform2,
+    untransform
+  };
+}
+var simpleRules = [
+  simpleTransformation(isUndefined, "undefined", () => null, () => void 0),
+  simpleTransformation(isBigint, "bigint", (v) => v.toString(), (v) => {
+    if (typeof BigInt !== "undefined") {
+      return BigInt(v);
+    }
+    console.error("Please add a BigInt polyfill.");
+    return v;
+  }),
+  simpleTransformation(isDate, "Date", (v) => v.toISOString(), (v) => new Date(v)),
+  simpleTransformation(isError, "Error", (v, superJson) => {
+    const baseError = {
+      name: v.name,
+      message: v.message
+    };
+    if ("cause" in v) {
+      baseError.cause = v.cause;
+    }
+    superJson.allowedErrorProps.forEach((prop) => {
+      baseError[prop] = v[prop];
+    });
+    return baseError;
+  }, (v, superJson) => {
+    const e = new Error(v.message, { cause: v.cause });
+    e.name = v.name;
+    e.stack = v.stack;
+    superJson.allowedErrorProps.forEach((prop) => {
+      e[prop] = v[prop];
+    });
+    return e;
+  }),
+  simpleTransformation(isRegExp, "regexp", (v) => "" + v, (regex) => {
+    const body = regex.slice(1, regex.lastIndexOf("/"));
+    const flags = regex.slice(regex.lastIndexOf("/") + 1);
+    return new RegExp(body, flags);
+  }),
+  simpleTransformation(
+    isSet,
+    "set",
+    // (sets only exist in es6+)
+    // eslint-disable-next-line es5/no-es6-methods
+    (v) => [...v.values()],
+    (v) => new Set(v)
+  ),
+  simpleTransformation(isMap, "map", (v) => [...v.entries()], (v) => new Map(v)),
+  simpleTransformation((v) => isNaNValue(v) || isInfinite(v), "number", (v) => {
+    if (isNaNValue(v)) {
+      return "NaN";
+    }
+    if (v > 0) {
+      return "Infinity";
+    } else {
+      return "-Infinity";
+    }
+  }, Number),
+  simpleTransformation((v) => v === 0 && 1 / v === -Infinity, "number", () => {
+    return "-0";
+  }, Number),
+  simpleTransformation(isURL, "URL", (v) => v.toString(), (v) => new URL(v))
+];
+function compositeTransformation(isApplicable, annotation, transform2, untransform) {
+  return {
+    isApplicable,
+    annotation,
+    transform: transform2,
+    untransform
+  };
+}
+var symbolRule = compositeTransformation((s, superJson) => {
+  if (isSymbol(s)) {
+    const isRegistered = !!superJson.symbolRegistry.getIdentifier(s);
+    return isRegistered;
+  }
+  return false;
+}, (s, superJson) => {
+  const identifier = superJson.symbolRegistry.getIdentifier(s);
+  return ["symbol", identifier];
+}, (v) => v.description, (_, a, superJson) => {
+  const value = superJson.symbolRegistry.getValue(a[1]);
+  if (!value) {
+    throw new Error("Trying to deserialize unknown symbol");
+  }
+  return value;
+});
+var constructorToName = [
+  Int8Array,
+  Uint8Array,
+  Int16Array,
+  Uint16Array,
+  Int32Array,
+  Uint32Array,
+  Float32Array,
+  Float64Array,
+  Uint8ClampedArray
+].reduce((obj, ctor) => {
+  obj[ctor.name] = ctor;
+  return obj;
+}, {});
+var typedArrayRule = compositeTransformation(isTypedArray, (v) => ["typed-array", v.constructor.name], (v) => [...v], (v, a) => {
+  const ctor = constructorToName[a[1]];
+  if (!ctor) {
+    throw new Error("Trying to deserialize unknown typed array");
+  }
+  return new ctor(v);
+});
+function isInstanceOfRegisteredClass(potentialClass, superJson) {
+  if (potentialClass?.constructor) {
+    const isRegistered = !!superJson.classRegistry.getIdentifier(potentialClass.constructor);
+    return isRegistered;
+  }
+  return false;
+}
+var classRule = compositeTransformation(isInstanceOfRegisteredClass, (clazz, superJson) => {
+  const identifier = superJson.classRegistry.getIdentifier(clazz.constructor);
+  return ["class", identifier];
+}, (clazz, superJson) => {
+  const allowedProps = superJson.classRegistry.getAllowedProps(clazz.constructor);
+  if (!allowedProps) {
+    return { ...clazz };
+  }
+  const result = {};
+  allowedProps.forEach((prop) => {
+    result[prop] = clazz[prop];
+  });
+  return result;
+}, (v, a, superJson) => {
+  const clazz = superJson.classRegistry.getValue(a[1]);
+  if (!clazz) {
+    throw new Error(`Trying to deserialize unknown class '${a[1]}' - check https://github.com/blitz-js/superjson/issues/116#issuecomment-773996564`);
+  }
+  return Object.assign(Object.create(clazz.prototype), v);
+});
+var customRule = compositeTransformation((value, superJson) => {
+  return !!superJson.customTransformerRegistry.findApplicable(value);
+}, (value, superJson) => {
+  const transformer = superJson.customTransformerRegistry.findApplicable(value);
+  return ["custom", transformer.name];
+}, (value, superJson) => {
+  const transformer = superJson.customTransformerRegistry.findApplicable(value);
+  return transformer.serialize(value);
+}, (v, a, superJson) => {
+  const transformer = superJson.customTransformerRegistry.findByName(a[1]);
+  if (!transformer) {
+    throw new Error("Trying to deserialize unknown custom value");
+  }
+  return transformer.deserialize(v);
+});
+var compositeRules = [classRule, symbolRule, customRule, typedArrayRule];
+var transformValue = (value, superJson) => {
+  const applicableCompositeRule = findArr(compositeRules, (rule) => rule.isApplicable(value, superJson));
+  if (applicableCompositeRule) {
+    return {
+      value: applicableCompositeRule.transform(value, superJson),
+      type: applicableCompositeRule.annotation(value, superJson)
+    };
+  }
+  const applicableSimpleRule = findArr(simpleRules, (rule) => rule.isApplicable(value, superJson));
+  if (applicableSimpleRule) {
+    return {
+      value: applicableSimpleRule.transform(value, superJson),
+      type: applicableSimpleRule.annotation
+    };
+  }
+  return void 0;
+};
+var simpleRulesByAnnotation = {};
+simpleRules.forEach((rule) => {
+  simpleRulesByAnnotation[rule.annotation] = rule;
+});
+var untransformValue = (json2, type, superJson) => {
+  if (isArray(type)) {
+    switch (type[0]) {
+      case "symbol":
+        return symbolRule.untransform(json2, type, superJson);
+      case "class":
+        return classRule.untransform(json2, type, superJson);
+      case "custom":
+        return customRule.untransform(json2, type, superJson);
+      case "typed-array":
+        return typedArrayRule.untransform(json2, type, superJson);
+      default:
+        throw new Error("Unknown transformation: " + type);
+    }
+  } else {
+    const transformation = simpleRulesByAnnotation[type];
+    if (!transformation) {
+      throw new Error("Unknown transformation: " + type);
+    }
+    return transformation.untransform(json2, superJson);
+  }
+};
+
+// node_modules/superjson/dist/accessDeep.js
+var getNthKey = (value, n) => {
+  if (n > value.size)
+    throw new Error("index out of bounds");
+  const keys = value.keys();
+  while (n > 0) {
+    keys.next();
+    n--;
+  }
+  return keys.next().value;
+};
+function validatePath(path2) {
+  if (includes(path2, "__proto__")) {
+    throw new Error("__proto__ is not allowed as a property");
+  }
+  if (includes(path2, "prototype")) {
+    throw new Error("prototype is not allowed as a property");
+  }
+  if (includes(path2, "constructor")) {
+    throw new Error("constructor is not allowed as a property");
+  }
+}
+var getDeep = (object2, path2) => {
+  validatePath(path2);
+  for (let i = 0; i < path2.length; i++) {
+    const key = path2[i];
+    if (isSet(object2)) {
+      object2 = getNthKey(object2, +key);
+    } else if (isMap(object2)) {
+      const row = +key;
+      const type = +path2[++i] === 0 ? "key" : "value";
+      const keyOfRow = getNthKey(object2, row);
+      switch (type) {
+        case "key":
+          object2 = keyOfRow;
+          break;
+        case "value":
+          object2 = object2.get(keyOfRow);
+          break;
+      }
+    } else {
+      object2 = object2[key];
+    }
+  }
+  return object2;
+};
+var setDeep = (object2, path2, mapper) => {
+  validatePath(path2);
+  if (path2.length === 0) {
+    return mapper(object2);
+  }
+  let parent = object2;
+  for (let i = 0; i < path2.length - 1; i++) {
+    const key = path2[i];
+    if (isArray(parent)) {
+      const index = +key;
+      parent = parent[index];
+    } else if (isPlainObject2(parent)) {
+      parent = parent[key];
+    } else if (isSet(parent)) {
+      const row = +key;
+      parent = getNthKey(parent, row);
+    } else if (isMap(parent)) {
+      const isEnd = i === path2.length - 2;
+      if (isEnd) {
+        break;
+      }
+      const row = +key;
+      const type = +path2[++i] === 0 ? "key" : "value";
+      const keyOfRow = getNthKey(parent, row);
+      switch (type) {
+        case "key":
+          parent = keyOfRow;
+          break;
+        case "value":
+          parent = parent.get(keyOfRow);
+          break;
+      }
+    }
+  }
+  const lastKey = path2[path2.length - 1];
+  if (isArray(parent)) {
+    parent[+lastKey] = mapper(parent[+lastKey]);
+  } else if (isPlainObject2(parent)) {
+    parent[lastKey] = mapper(parent[lastKey]);
+  }
+  if (isSet(parent)) {
+    const oldValue = getNthKey(parent, +lastKey);
+    const newValue = mapper(oldValue);
+    if (oldValue !== newValue) {
+      parent.delete(oldValue);
+      parent.add(newValue);
+    }
+  }
+  if (isMap(parent)) {
+    const row = +path2[path2.length - 2];
+    const keyToRow = getNthKey(parent, row);
+    const type = +lastKey === 0 ? "key" : "value";
+    switch (type) {
+      case "key": {
+        const newKey = mapper(keyToRow);
+        parent.set(newKey, parent.get(keyToRow));
+        if (newKey !== keyToRow) {
+          parent.delete(keyToRow);
+        }
+        break;
+      }
+      case "value": {
+        parent.set(keyToRow, mapper(parent.get(keyToRow)));
+        break;
+      }
+    }
+  }
+  return object2;
+};
+
+// node_modules/superjson/dist/plainer.js
+var enableLegacyPaths = (version4) => version4 < 1;
+function traverse(tree, walker2, version4, origin = []) {
+  if (!tree) {
+    return;
+  }
+  const legacyPaths = enableLegacyPaths(version4);
+  if (!isArray(tree)) {
+    forEach(tree, (subtree, key) => traverse(subtree, walker2, version4, [
+      ...origin,
+      ...parsePath(key, legacyPaths)
+    ]));
+    return;
+  }
+  const [nodeValue, children] = tree;
+  if (children) {
+    forEach(children, (child, key) => {
+      traverse(child, walker2, version4, [
+        ...origin,
+        ...parsePath(key, legacyPaths)
+      ]);
+    });
+  }
+  walker2(nodeValue, origin);
+}
+function applyValueAnnotations(plain, annotations, version4, superJson) {
+  traverse(annotations, (type, path2) => {
+    plain = setDeep(plain, path2, (v) => untransformValue(v, type, superJson));
+  }, version4);
+  return plain;
+}
+function applyReferentialEqualityAnnotations(plain, annotations, version4) {
+  const legacyPaths = enableLegacyPaths(version4);
+  function apply(identicalPaths, path2) {
+    const object2 = getDeep(plain, parsePath(path2, legacyPaths));
+    identicalPaths.map((path3) => parsePath(path3, legacyPaths)).forEach((identicalObjectPath) => {
+      plain = setDeep(plain, identicalObjectPath, () => object2);
+    });
+  }
+  if (isArray(annotations)) {
+    const [root, other] = annotations;
+    root.forEach((identicalPath) => {
+      plain = setDeep(plain, parsePath(identicalPath, legacyPaths), () => plain);
+    });
+    if (other) {
+      forEach(other, apply);
+    }
+  } else {
+    forEach(annotations, apply);
+  }
+  return plain;
+}
+var isDeep = (object2, superJson) => isPlainObject2(object2) || isArray(object2) || isMap(object2) || isSet(object2) || isError(object2) || isInstanceOfRegisteredClass(object2, superJson);
+function addIdentity(object2, path2, identities) {
+  const existingSet = identities.get(object2);
+  if (existingSet) {
+    existingSet.push(path2);
+  } else {
+    identities.set(object2, [path2]);
+  }
+}
+function generateReferentialEqualityAnnotations(identitites, dedupe) {
+  const result = {};
+  let rootEqualityPaths = void 0;
+  identitites.forEach((paths) => {
+    if (paths.length <= 1) {
+      return;
+    }
+    if (!dedupe) {
+      paths = paths.map((path2) => path2.map(String)).sort((a, b) => a.length - b.length);
+    }
+    const [representativePath, ...identicalPaths] = paths;
+    if (representativePath.length === 0) {
+      rootEqualityPaths = identicalPaths.map(stringifyPath);
+    } else {
+      result[stringifyPath(representativePath)] = identicalPaths.map(stringifyPath);
+    }
+  });
+  if (rootEqualityPaths) {
+    if (isEmptyObject(result)) {
+      return [rootEqualityPaths];
+    } else {
+      return [rootEqualityPaths, result];
+    }
+  } else {
+    return isEmptyObject(result) ? void 0 : result;
+  }
+}
+var walker = (object2, identities, superJson, dedupe, path2 = [], objectsInThisPath = [], seenObjects = /* @__PURE__ */ new Map()) => {
+  const primitive = isPrimitive(object2);
+  if (!primitive) {
+    addIdentity(object2, path2, identities);
+    const seen = seenObjects.get(object2);
+    if (seen) {
+      return dedupe ? {
+        transformedValue: null
+      } : seen;
+    }
+  }
+  if (!isDeep(object2, superJson)) {
+    const transformed2 = transformValue(object2, superJson);
+    const result2 = transformed2 ? {
+      transformedValue: transformed2.value,
+      annotations: [transformed2.type]
+    } : {
+      transformedValue: object2
+    };
+    if (!primitive) {
+      seenObjects.set(object2, result2);
+    }
+    return result2;
+  }
+  if (includes(objectsInThisPath, object2)) {
+    return {
+      transformedValue: null
+    };
+  }
+  const transformationResult = transformValue(object2, superJson);
+  const transformed = transformationResult?.value ?? object2;
+  const transformedValue = isArray(transformed) ? [] : {};
+  const innerAnnotations = {};
+  forEach(transformed, (value, index) => {
+    if (index === "__proto__" || index === "constructor" || index === "prototype") {
+      throw new Error(`Detected property ${index}. This is a prototype pollution risk, please remove it from your object.`);
+    }
+    const recursiveResult = walker(value, identities, superJson, dedupe, [...path2, index], [...objectsInThisPath, object2], seenObjects);
+    transformedValue[index] = recursiveResult.transformedValue;
+    if (isArray(recursiveResult.annotations)) {
+      innerAnnotations[escapeKey(index)] = recursiveResult.annotations;
+    } else if (isPlainObject2(recursiveResult.annotations)) {
+      forEach(recursiveResult.annotations, (tree, key) => {
+        innerAnnotations[escapeKey(index) + "." + key] = tree;
+      });
+    }
+  });
+  const result = isEmptyObject(innerAnnotations) ? {
+    transformedValue,
+    annotations: !!transformationResult ? [transformationResult.type] : void 0
+  } : {
+    transformedValue,
+    annotations: !!transformationResult ? [transformationResult.type, innerAnnotations] : innerAnnotations
+  };
+  if (!primitive) {
+    seenObjects.set(object2, result);
+  }
+  return result;
+};
+
+// node_modules/is-what/dist/getType.js
+function getType2(payload) {
+  return Object.prototype.toString.call(payload).slice(8, -1);
+}
+
+// node_modules/is-what/dist/isArray.js
+function isArray2(payload) {
+  return getType2(payload) === "Array";
+}
+
+// node_modules/is-what/dist/isPlainObject.js
+function isPlainObject3(payload) {
+  if (getType2(payload) !== "Object")
+    return false;
+  const prototype = Object.getPrototypeOf(payload);
+  return !!prototype && prototype.constructor === Object && prototype === Object.prototype;
+}
+
+// node_modules/copy-anything/dist/index.js
+function assignProp(carry, key, newVal, originalObject, includeNonenumerable) {
+  const propType = {}.propertyIsEnumerable.call(originalObject, key) ? "enumerable" : "nonenumerable";
+  if (propType === "enumerable")
+    carry[key] = newVal;
+  if (includeNonenumerable && propType === "nonenumerable") {
+    Object.defineProperty(carry, key, {
+      value: newVal,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    });
+  }
+}
+function copy(target, options = {}) {
+  if (isArray2(target)) {
+    return target.map((item) => copy(item, options));
+  }
+  if (!isPlainObject3(target)) {
+    return target;
+  }
+  const props = Object.getOwnPropertyNames(target);
+  const symbols = Object.getOwnPropertySymbols(target);
+  return [...props, ...symbols].reduce((carry, key) => {
+    if (key === "__proto__")
+      return carry;
+    if (isArray2(options.props) && !options.props.includes(key)) {
+      return carry;
+    }
+    const val = target[key];
+    const newVal = copy(val, options);
+    assignProp(carry, key, newVal, target, options.nonenumerable);
+    return carry;
+  }, {});
+}
+
+// node_modules/superjson/dist/index.js
+var SuperJSON = class {
+  /**
+   * @param dedupeReferentialEqualities  If true, SuperJSON will make sure only one instance of referentially equal objects are serialized and the rest are replaced with `null`.
+   */
+  constructor({ dedupe = false } = {}) {
+    this.classRegistry = new ClassRegistry();
+    this.symbolRegistry = new Registry((s) => s.description ?? "");
+    this.customTransformerRegistry = new CustomTransformerRegistry();
+    this.allowedErrorProps = [];
+    this.dedupe = dedupe;
+  }
+  serialize(object2) {
+    const identities = /* @__PURE__ */ new Map();
+    const output = walker(object2, identities, this, this.dedupe);
+    const res = {
+      json: output.transformedValue
+    };
+    if (output.annotations) {
+      res.meta = {
+        ...res.meta,
+        values: output.annotations
+      };
+    }
+    const equalityAnnotations = generateReferentialEqualityAnnotations(identities, this.dedupe);
+    if (equalityAnnotations) {
+      res.meta = {
+        ...res.meta,
+        referentialEqualities: equalityAnnotations
+      };
+    }
+    if (res.meta)
+      res.meta.v = 1;
+    return res;
+  }
+  deserialize(payload, options) {
+    const { json: json2, meta: meta3 } = payload;
+    let result = options?.inPlace ? json2 : copy(json2);
+    if (meta3?.values) {
+      result = applyValueAnnotations(result, meta3.values, meta3.v ?? 0, this);
+    }
+    if (meta3?.referentialEqualities) {
+      result = applyReferentialEqualityAnnotations(result, meta3.referentialEqualities, meta3.v ?? 0);
+    }
+    return result;
+  }
+  stringify(object2) {
+    return JSON.stringify(this.serialize(object2));
+  }
+  parse(string4) {
+    return this.deserialize(JSON.parse(string4), { inPlace: true });
+  }
+  registerClass(v, options) {
+    this.classRegistry.register(v, options);
+  }
+  registerSymbol(v, identifier) {
+    this.symbolRegistry.register(v, identifier);
+  }
+  registerCustom(transformer, name) {
+    this.customTransformerRegistry.register({
+      name,
+      ...transformer
+    });
+  }
+  allowErrorProps(...props) {
+    this.allowedErrorProps.push(...props);
+  }
+};
+SuperJSON.defaultInstance = new SuperJSON();
+SuperJSON.serialize = SuperJSON.defaultInstance.serialize.bind(SuperJSON.defaultInstance);
+SuperJSON.deserialize = SuperJSON.defaultInstance.deserialize.bind(SuperJSON.defaultInstance);
+SuperJSON.stringify = SuperJSON.defaultInstance.stringify.bind(SuperJSON.defaultInstance);
+SuperJSON.parse = SuperJSON.defaultInstance.parse.bind(SuperJSON.defaultInstance);
+SuperJSON.registerClass = SuperJSON.defaultInstance.registerClass.bind(SuperJSON.defaultInstance);
+SuperJSON.registerSymbol = SuperJSON.defaultInstance.registerSymbol.bind(SuperJSON.defaultInstance);
+SuperJSON.registerCustom = SuperJSON.defaultInstance.registerCustom.bind(SuperJSON.defaultInstance);
+SuperJSON.allowErrorProps = SuperJSON.defaultInstance.allowErrorProps.bind(SuperJSON.defaultInstance);
+var dist_default = SuperJSON;
+var serialize = SuperJSON.serialize;
+var deserialize = SuperJSON.deserialize;
+var stringify = SuperJSON.stringify;
+var parse = SuperJSON.parse;
+var registerClass = SuperJSON.registerClass;
+var registerCustom = SuperJSON.registerCustom;
+var registerSymbol = SuperJSON.registerSymbol;
+var allowErrorProps = SuperJSON.allowErrorProps;
+
+// server/middleware.ts
+var t = initTRPC.context().create({
+  transformer: dist_default
+});
+var createRouter = t.router;
+var publicQuery = t.procedure;
+
+// server/auth-router.ts
+var authRouter = createRouter({
+  me: publicQuery.query(() => null),
+  logout: publicQuery.mutation(() => ({ success: true }))
+});
+
 // node_modules/zod/v4/classic/external.js
 var external_exports = {};
 __export(external_exports, {
@@ -80141,7 +81263,7 @@ __export(external_exports, {
   object: () => object,
   optional: () => optional,
   overwrite: () => _overwrite,
-  parse: () => parse2,
+  parse: () => parse3,
   parseAsync: () => parseAsync2,
   partialRecord: () => partialRecord,
   pipe: () => pipe,
@@ -80460,7 +81582,7 @@ __export(core_exports2, {
   isValidJWT: () => isValidJWT,
   locales: () => locales_exports,
   meta: () => meta,
-  parse: () => parse,
+  parse: () => parse2,
   parseAsync: () => parseAsync,
   prettifyError: () => prettifyError,
   process: () => process2,
@@ -80567,7 +81689,7 @@ __export(util_exports, {
   assertIs: () => assertIs,
   assertNever: () => assertNever,
   assertNotEqual: () => assertNotEqual,
-  assignProp: () => assignProp,
+  assignProp: () => assignProp2,
   base64ToUint8Array: () => base64ToUint8Array,
   base64urlToUint8Array: () => base64urlToUint8Array,
   cached: () => cached,
@@ -80590,7 +81712,7 @@ __export(util_exports, {
   getSizableOrigin: () => getSizableOrigin,
   hexToUint8Array: () => hexToUint8Array,
   isObject: () => isObject2,
-  isPlainObject: () => isPlainObject2,
+  isPlainObject: () => isPlainObject4,
   issue: () => issue,
   joinValues: () => joinValues,
   jsonStringifyReplacer: () => jsonStringifyReplacer,
@@ -80708,7 +81830,7 @@ function defineLazy(object2, key, getter) {
 function objectClone(obj) {
   return Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 }
-function assignProp(target, prop, value) {
+function assignProp2(target, prop, value) {
   Object.defineProperty(target, prop, {
     value,
     writable: true,
@@ -80774,7 +81896,7 @@ var allowsEval = cached(() => {
     return false;
   }
 });
-function isPlainObject2(o) {
+function isPlainObject4(o) {
   if (isObject2(o) === false)
     return false;
   const ctor = o.constructor;
@@ -80791,7 +81913,7 @@ function isPlainObject2(o) {
   return true;
 }
 function shallowClone(o) {
-  if (isPlainObject2(o))
+  if (isPlainObject4(o))
     return { ...o };
   if (Array.isArray(o))
     return [...o];
@@ -80951,7 +82073,7 @@ function pick(schema, mask) {
           continue;
         newShape[key] = currDef.shape[key];
       }
-      assignProp(this, "shape", newShape);
+      assignProp2(this, "shape", newShape);
       return newShape;
     },
     checks: []
@@ -80976,7 +82098,7 @@ function omit(schema, mask) {
           continue;
         delete newShape[key];
       }
-      assignProp(this, "shape", newShape);
+      assignProp2(this, "shape", newShape);
       return newShape;
     },
     checks: []
@@ -80984,7 +82106,7 @@ function omit(schema, mask) {
   return clone(schema, def);
 }
 function extend(schema, shape) {
-  if (!isPlainObject2(shape)) {
+  if (!isPlainObject4(shape)) {
     throw new Error("Invalid input to extend: expected a plain object");
   }
   const checks = schema._zod.def.checks;
@@ -81000,20 +82122,20 @@ function extend(schema, shape) {
   const def = mergeDefs(schema._zod.def, {
     get shape() {
       const _shape = { ...schema._zod.def.shape, ...shape };
-      assignProp(this, "shape", _shape);
+      assignProp2(this, "shape", _shape);
       return _shape;
     }
   });
   return clone(schema, def);
 }
 function safeExtend(schema, shape) {
-  if (!isPlainObject2(shape)) {
+  if (!isPlainObject4(shape)) {
     throw new Error("Invalid input to safeExtend: expected a plain object");
   }
   const def = mergeDefs(schema._zod.def, {
     get shape() {
       const _shape = { ...schema._zod.def.shape, ...shape };
-      assignProp(this, "shape", _shape);
+      assignProp2(this, "shape", _shape);
       return _shape;
     }
   });
@@ -81023,7 +82145,7 @@ function merge(a, b) {
   const def = mergeDefs(a._zod.def, {
     get shape() {
       const _shape = { ...a._zod.def.shape, ...b._zod.def.shape };
-      assignProp(this, "shape", _shape);
+      assignProp2(this, "shape", _shape);
       return _shape;
     },
     get catchall() {
@@ -81065,7 +82187,7 @@ function partial(Class2, schema, mask) {
           }) : oldShape[key];
         }
       }
-      assignProp(this, "shape", shape);
+      assignProp2(this, "shape", shape);
       return shape;
     },
     checks: []
@@ -81097,7 +82219,7 @@ function required(Class2, schema, mask) {
           });
         }
       }
-      assignProp(this, "shape", shape);
+      assignProp2(this, "shape", shape);
       return shape;
     }
   });
@@ -81383,7 +82505,7 @@ var _parse = (_Err) => (schema, value, _ctx, _params) => {
   }
   return result.value;
 };
-var parse = /* @__PURE__ */ _parse($ZodRealError);
+var parse2 = /* @__PURE__ */ _parse($ZodRealError);
 var _parseAsync = (_Err) => async (schema, value, _ctx, params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
   let result = schema._zod.run({ value, issues: [] }, ctx);
@@ -83282,7 +84404,7 @@ function mergeValues(a, b) {
   if (a instanceof Date && b instanceof Date && +a === +b) {
     return { valid: true, data: a };
   }
-  if (isPlainObject2(a) && isPlainObject2(b)) {
+  if (isPlainObject4(a) && isPlainObject4(b)) {
     const bKeys = Object.keys(b);
     const sharedKeys = Object.keys(a).filter((key) => bKeys.indexOf(key) !== -1);
     const newObj = { ...a, ...b };
@@ -83436,7 +84558,7 @@ var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
   $ZodType.init(inst, def);
   inst._zod.parse = (payload, ctx) => {
     const input = payload.value;
-    if (!isPlainObject2(input)) {
+    if (!isPlainObject4(input)) {
       payload.issues.push({
         expected: "record",
         code: "invalid_type",
@@ -84056,10 +85178,10 @@ var $ZodFunction = /* @__PURE__ */ $constructor("$ZodFunction", (inst, def) => {
       throw new Error("implement() must be called with a function");
     }
     return function(...args) {
-      const parsedArgs = inst._def.input ? parse(inst._def.input, args) : args;
+      const parsedArgs = inst._def.input ? parse2(inst._def.input, args) : args;
       const result = Reflect.apply(func, this, parsedArgs);
       if (inst._def.output) {
-        return parse(inst._def.output, result);
+        return parse2(inst._def.output, result);
       }
       return result;
     };
@@ -92108,7 +93230,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
 });
 
 // node_modules/zod/v4/classic/parse.js
-var parse2 = /* @__PURE__ */ _parse(ZodRealError);
+var parse3 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse2 = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync2 = /* @__PURE__ */ _safeParseAsync(ZodRealError);
@@ -92151,7 +93273,7 @@ var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
     reg.add(inst, meta3);
     return inst;
   });
-  inst.parse = (data, params) => parse2(inst, data, params, { callee: inst.parse });
+  inst.parse = (data, params) => parse3(inst, data, params, { callee: inst.parse });
   inst.safeParse = (data, params) => safeParse2(inst, data, params);
   inst.parseAsync = async (data, params) => parseAsync2(inst, data, params, { callee: inst.parseAsync });
   inst.safeParseAsync = async (data, params) => safeParseAsync2(inst, data, params);
@@ -93727,1128 +94849,6 @@ function date4(params) {
 
 // node_modules/zod/v4/classic/external.js
 config(en_default());
-
-// node_modules/@trpc/server/dist/initTRPC-BRf4imah.mjs
-var import_objectSpread2$2 = __toESM2(require_objectSpread2(), 1);
-var middlewareMarker = "middlewareMarker";
-function createMiddlewareFactory() {
-  function createMiddlewareInner(middlewares) {
-    return {
-      _middlewares: middlewares,
-      unstable_pipe(middlewareBuilderOrFn) {
-        const pipedMiddleware = "_middlewares" in middlewareBuilderOrFn ? middlewareBuilderOrFn._middlewares : [middlewareBuilderOrFn];
-        return createMiddlewareInner([...middlewares, ...pipedMiddleware]);
-      }
-    };
-  }
-  function createMiddleware(fn) {
-    return createMiddlewareInner([fn]);
-  }
-  return createMiddleware;
-}
-function createInputMiddleware(parse5) {
-  const inputMiddleware = async function inputValidatorMiddleware(opts) {
-    let parsedInput;
-    const rawInput = await opts.getRawInput();
-    try {
-      parsedInput = await parse5(rawInput);
-    } catch (cause) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        cause
-      });
-    }
-    const combinedInput = isObject(opts.input) && isObject(parsedInput) ? (0, import_objectSpread2$2.default)((0, import_objectSpread2$2.default)({}, opts.input), parsedInput) : parsedInput;
-    return opts.next({ input: combinedInput });
-  };
-  inputMiddleware._type = "input";
-  return inputMiddleware;
-}
-function createOutputMiddleware(parse5) {
-  const outputMiddleware = async function outputValidatorMiddleware({ next }) {
-    const result = await next();
-    if (!result.ok) return result;
-    try {
-      const data = await parse5(result.data);
-      return (0, import_objectSpread2$2.default)((0, import_objectSpread2$2.default)({}, result), {}, { data });
-    } catch (cause) {
-      throw new TRPCError({
-        message: "Output validation failed",
-        code: "INTERNAL_SERVER_ERROR",
-        cause
-      });
-    }
-  };
-  outputMiddleware._type = "output";
-  return outputMiddleware;
-}
-var import_defineProperty3 = __toESM2(require_defineProperty(), 1);
-var StandardSchemaV1Error = class extends Error {
-  /**
-  * Creates a schema error with useful information.
-  *
-  * @param issues The schema issues.
-  */
-  constructor(issues) {
-    var _issues$;
-    super((_issues$ = issues[0]) === null || _issues$ === void 0 ? void 0 : _issues$.message);
-    (0, import_defineProperty3.default)(this, "issues", void 0);
-    this.name = "SchemaError";
-    this.issues = issues;
-  }
-};
-function getParseFn(procedureParser) {
-  const parser = procedureParser;
-  const isStandardSchema = "~standard" in parser;
-  if (typeof parser === "function" && typeof parser.assert === "function") return parser.assert.bind(parser);
-  if (typeof parser === "function" && !isStandardSchema) return parser;
-  if (typeof parser.parseAsync === "function") return parser.parseAsync.bind(parser);
-  if (typeof parser.parse === "function") return parser.parse.bind(parser);
-  if (typeof parser.validateSync === "function") return parser.validateSync.bind(parser);
-  if (typeof parser.create === "function") return parser.create.bind(parser);
-  if (typeof parser.assert === "function") return (value) => {
-    parser.assert(value);
-    return value;
-  };
-  if (isStandardSchema) return async (value) => {
-    const result = await parser["~standard"].validate(value);
-    if (result.issues) throw new StandardSchemaV1Error(result.issues);
-    return result.value;
-  };
-  throw new Error("Could not find a validator fn");
-}
-var require_objectWithoutPropertiesLoose = __commonJS2({ "../../node_modules/.pnpm/@oxc-project+runtime@0.72.2/node_modules/@oxc-project/runtime/src/helpers/objectWithoutPropertiesLoose.js"(exports, module) {
-  function _objectWithoutPropertiesLoose(r, e) {
-    if (null == r) return {};
-    var t2 = {};
-    for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
-      if (e.includes(n)) continue;
-      t2[n] = r[n];
-    }
-    return t2;
-  }
-  module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
-} });
-var require_objectWithoutProperties = __commonJS2({ "../../node_modules/.pnpm/@oxc-project+runtime@0.72.2/node_modules/@oxc-project/runtime/src/helpers/objectWithoutProperties.js"(exports, module) {
-  var objectWithoutPropertiesLoose = require_objectWithoutPropertiesLoose();
-  function _objectWithoutProperties$1(e, t2) {
-    if (null == e) return {};
-    var o, r, i = objectWithoutPropertiesLoose(e, t2);
-    if (Object.getOwnPropertySymbols) {
-      var s = Object.getOwnPropertySymbols(e);
-      for (r = 0; r < s.length; r++) o = s[r], t2.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
-    }
-    return i;
-  }
-  module.exports = _objectWithoutProperties$1, module.exports.__esModule = true, module.exports["default"] = module.exports;
-} });
-var import_objectWithoutProperties = __toESM2(require_objectWithoutProperties(), 1);
-var import_objectSpread2$13 = __toESM2(require_objectSpread2(), 1);
-var _excluded = [
-  "middlewares",
-  "inputs",
-  "meta"
-];
-function createNewBuilder(def1, def2) {
-  const { middlewares = [], inputs, meta: meta3 } = def2, rest = (0, import_objectWithoutProperties.default)(def2, _excluded);
-  return createBuilder((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, mergeWithoutOverrides(def1, rest)), {}, {
-    inputs: [...def1.inputs, ...inputs !== null && inputs !== void 0 ? inputs : []],
-    middlewares: [...def1.middlewares, ...middlewares],
-    meta: def1.meta && meta3 ? (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, def1.meta), meta3) : meta3 !== null && meta3 !== void 0 ? meta3 : def1.meta
-  }));
-}
-function createBuilder(initDef = {}) {
-  const _def = (0, import_objectSpread2$13.default)({
-    procedure: true,
-    inputs: [],
-    middlewares: []
-  }, initDef);
-  const builder = {
-    _def,
-    input(input) {
-      const parser = getParseFn(input);
-      return createNewBuilder(_def, {
-        inputs: [input],
-        middlewares: [createInputMiddleware(parser)]
-      });
-    },
-    output(output) {
-      const parser = getParseFn(output);
-      return createNewBuilder(_def, {
-        output,
-        middlewares: [createOutputMiddleware(parser)]
-      });
-    },
-    meta(meta3) {
-      return createNewBuilder(_def, { meta: meta3 });
-    },
-    use(middlewareBuilderOrFn) {
-      const middlewares = "_middlewares" in middlewareBuilderOrFn ? middlewareBuilderOrFn._middlewares : [middlewareBuilderOrFn];
-      return createNewBuilder(_def, { middlewares });
-    },
-    unstable_concat(builder$1) {
-      return createNewBuilder(_def, builder$1._def);
-    },
-    concat(builder$1) {
-      return createNewBuilder(_def, builder$1._def);
-    },
-    query(resolver) {
-      return createResolver((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, _def), {}, { type: "query" }), resolver);
-    },
-    mutation(resolver) {
-      return createResolver((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, _def), {}, { type: "mutation" }), resolver);
-    },
-    subscription(resolver) {
-      return createResolver((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, _def), {}, { type: "subscription" }), resolver);
-    },
-    experimental_caller(caller) {
-      return createNewBuilder(_def, { caller });
-    }
-  };
-  return builder;
-}
-function createResolver(_defIn, resolver) {
-  const finalBuilder = createNewBuilder(_defIn, {
-    resolver,
-    middlewares: [async function resolveMiddleware(opts) {
-      const data = await resolver(opts);
-      return {
-        marker: middlewareMarker,
-        ok: true,
-        data,
-        ctx: opts.ctx
-      };
-    }]
-  });
-  const _def = (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, finalBuilder._def), {}, {
-    type: _defIn.type,
-    experimental_caller: Boolean(finalBuilder._def.caller),
-    meta: finalBuilder._def.meta,
-    $types: null
-  });
-  const invoke = createProcedureCaller(finalBuilder._def);
-  const callerOverride = finalBuilder._def.caller;
-  if (!callerOverride) return invoke;
-  const callerWrapper = async (...args) => {
-    return await callerOverride({
-      args,
-      invoke,
-      _def
-    });
-  };
-  callerWrapper._def = _def;
-  return callerWrapper;
-}
-var codeblock = `
-This is a client-only function.
-If you want to call this function on the server, see https://trpc.io/docs/v11/server/server-side-calls
-`.trim();
-async function callRecursive(index, _def, opts) {
-  try {
-    const middleware = _def.middlewares[index];
-    const result = await middleware((0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, opts), {}, {
-      meta: _def.meta,
-      input: opts.input,
-      next(_nextOpts) {
-        var _nextOpts$getRawInput;
-        const nextOpts = _nextOpts;
-        return callRecursive(index + 1, _def, (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, opts), {}, {
-          ctx: (nextOpts === null || nextOpts === void 0 ? void 0 : nextOpts.ctx) ? (0, import_objectSpread2$13.default)((0, import_objectSpread2$13.default)({}, opts.ctx), nextOpts.ctx) : opts.ctx,
-          input: nextOpts && "input" in nextOpts ? nextOpts.input : opts.input,
-          getRawInput: (_nextOpts$getRawInput = nextOpts === null || nextOpts === void 0 ? void 0 : nextOpts.getRawInput) !== null && _nextOpts$getRawInput !== void 0 ? _nextOpts$getRawInput : opts.getRawInput
-        }));
-      }
-    }));
-    return result;
-  } catch (cause) {
-    return {
-      ok: false,
-      error: getTRPCErrorFromUnknown(cause),
-      marker: middlewareMarker
-    };
-  }
-}
-function createProcedureCaller(_def) {
-  async function procedure(opts) {
-    if (!opts || !("getRawInput" in opts)) throw new Error(codeblock);
-    const result = await callRecursive(0, _def, opts);
-    if (!result) throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "No result from middlewares - did you forget to `return next()`?"
-    });
-    if (!result.ok) throw result.error;
-    return result.data;
-  }
-  procedure._def = _def;
-  procedure.procedure = true;
-  procedure.meta = _def.meta;
-  return procedure;
-}
-var _globalThis$process;
-var _globalThis$process2;
-var _globalThis$process3;
-var isServerDefault = typeof window === "undefined" || "Deno" in window || ((_globalThis$process = globalThis.process) === null || _globalThis$process === void 0 || (_globalThis$process = _globalThis$process.env) === null || _globalThis$process === void 0 ? void 0 : _globalThis$process["NODE_ENV"]) === "test" || !!((_globalThis$process2 = globalThis.process) === null || _globalThis$process2 === void 0 || (_globalThis$process2 = _globalThis$process2.env) === null || _globalThis$process2 === void 0 ? void 0 : _globalThis$process2["JEST_WORKER_ID"]) || !!((_globalThis$process3 = globalThis.process) === null || _globalThis$process3 === void 0 || (_globalThis$process3 = _globalThis$process3.env) === null || _globalThis$process3 === void 0 ? void 0 : _globalThis$process3["VITEST_WORKER_ID"]);
-var import_objectSpread25 = __toESM2(require_objectSpread2(), 1);
-var TRPCBuilder = class TRPCBuilder2 {
-  /**
-  * Add a context shape as a generic to the root object
-  * @see https://trpc.io/docs/v11/server/context
-  */
-  context() {
-    return new TRPCBuilder2();
-  }
-  /**
-  * Add a meta shape as a generic to the root object
-  * @see https://trpc.io/docs/v11/quickstart
-  */
-  meta() {
-    return new TRPCBuilder2();
-  }
-  /**
-  * Create the root object
-  * @see https://trpc.io/docs/v11/server/routers#initialize-trpc
-  */
-  create(opts) {
-    var _opts$transformer, _opts$isDev, _globalThis$process$1, _opts$allowOutsideOfS, _opts$errorFormatter, _opts$isServer;
-    const config2 = (0, import_objectSpread25.default)((0, import_objectSpread25.default)({}, opts), {}, {
-      transformer: getDataTransformer((_opts$transformer = opts === null || opts === void 0 ? void 0 : opts.transformer) !== null && _opts$transformer !== void 0 ? _opts$transformer : defaultTransformer),
-      isDev: (_opts$isDev = opts === null || opts === void 0 ? void 0 : opts.isDev) !== null && _opts$isDev !== void 0 ? _opts$isDev : ((_globalThis$process$1 = globalThis.process) === null || _globalThis$process$1 === void 0 ? void 0 : _globalThis$process$1.env["NODE_ENV"]) !== "production",
-      allowOutsideOfServer: (_opts$allowOutsideOfS = opts === null || opts === void 0 ? void 0 : opts.allowOutsideOfServer) !== null && _opts$allowOutsideOfS !== void 0 ? _opts$allowOutsideOfS : false,
-      errorFormatter: (_opts$errorFormatter = opts === null || opts === void 0 ? void 0 : opts.errorFormatter) !== null && _opts$errorFormatter !== void 0 ? _opts$errorFormatter : defaultFormatter,
-      isServer: (_opts$isServer = opts === null || opts === void 0 ? void 0 : opts.isServer) !== null && _opts$isServer !== void 0 ? _opts$isServer : isServerDefault,
-      $types: null
-    });
-    {
-      var _opts$isServer2;
-      const isServer = (_opts$isServer2 = opts === null || opts === void 0 ? void 0 : opts.isServer) !== null && _opts$isServer2 !== void 0 ? _opts$isServer2 : isServerDefault;
-      if (!isServer && (opts === null || opts === void 0 ? void 0 : opts.allowOutsideOfServer) !== true) throw new Error(`You're trying to use @trpc/server in a non-server environment. This is not supported by default.`);
-    }
-    return {
-      _config: config2,
-      procedure: createBuilder({ meta: opts === null || opts === void 0 ? void 0 : opts.defaultMeta }),
-      middleware: createMiddlewareFactory(),
-      router: createRouterFactory(config2),
-      mergeRouters,
-      createCallerFactory: createCallerFactory()
-    };
-  }
-};
-var initTRPC = new TRPCBuilder();
-
-// node_modules/superjson/dist/double-indexed-kv.js
-var DoubleIndexedKV = class {
-  constructor() {
-    this.keyToValue = /* @__PURE__ */ new Map();
-    this.valueToKey = /* @__PURE__ */ new Map();
-  }
-  set(key, value) {
-    this.keyToValue.set(key, value);
-    this.valueToKey.set(value, key);
-  }
-  getByKey(key) {
-    return this.keyToValue.get(key);
-  }
-  getByValue(value) {
-    return this.valueToKey.get(value);
-  }
-  clear() {
-    this.keyToValue.clear();
-    this.valueToKey.clear();
-  }
-};
-
-// node_modules/superjson/dist/registry.js
-var Registry = class {
-  constructor(generateIdentifier) {
-    this.generateIdentifier = generateIdentifier;
-    this.kv = new DoubleIndexedKV();
-  }
-  register(value, identifier) {
-    if (this.kv.getByValue(value)) {
-      return;
-    }
-    if (!identifier) {
-      identifier = this.generateIdentifier(value);
-    }
-    this.kv.set(identifier, value);
-  }
-  clear() {
-    this.kv.clear();
-  }
-  getIdentifier(value) {
-    return this.kv.getByValue(value);
-  }
-  getValue(identifier) {
-    return this.kv.getByKey(identifier);
-  }
-};
-
-// node_modules/superjson/dist/class-registry.js
-var ClassRegistry = class extends Registry {
-  constructor() {
-    super((c) => c.name);
-    this.classToAllowedProps = /* @__PURE__ */ new Map();
-  }
-  register(value, options) {
-    if (typeof options === "object") {
-      if (options.allowProps) {
-        this.classToAllowedProps.set(value, options.allowProps);
-      }
-      super.register(value, options.identifier);
-    } else {
-      super.register(value, options);
-    }
-  }
-  getAllowedProps(value) {
-    return this.classToAllowedProps.get(value);
-  }
-};
-
-// node_modules/superjson/dist/util.js
-function valuesOfObj(record2) {
-  if ("values" in Object) {
-    return Object.values(record2);
-  }
-  const values = [];
-  for (const key in record2) {
-    if (record2.hasOwnProperty(key)) {
-      values.push(record2[key]);
-    }
-  }
-  return values;
-}
-function find(record2, predicate) {
-  const values = valuesOfObj(record2);
-  if ("find" in values) {
-    return values.find(predicate);
-  }
-  const valuesNotNever = values;
-  for (let i = 0; i < valuesNotNever.length; i++) {
-    const value = valuesNotNever[i];
-    if (predicate(value)) {
-      return value;
-    }
-  }
-  return void 0;
-}
-function forEach(record2, run2) {
-  Object.entries(record2).forEach(([key, value]) => run2(value, key));
-}
-function includes(arr, value) {
-  return arr.indexOf(value) !== -1;
-}
-function findArr(record2, predicate) {
-  for (let i = 0; i < record2.length; i++) {
-    const value = record2[i];
-    if (predicate(value)) {
-      return value;
-    }
-  }
-  return void 0;
-}
-
-// node_modules/superjson/dist/custom-transformer-registry.js
-var CustomTransformerRegistry = class {
-  constructor() {
-    this.transfomers = {};
-  }
-  register(transformer) {
-    this.transfomers[transformer.name] = transformer;
-  }
-  findApplicable(v) {
-    return find(this.transfomers, (transformer) => transformer.isApplicable(v));
-  }
-  findByName(name) {
-    return this.transfomers[name];
-  }
-};
-
-// node_modules/superjson/dist/is.js
-var getType = (payload) => Object.prototype.toString.call(payload).slice(8, -1);
-var isUndefined = (payload) => typeof payload === "undefined";
-var isNull = (payload) => payload === null;
-var isPlainObject3 = (payload) => {
-  if (typeof payload !== "object" || payload === null)
-    return false;
-  if (payload === Object.prototype)
-    return false;
-  if (Object.getPrototypeOf(payload) === null)
-    return true;
-  return Object.getPrototypeOf(payload) === Object.prototype;
-};
-var isEmptyObject = (payload) => isPlainObject3(payload) && Object.keys(payload).length === 0;
-var isArray = (payload) => Array.isArray(payload);
-var isString = (payload) => typeof payload === "string";
-var isNumber = (payload) => typeof payload === "number" && !isNaN(payload);
-var isBoolean = (payload) => typeof payload === "boolean";
-var isRegExp = (payload) => payload instanceof RegExp;
-var isMap = (payload) => payload instanceof Map;
-var isSet = (payload) => payload instanceof Set;
-var isSymbol = (payload) => getType(payload) === "Symbol";
-var isDate = (payload) => payload instanceof Date && !isNaN(payload.valueOf());
-var isError = (payload) => payload instanceof Error;
-var isNaNValue = (payload) => typeof payload === "number" && isNaN(payload);
-var isPrimitive = (payload) => isBoolean(payload) || isNull(payload) || isUndefined(payload) || isNumber(payload) || isString(payload) || isSymbol(payload);
-var isBigint = (payload) => typeof payload === "bigint";
-var isInfinite = (payload) => payload === Infinity || payload === -Infinity;
-var isTypedArray = (payload) => ArrayBuffer.isView(payload) && !(payload instanceof DataView);
-var isURL = (payload) => payload instanceof URL;
-
-// node_modules/superjson/dist/pathstringifier.js
-var escapeKey = (key) => key.replace(/\\/g, "\\\\").replace(/\./g, "\\.");
-var stringifyPath = (path2) => path2.map(String).map(escapeKey).join(".");
-var parsePath = (string4, legacyPaths) => {
-  const result = [];
-  let segment = "";
-  for (let i = 0; i < string4.length; i++) {
-    let char = string4.charAt(i);
-    if (!legacyPaths && char === "\\") {
-      const escaped = string4.charAt(i + 1);
-      if (escaped === "\\") {
-        segment += "\\";
-        i++;
-        continue;
-      } else if (escaped !== ".") {
-        throw Error("invalid path");
-      }
-    }
-    const isEscapedDot = char === "\\" && string4.charAt(i + 1) === ".";
-    if (isEscapedDot) {
-      segment += ".";
-      i++;
-      continue;
-    }
-    const isEndOfSegment = char === ".";
-    if (isEndOfSegment) {
-      result.push(segment);
-      segment = "";
-      continue;
-    }
-    segment += char;
-  }
-  const lastSegment = segment;
-  result.push(lastSegment);
-  return result;
-};
-
-// node_modules/superjson/dist/transformer.js
-function simpleTransformation(isApplicable, annotation, transform2, untransform) {
-  return {
-    isApplicable,
-    annotation,
-    transform: transform2,
-    untransform
-  };
-}
-var simpleRules = [
-  simpleTransformation(isUndefined, "undefined", () => null, () => void 0),
-  simpleTransformation(isBigint, "bigint", (v) => v.toString(), (v) => {
-    if (typeof BigInt !== "undefined") {
-      return BigInt(v);
-    }
-    console.error("Please add a BigInt polyfill.");
-    return v;
-  }),
-  simpleTransformation(isDate, "Date", (v) => v.toISOString(), (v) => new Date(v)),
-  simpleTransformation(isError, "Error", (v, superJson) => {
-    const baseError = {
-      name: v.name,
-      message: v.message
-    };
-    if ("cause" in v) {
-      baseError.cause = v.cause;
-    }
-    superJson.allowedErrorProps.forEach((prop) => {
-      baseError[prop] = v[prop];
-    });
-    return baseError;
-  }, (v, superJson) => {
-    const e = new Error(v.message, { cause: v.cause });
-    e.name = v.name;
-    e.stack = v.stack;
-    superJson.allowedErrorProps.forEach((prop) => {
-      e[prop] = v[prop];
-    });
-    return e;
-  }),
-  simpleTransformation(isRegExp, "regexp", (v) => "" + v, (regex) => {
-    const body = regex.slice(1, regex.lastIndexOf("/"));
-    const flags = regex.slice(regex.lastIndexOf("/") + 1);
-    return new RegExp(body, flags);
-  }),
-  simpleTransformation(
-    isSet,
-    "set",
-    // (sets only exist in es6+)
-    // eslint-disable-next-line es5/no-es6-methods
-    (v) => [...v.values()],
-    (v) => new Set(v)
-  ),
-  simpleTransformation(isMap, "map", (v) => [...v.entries()], (v) => new Map(v)),
-  simpleTransformation((v) => isNaNValue(v) || isInfinite(v), "number", (v) => {
-    if (isNaNValue(v)) {
-      return "NaN";
-    }
-    if (v > 0) {
-      return "Infinity";
-    } else {
-      return "-Infinity";
-    }
-  }, Number),
-  simpleTransformation((v) => v === 0 && 1 / v === -Infinity, "number", () => {
-    return "-0";
-  }, Number),
-  simpleTransformation(isURL, "URL", (v) => v.toString(), (v) => new URL(v))
-];
-function compositeTransformation(isApplicable, annotation, transform2, untransform) {
-  return {
-    isApplicable,
-    annotation,
-    transform: transform2,
-    untransform
-  };
-}
-var symbolRule = compositeTransformation((s, superJson) => {
-  if (isSymbol(s)) {
-    const isRegistered = !!superJson.symbolRegistry.getIdentifier(s);
-    return isRegistered;
-  }
-  return false;
-}, (s, superJson) => {
-  const identifier = superJson.symbolRegistry.getIdentifier(s);
-  return ["symbol", identifier];
-}, (v) => v.description, (_, a, superJson) => {
-  const value = superJson.symbolRegistry.getValue(a[1]);
-  if (!value) {
-    throw new Error("Trying to deserialize unknown symbol");
-  }
-  return value;
-});
-var constructorToName = [
-  Int8Array,
-  Uint8Array,
-  Int16Array,
-  Uint16Array,
-  Int32Array,
-  Uint32Array,
-  Float32Array,
-  Float64Array,
-  Uint8ClampedArray
-].reduce((obj, ctor) => {
-  obj[ctor.name] = ctor;
-  return obj;
-}, {});
-var typedArrayRule = compositeTransformation(isTypedArray, (v) => ["typed-array", v.constructor.name], (v) => [...v], (v, a) => {
-  const ctor = constructorToName[a[1]];
-  if (!ctor) {
-    throw new Error("Trying to deserialize unknown typed array");
-  }
-  return new ctor(v);
-});
-function isInstanceOfRegisteredClass(potentialClass, superJson) {
-  if (potentialClass?.constructor) {
-    const isRegistered = !!superJson.classRegistry.getIdentifier(potentialClass.constructor);
-    return isRegistered;
-  }
-  return false;
-}
-var classRule = compositeTransformation(isInstanceOfRegisteredClass, (clazz, superJson) => {
-  const identifier = superJson.classRegistry.getIdentifier(clazz.constructor);
-  return ["class", identifier];
-}, (clazz, superJson) => {
-  const allowedProps = superJson.classRegistry.getAllowedProps(clazz.constructor);
-  if (!allowedProps) {
-    return { ...clazz };
-  }
-  const result = {};
-  allowedProps.forEach((prop) => {
-    result[prop] = clazz[prop];
-  });
-  return result;
-}, (v, a, superJson) => {
-  const clazz = superJson.classRegistry.getValue(a[1]);
-  if (!clazz) {
-    throw new Error(`Trying to deserialize unknown class '${a[1]}' - check https://github.com/blitz-js/superjson/issues/116#issuecomment-773996564`);
-  }
-  return Object.assign(Object.create(clazz.prototype), v);
-});
-var customRule = compositeTransformation((value, superJson) => {
-  return !!superJson.customTransformerRegistry.findApplicable(value);
-}, (value, superJson) => {
-  const transformer = superJson.customTransformerRegistry.findApplicable(value);
-  return ["custom", transformer.name];
-}, (value, superJson) => {
-  const transformer = superJson.customTransformerRegistry.findApplicable(value);
-  return transformer.serialize(value);
-}, (v, a, superJson) => {
-  const transformer = superJson.customTransformerRegistry.findByName(a[1]);
-  if (!transformer) {
-    throw new Error("Trying to deserialize unknown custom value");
-  }
-  return transformer.deserialize(v);
-});
-var compositeRules = [classRule, symbolRule, customRule, typedArrayRule];
-var transformValue = (value, superJson) => {
-  const applicableCompositeRule = findArr(compositeRules, (rule) => rule.isApplicable(value, superJson));
-  if (applicableCompositeRule) {
-    return {
-      value: applicableCompositeRule.transform(value, superJson),
-      type: applicableCompositeRule.annotation(value, superJson)
-    };
-  }
-  const applicableSimpleRule = findArr(simpleRules, (rule) => rule.isApplicable(value, superJson));
-  if (applicableSimpleRule) {
-    return {
-      value: applicableSimpleRule.transform(value, superJson),
-      type: applicableSimpleRule.annotation
-    };
-  }
-  return void 0;
-};
-var simpleRulesByAnnotation = {};
-simpleRules.forEach((rule) => {
-  simpleRulesByAnnotation[rule.annotation] = rule;
-});
-var untransformValue = (json2, type, superJson) => {
-  if (isArray(type)) {
-    switch (type[0]) {
-      case "symbol":
-        return symbolRule.untransform(json2, type, superJson);
-      case "class":
-        return classRule.untransform(json2, type, superJson);
-      case "custom":
-        return customRule.untransform(json2, type, superJson);
-      case "typed-array":
-        return typedArrayRule.untransform(json2, type, superJson);
-      default:
-        throw new Error("Unknown transformation: " + type);
-    }
-  } else {
-    const transformation = simpleRulesByAnnotation[type];
-    if (!transformation) {
-      throw new Error("Unknown transformation: " + type);
-    }
-    return transformation.untransform(json2, superJson);
-  }
-};
-
-// node_modules/superjson/dist/accessDeep.js
-var getNthKey = (value, n) => {
-  if (n > value.size)
-    throw new Error("index out of bounds");
-  const keys = value.keys();
-  while (n > 0) {
-    keys.next();
-    n--;
-  }
-  return keys.next().value;
-};
-function validatePath(path2) {
-  if (includes(path2, "__proto__")) {
-    throw new Error("__proto__ is not allowed as a property");
-  }
-  if (includes(path2, "prototype")) {
-    throw new Error("prototype is not allowed as a property");
-  }
-  if (includes(path2, "constructor")) {
-    throw new Error("constructor is not allowed as a property");
-  }
-}
-var getDeep = (object2, path2) => {
-  validatePath(path2);
-  for (let i = 0; i < path2.length; i++) {
-    const key = path2[i];
-    if (isSet(object2)) {
-      object2 = getNthKey(object2, +key);
-    } else if (isMap(object2)) {
-      const row = +key;
-      const type = +path2[++i] === 0 ? "key" : "value";
-      const keyOfRow = getNthKey(object2, row);
-      switch (type) {
-        case "key":
-          object2 = keyOfRow;
-          break;
-        case "value":
-          object2 = object2.get(keyOfRow);
-          break;
-      }
-    } else {
-      object2 = object2[key];
-    }
-  }
-  return object2;
-};
-var setDeep = (object2, path2, mapper) => {
-  validatePath(path2);
-  if (path2.length === 0) {
-    return mapper(object2);
-  }
-  let parent = object2;
-  for (let i = 0; i < path2.length - 1; i++) {
-    const key = path2[i];
-    if (isArray(parent)) {
-      const index = +key;
-      parent = parent[index];
-    } else if (isPlainObject3(parent)) {
-      parent = parent[key];
-    } else if (isSet(parent)) {
-      const row = +key;
-      parent = getNthKey(parent, row);
-    } else if (isMap(parent)) {
-      const isEnd = i === path2.length - 2;
-      if (isEnd) {
-        break;
-      }
-      const row = +key;
-      const type = +path2[++i] === 0 ? "key" : "value";
-      const keyOfRow = getNthKey(parent, row);
-      switch (type) {
-        case "key":
-          parent = keyOfRow;
-          break;
-        case "value":
-          parent = parent.get(keyOfRow);
-          break;
-      }
-    }
-  }
-  const lastKey = path2[path2.length - 1];
-  if (isArray(parent)) {
-    parent[+lastKey] = mapper(parent[+lastKey]);
-  } else if (isPlainObject3(parent)) {
-    parent[lastKey] = mapper(parent[lastKey]);
-  }
-  if (isSet(parent)) {
-    const oldValue = getNthKey(parent, +lastKey);
-    const newValue = mapper(oldValue);
-    if (oldValue !== newValue) {
-      parent.delete(oldValue);
-      parent.add(newValue);
-    }
-  }
-  if (isMap(parent)) {
-    const row = +path2[path2.length - 2];
-    const keyToRow = getNthKey(parent, row);
-    const type = +lastKey === 0 ? "key" : "value";
-    switch (type) {
-      case "key": {
-        const newKey = mapper(keyToRow);
-        parent.set(newKey, parent.get(keyToRow));
-        if (newKey !== keyToRow) {
-          parent.delete(keyToRow);
-        }
-        break;
-      }
-      case "value": {
-        parent.set(keyToRow, mapper(parent.get(keyToRow)));
-        break;
-      }
-    }
-  }
-  return object2;
-};
-
-// node_modules/superjson/dist/plainer.js
-var enableLegacyPaths = (version4) => version4 < 1;
-function traverse(tree, walker2, version4, origin = []) {
-  if (!tree) {
-    return;
-  }
-  const legacyPaths = enableLegacyPaths(version4);
-  if (!isArray(tree)) {
-    forEach(tree, (subtree, key) => traverse(subtree, walker2, version4, [
-      ...origin,
-      ...parsePath(key, legacyPaths)
-    ]));
-    return;
-  }
-  const [nodeValue, children] = tree;
-  if (children) {
-    forEach(children, (child, key) => {
-      traverse(child, walker2, version4, [
-        ...origin,
-        ...parsePath(key, legacyPaths)
-      ]);
-    });
-  }
-  walker2(nodeValue, origin);
-}
-function applyValueAnnotations(plain, annotations, version4, superJson) {
-  traverse(annotations, (type, path2) => {
-    plain = setDeep(plain, path2, (v) => untransformValue(v, type, superJson));
-  }, version4);
-  return plain;
-}
-function applyReferentialEqualityAnnotations(plain, annotations, version4) {
-  const legacyPaths = enableLegacyPaths(version4);
-  function apply(identicalPaths, path2) {
-    const object2 = getDeep(plain, parsePath(path2, legacyPaths));
-    identicalPaths.map((path3) => parsePath(path3, legacyPaths)).forEach((identicalObjectPath) => {
-      plain = setDeep(plain, identicalObjectPath, () => object2);
-    });
-  }
-  if (isArray(annotations)) {
-    const [root, other] = annotations;
-    root.forEach((identicalPath) => {
-      plain = setDeep(plain, parsePath(identicalPath, legacyPaths), () => plain);
-    });
-    if (other) {
-      forEach(other, apply);
-    }
-  } else {
-    forEach(annotations, apply);
-  }
-  return plain;
-}
-var isDeep = (object2, superJson) => isPlainObject3(object2) || isArray(object2) || isMap(object2) || isSet(object2) || isError(object2) || isInstanceOfRegisteredClass(object2, superJson);
-function addIdentity(object2, path2, identities) {
-  const existingSet = identities.get(object2);
-  if (existingSet) {
-    existingSet.push(path2);
-  } else {
-    identities.set(object2, [path2]);
-  }
-}
-function generateReferentialEqualityAnnotations(identitites, dedupe) {
-  const result = {};
-  let rootEqualityPaths = void 0;
-  identitites.forEach((paths) => {
-    if (paths.length <= 1) {
-      return;
-    }
-    if (!dedupe) {
-      paths = paths.map((path2) => path2.map(String)).sort((a, b) => a.length - b.length);
-    }
-    const [representativePath, ...identicalPaths] = paths;
-    if (representativePath.length === 0) {
-      rootEqualityPaths = identicalPaths.map(stringifyPath);
-    } else {
-      result[stringifyPath(representativePath)] = identicalPaths.map(stringifyPath);
-    }
-  });
-  if (rootEqualityPaths) {
-    if (isEmptyObject(result)) {
-      return [rootEqualityPaths];
-    } else {
-      return [rootEqualityPaths, result];
-    }
-  } else {
-    return isEmptyObject(result) ? void 0 : result;
-  }
-}
-var walker = (object2, identities, superJson, dedupe, path2 = [], objectsInThisPath = [], seenObjects = /* @__PURE__ */ new Map()) => {
-  const primitive = isPrimitive(object2);
-  if (!primitive) {
-    addIdentity(object2, path2, identities);
-    const seen = seenObjects.get(object2);
-    if (seen) {
-      return dedupe ? {
-        transformedValue: null
-      } : seen;
-    }
-  }
-  if (!isDeep(object2, superJson)) {
-    const transformed2 = transformValue(object2, superJson);
-    const result2 = transformed2 ? {
-      transformedValue: transformed2.value,
-      annotations: [transformed2.type]
-    } : {
-      transformedValue: object2
-    };
-    if (!primitive) {
-      seenObjects.set(object2, result2);
-    }
-    return result2;
-  }
-  if (includes(objectsInThisPath, object2)) {
-    return {
-      transformedValue: null
-    };
-  }
-  const transformationResult = transformValue(object2, superJson);
-  const transformed = transformationResult?.value ?? object2;
-  const transformedValue = isArray(transformed) ? [] : {};
-  const innerAnnotations = {};
-  forEach(transformed, (value, index) => {
-    if (index === "__proto__" || index === "constructor" || index === "prototype") {
-      throw new Error(`Detected property ${index}. This is a prototype pollution risk, please remove it from your object.`);
-    }
-    const recursiveResult = walker(value, identities, superJson, dedupe, [...path2, index], [...objectsInThisPath, object2], seenObjects);
-    transformedValue[index] = recursiveResult.transformedValue;
-    if (isArray(recursiveResult.annotations)) {
-      innerAnnotations[escapeKey(index)] = recursiveResult.annotations;
-    } else if (isPlainObject3(recursiveResult.annotations)) {
-      forEach(recursiveResult.annotations, (tree, key) => {
-        innerAnnotations[escapeKey(index) + "." + key] = tree;
-      });
-    }
-  });
-  const result = isEmptyObject(innerAnnotations) ? {
-    transformedValue,
-    annotations: !!transformationResult ? [transformationResult.type] : void 0
-  } : {
-    transformedValue,
-    annotations: !!transformationResult ? [transformationResult.type, innerAnnotations] : innerAnnotations
-  };
-  if (!primitive) {
-    seenObjects.set(object2, result);
-  }
-  return result;
-};
-
-// node_modules/is-what/dist/getType.js
-function getType2(payload) {
-  return Object.prototype.toString.call(payload).slice(8, -1);
-}
-
-// node_modules/is-what/dist/isArray.js
-function isArray2(payload) {
-  return getType2(payload) === "Array";
-}
-
-// node_modules/is-what/dist/isPlainObject.js
-function isPlainObject4(payload) {
-  if (getType2(payload) !== "Object")
-    return false;
-  const prototype = Object.getPrototypeOf(payload);
-  return !!prototype && prototype.constructor === Object && prototype === Object.prototype;
-}
-
-// node_modules/copy-anything/dist/index.js
-function assignProp2(carry, key, newVal, originalObject, includeNonenumerable) {
-  const propType = {}.propertyIsEnumerable.call(originalObject, key) ? "enumerable" : "nonenumerable";
-  if (propType === "enumerable")
-    carry[key] = newVal;
-  if (includeNonenumerable && propType === "nonenumerable") {
-    Object.defineProperty(carry, key, {
-      value: newVal,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    });
-  }
-}
-function copy(target, options = {}) {
-  if (isArray2(target)) {
-    return target.map((item) => copy(item, options));
-  }
-  if (!isPlainObject4(target)) {
-    return target;
-  }
-  const props = Object.getOwnPropertyNames(target);
-  const symbols = Object.getOwnPropertySymbols(target);
-  return [...props, ...symbols].reduce((carry, key) => {
-    if (key === "__proto__")
-      return carry;
-    if (isArray2(options.props) && !options.props.includes(key)) {
-      return carry;
-    }
-    const val = target[key];
-    const newVal = copy(val, options);
-    assignProp2(carry, key, newVal, target, options.nonenumerable);
-    return carry;
-  }, {});
-}
-
-// node_modules/superjson/dist/index.js
-var SuperJSON = class {
-  /**
-   * @param dedupeReferentialEqualities  If true, SuperJSON will make sure only one instance of referentially equal objects are serialized and the rest are replaced with `null`.
-   */
-  constructor({ dedupe = false } = {}) {
-    this.classRegistry = new ClassRegistry();
-    this.symbolRegistry = new Registry((s) => s.description ?? "");
-    this.customTransformerRegistry = new CustomTransformerRegistry();
-    this.allowedErrorProps = [];
-    this.dedupe = dedupe;
-  }
-  serialize(object2) {
-    const identities = /* @__PURE__ */ new Map();
-    const output = walker(object2, identities, this, this.dedupe);
-    const res = {
-      json: output.transformedValue
-    };
-    if (output.annotations) {
-      res.meta = {
-        ...res.meta,
-        values: output.annotations
-      };
-    }
-    const equalityAnnotations = generateReferentialEqualityAnnotations(identities, this.dedupe);
-    if (equalityAnnotations) {
-      res.meta = {
-        ...res.meta,
-        referentialEqualities: equalityAnnotations
-      };
-    }
-    if (res.meta)
-      res.meta.v = 1;
-    return res;
-  }
-  deserialize(payload, options) {
-    const { json: json2, meta: meta3 } = payload;
-    let result = options?.inPlace ? json2 : copy(json2);
-    if (meta3?.values) {
-      result = applyValueAnnotations(result, meta3.values, meta3.v ?? 0, this);
-    }
-    if (meta3?.referentialEqualities) {
-      result = applyReferentialEqualityAnnotations(result, meta3.referentialEqualities, meta3.v ?? 0);
-    }
-    return result;
-  }
-  stringify(object2) {
-    return JSON.stringify(this.serialize(object2));
-  }
-  parse(string4) {
-    return this.deserialize(JSON.parse(string4), { inPlace: true });
-  }
-  registerClass(v, options) {
-    this.classRegistry.register(v, options);
-  }
-  registerSymbol(v, identifier) {
-    this.symbolRegistry.register(v, identifier);
-  }
-  registerCustom(transformer, name) {
-    this.customTransformerRegistry.register({
-      name,
-      ...transformer
-    });
-  }
-  allowErrorProps(...props) {
-    this.allowedErrorProps.push(...props);
-  }
-};
-SuperJSON.defaultInstance = new SuperJSON();
-SuperJSON.serialize = SuperJSON.defaultInstance.serialize.bind(SuperJSON.defaultInstance);
-SuperJSON.deserialize = SuperJSON.defaultInstance.deserialize.bind(SuperJSON.defaultInstance);
-SuperJSON.stringify = SuperJSON.defaultInstance.stringify.bind(SuperJSON.defaultInstance);
-SuperJSON.parse = SuperJSON.defaultInstance.parse.bind(SuperJSON.defaultInstance);
-SuperJSON.registerClass = SuperJSON.defaultInstance.registerClass.bind(SuperJSON.defaultInstance);
-SuperJSON.registerSymbol = SuperJSON.defaultInstance.registerSymbol.bind(SuperJSON.defaultInstance);
-SuperJSON.registerCustom = SuperJSON.defaultInstance.registerCustom.bind(SuperJSON.defaultInstance);
-SuperJSON.allowErrorProps = SuperJSON.defaultInstance.allowErrorProps.bind(SuperJSON.defaultInstance);
-var dist_default = SuperJSON;
-var serialize = SuperJSON.serialize;
-var deserialize = SuperJSON.deserialize;
-var stringify = SuperJSON.stringify;
-var parse3 = SuperJSON.parse;
-var registerClass = SuperJSON.registerClass;
-var registerCustom = SuperJSON.registerCustom;
-var registerSymbol = SuperJSON.registerSymbol;
-var allowErrorProps = SuperJSON.allowErrorProps;
-
-// server/middleware.ts
-var t = initTRPC.context().create({
-  transformer: dist_default
-});
-var createRouter = t.router;
-var publicQuery = t.procedure;
-
-// server/auth-router.ts
-var authRouter = createRouter({
-  me: publicQuery.query(() => null),
-  logout: publicQuery.mutation(() => ({ success: true }))
-});
 
 // db/mongoose.ts
 var import_mongoose = __toESM(require_mongoose2(), 1);
@@ -100233,16 +100233,6 @@ var templateOrderRouter = createRouter({
 // server/router.ts
 var appRouter = createRouter({
   ping: publicQuery.query(() => ({ ok: true, ts: Date.now() })),
-  testDb: publicQuery.query(async () => {
-    const id = await createMessage({ name: "tRPC Test", email: "test@trpc.com", message: "testing tRPC + MongoDB" });
-    return { ok: true, id };
-  }),
-  testMutation: publicQuery.mutation(async () => {
-    return { ok: true, ts: Date.now() };
-  }),
-  testMutationWithInput: publicQuery.input(external_exports.object({ name: external_exports.string() })).mutation(async ({ input }) => {
-    return { ok: true, name: input.name };
-  }),
   auth: authRouter,
   message: messageRouter,
   project: projectRouter,
@@ -100280,41 +100270,6 @@ app.use("/api/trpc/*", async (c) => {
   } catch (err) {
     console.error("[tRPC] Handler error:", err);
     return c.json({ error: "Internal server error" }, 500);
-  }
-});
-app.get("/api/test-db", async (c) => {
-  try {
-    const id = await createMessage({ name: "Test", email: "test@test.com", message: "test" });
-    return c.json({ success: true, id });
-  } catch (err) {
-    return c.json({ error: err.message }, 500);
-  }
-});
-app.post("/api/test-body", async (c) => {
-  try {
-    const text = await c.req.text();
-    return c.json({ success: true, text, bytes: Array.from(Buffer.from(text)).slice(0, 30) });
-  } catch (err) {
-    return c.json({ error: err.message }, 500);
-  }
-});
-app.get("/api/test-db-raw", async (c) => {
-  try {
-    const mongoose3 = await Promise.resolve().then(() => __toESM(require_mongoose2(), 1));
-    const uri = env.mongodbUri;
-    if (!uri) return c.json({ error: "MONGODB_URI not set" }, 500);
-    const start = Date.now();
-    await mongoose3.connect(uri, {
-      serverSelectionTimeoutMS: 15e3,
-      connectTimeoutMS: 15e3,
-      socketTimeoutMS: 2e4,
-      bufferCommands: false
-    });
-    const ping = await mongoose3.connection.db.admin().ping();
-    const elapsed = Date.now() - start;
-    return c.json({ success: true, ping, elapsedMs: elapsed });
-  } catch (err) {
-    return c.json({ error: err.message, code: err.code, name: err.name, stack: err.stack?.split("\n").slice(0, 4) }, 500);
   }
 });
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
