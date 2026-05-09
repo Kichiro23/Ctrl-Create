@@ -45,10 +45,10 @@ app.get("/api/test-db", async (c) => {
 
 app.post("/api/test-body", async (c) => {
   try {
-    const body = await c.req.raw.json();
-    return c.json({ success: true, body });
+    const body = await c.req.json();
+    return c.json({ success: true, body, source: "c.req.json()" });
   } catch (err: any) {
-    return c.json({ error: err.message }, 500);
+    return c.json({ error: err.message, source: "c.req.json()" }, 500);
   }
 });
 
