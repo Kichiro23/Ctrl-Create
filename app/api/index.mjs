@@ -100365,6 +100365,14 @@ app.use("/api/trpc/*", async (c) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 });
+app.post("/api/test-db", async (c) => {
+  try {
+    const id = await createMessage({ name: "Test", email: "test@test.com", message: "test" });
+    return c.json({ success: true, id });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 app.onError((err, c) => {
   console.error("[Hono] Unhandled error:", err);

@@ -4,6 +4,7 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
+import { createMessage } from "./queries/messages";
 
 const app = new Hono();
 
@@ -32,6 +33,15 @@ app.use("/api/trpc/*", async (c) => {
   } catch (err) {
     console.error("[tRPC] Handler error:", err);
     return c.json({ error: "Internal server error" }, 500);
+  }
+});
+
+app.post("/api/test-db", async (c) => {
+  try {
+    const id = await createMessage({ name: "Test", email: "test@test.com", message: "test" });
+    return c.json({ success: true, id });
+  } catch (err: any) {
+    return c.json({ error: err.message }, 500);
   }
 });
 
