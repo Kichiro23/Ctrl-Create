@@ -16,8 +16,6 @@ import Contact from './pages/Contact'
 import RevisionPolicy from './pages/RevisionPolicy'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
-import AdminDashboard from './pages/AdminDashboard'
-import Login from "./pages/Login"
 import NotFound from "./pages/NotFound"
 
 export default function App() {
@@ -38,8 +36,6 @@ export default function App() {
             <Route path="/revision-policy" element={<RevisionPolicy />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

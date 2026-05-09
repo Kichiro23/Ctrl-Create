@@ -1,11 +1,6 @@
 import { z } from "zod";
-import { createRouter, publicQuery, adminQuery } from "./middleware";
-import {
-  findAllMessages,
-  createMessage,
-  updateMessageStatus,
-  deleteMessage,
-} from "./queries/messages";
+import { createRouter, publicQuery } from "./middleware";
+import { createMessage } from "./queries/messages";
 import { sendContactNotification } from "./lib/email";
 
 export const messageRouter = createRouter({
@@ -39,28 +34,5 @@ export const messageRouter = createRouter({
           warning: "Message received but could not be saved to database. Please email rommeld216@gmail.com directly.",
         };
       }
-    }),
-
-  list: adminQuery.query(async () => {
-    return findAllMessages();
-  }),
-
-  updateStatus: adminQuery
-    .input(
-      z.object({
-        id: z.union([z.string(), z.number()]),
-        readStatus: z.enum(["read", "unread"]),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      await updateMessageStatus(input.id, input.readStatus);
-      return { success: true };
-    }),
-
-  delete: adminQuery
-    .input(z.object({ id: z.union([z.string(), z.number()]) }))
-    .mutation(async ({ input }) => {
-      await deleteMessage(input.id);
-      return { success: true };
     }),
 });

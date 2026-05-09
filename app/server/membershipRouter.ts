@@ -1,11 +1,6 @@
 import { z } from "zod";
-import { createRouter, publicQuery, adminQuery } from "./middleware";
-import {
-  findAllMemberships,
-  createMembership,
-  updateMembershipStatus,
-  deleteMembership,
-} from "./queries/memberships";
+import { createRouter, publicQuery } from "./middleware";
+import { createMembership } from "./queries/memberships";
 
 export const membershipRouter = createRouter({
   create: publicQuery
@@ -21,28 +16,5 @@ export const membershipRouter = createRouter({
     .mutation(async ({ input }) => {
       const id = await createMembership(input);
       return { success: true, id };
-    }),
-
-  list: adminQuery.query(async () => {
-    return findAllMemberships();
-  }),
-
-  updateStatus: adminQuery
-    .input(
-      z.object({
-        id: z.union([z.string(), z.number()]),
-        status: z.enum(["pending", "active", "expired", "cancelled"]),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      await updateMembershipStatus(input.id, input.status);
-      return { success: true };
-    }),
-
-  delete: adminQuery
-    .input(z.object({ id: z.union([z.string(), z.number()]) }))
-    .mutation(async ({ input }) => {
-      await deleteMembership(input.id);
-      return { success: true };
     }),
 });
