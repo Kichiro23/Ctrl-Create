@@ -45,8 +45,8 @@ app.get("/api/test-db", async (c) => {
 
 app.post("/api/test-body", async (c) => {
   try {
-    const body = await c.req.json();
-    return c.json({ success: true, body });
+    const text = await c.req.text();
+    return c.json({ success: true, text, bytes: Array.from(Buffer.from(text)).slice(0, 30) });
   } catch (err: any) {
     return c.json({ error: err.message }, 500);
   }
