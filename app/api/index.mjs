@@ -100354,7 +100354,18 @@ if (env.isProduction && !process.env.VERCEL) {
 }
 
 // scripts/api-entry.ts
-var api_entry_default = handle(boot_default);
+var honoHandler = handle(boot_default);
+var api_entry_default = async (req, res) => {
+  if (req.complete && req.readableLength > 0 && req.readableFlowing === null && !req.rawBody) {
+    const chunks = [];
+    let chunk;
+    while (null !== (chunk = req.read())) {
+      chunks.push(chunk);
+    }
+    req.rawBody = Buffer.concat(chunks);
+  }
+  return honoHandler(req, res);
+};
 export {
   api_entry_default as default
 };
