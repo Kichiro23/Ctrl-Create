@@ -20,8 +20,6 @@ app.get("/api/health", (c) =>
   })
 );
 
-app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
-
 app.use("/api/trpc/*", async (c) => {
   try {
     return fetchRequestHandler({

@@ -45855,7 +45855,7 @@ var require_bigint = __commonJS({
     var { Long } = require_bson2();
     var MAX_BIGINT = 9223372036854775807n;
     var MIN_BIGINT = -9223372036854775808n;
-    var ERROR_MESSAGE2 = `Mongoose only supports BigInts between ${MIN_BIGINT} and ${MAX_BIGINT} because MongoDB does not support arbitrary precision integers`;
+    var ERROR_MESSAGE = `Mongoose only supports BigInts between ${MIN_BIGINT} and ${MAX_BIGINT} because MongoDB does not support arbitrary precision integers`;
     module.exports = function castBigInt(val) {
       if (val == null) {
         return val;
@@ -45865,7 +45865,7 @@ var require_bigint = __commonJS({
       }
       if (typeof val === "bigint") {
         if (val > MAX_BIGINT || val < MIN_BIGINT) {
-          throw new Error(ERROR_MESSAGE2);
+          throw new Error(ERROR_MESSAGE);
         }
         return val;
       }
@@ -45875,7 +45875,7 @@ var require_bigint = __commonJS({
       if (typeof val === "string" || typeof val === "number") {
         val = BigInt(val);
         if (val > MAX_BIGINT || val < MIN_BIGINT) {
-          throw new Error(ERROR_MESSAGE2);
+          throw new Error(ERROR_MESSAGE);
         }
         return val;
       }
@@ -75619,39 +75619,6 @@ var compose = (middleware, onError, onNotFound) => {
   };
 };
 
-// node_modules/hono/dist/http-exception.js
-var HTTPException = class extends Error {
-  res;
-  status;
-  /**
-   * Creates an instance of `HTTPException`.
-   * @param status - HTTP status code for the exception. Defaults to 500.
-   * @param options - Additional options for the exception.
-   */
-  constructor(status = 500, options) {
-    super(options?.message, { cause: options?.cause });
-    this.res = options?.res;
-    this.status = status;
-  }
-  /**
-   * Returns the response object associated with the exception.
-   * If a response object is not provided, a new response is created with the error message and status code.
-   * @returns The response object.
-   */
-  getResponse() {
-    if (this.res) {
-      const newResponse = new Response(this.res.body, {
-        status: this.status,
-        headers: this.res.headers
-      });
-      return newResponse;
-    }
-    return new Response(this.message, {
-      status: this.status
-    });
-  }
-};
-
 // node_modules/hono/dist/request/constants.js
 var GET_MATCH_RESULT = /* @__PURE__ */ Symbol();
 
@@ -77659,65 +77626,6 @@ var Hono2 = class extends Hono {
       routers: [new RegExpRouter(), new TrieRouter()]
     });
   }
-};
-
-// node_modules/hono/dist/middleware/body-limit/index.js
-var ERROR_MESSAGE = "Payload Too Large";
-var BodyLimitError = class extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "BodyLimitError";
-  }
-};
-var bodyLimit = (options) => {
-  const onError = options.onError || (() => {
-    const res = new Response(ERROR_MESSAGE, {
-      status: 413
-    });
-    throw new HTTPException(413, { res });
-  });
-  const maxSize = options.maxSize;
-  return async function bodyLimit2(c, next) {
-    if (!c.req.raw.body) {
-      return next();
-    }
-    const hasTransferEncoding = c.req.raw.headers.has("transfer-encoding");
-    const hasContentLength = c.req.raw.headers.has("content-length");
-    if (hasTransferEncoding && hasContentLength) {
-    }
-    if (hasContentLength && !hasTransferEncoding) {
-      const contentLength = parseInt(c.req.raw.headers.get("content-length") || "0", 10);
-      return contentLength > maxSize ? onError(c) : next();
-    }
-    let size = 0;
-    const rawReader = c.req.raw.body.getReader();
-    const reader = new ReadableStream({
-      async start(controller) {
-        try {
-          for (; ; ) {
-            const { done, value } = await rawReader.read();
-            if (done) {
-              break;
-            }
-            size += value.length;
-            if (size > maxSize) {
-              controller.error(new BodyLimitError(ERROR_MESSAGE));
-              break;
-            }
-            controller.enqueue(value);
-          }
-        } finally {
-          controller.close();
-        }
-      }
-    });
-    const requestInit = { body: reader, duplex: "half" };
-    c.req.raw = new Request(c.req.raw, requestInit);
-    await next();
-    if (c.error instanceof BodyLimitError) {
-      c.res = await onError(c);
-    }
-  };
 };
 
 // node_modules/@trpc/server/dist/codes-DagpWZLc.mjs
@@ -100361,7 +100269,6 @@ app.get(
     }
   })
 );
-app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 app.use("/api/trpc/*", async (c) => {
   try {
     return fetchRequestHandler({
