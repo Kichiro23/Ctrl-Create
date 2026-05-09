@@ -94969,21 +94969,33 @@ var cached2 = global.mongoose;
 if (!cached2) {
   cached2 = global.mongoose = { conn: null, promise: null };
 }
-async function connectDb() {
-  if (cached2.conn) return cached2.conn;
+async function connectWithTimeout() {
   if (!env.mongodbUri) {
     throw new Error("Database not configured. Please set MONGODB_URI in environment variables.");
   }
+  const promise2 = import_mongoose.default.connect(env.mongodbUri, {
+    bufferCommands: false,
+    serverSelectionTimeoutMS: 5e3,
+    connectTimeoutMS: 5e3,
+    socketTimeoutMS: 1e4
+  }).then((m) => m);
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error("MongoDB connection timed out after 5s")), 5e3);
+  });
+  return Promise.race([promise2, timeout]);
+}
+async function connectDb() {
+  if (cached2.conn) return cached2.conn;
   if (!cached2.promise) {
-    cached2.promise = import_mongoose.default.connect(env.mongodbUri, {
-      bufferCommands: false,
-      serverSelectionTimeoutMS: 5e3,
-      connectTimeoutMS: 5e3,
-      socketTimeoutMS: 1e4
-    }).then((m) => m);
+    cached2.promise = connectWithTimeout();
   }
-  cached2.conn = await cached2.promise;
-  return cached2.conn;
+  try {
+    cached2.conn = await cached2.promise;
+    return cached2.conn;
+  } catch (err) {
+    cached2.promise = null;
+    throw err;
+  }
 }
 
 // db/models.ts
